@@ -4,16 +4,16 @@ public class Seguradora {
 	private String telefone;
 	private String email;
 	private String endereco;
-	
+
 	public Seguradora(String nome, String telefone, String email, String endereco) {
 		this.nome = nome;
 		this.telefone = telefone;
 		this.email = email;
 		this.endereco = endereco;
 	}
-
+	
 	public String getNome() {
-		return nome;
+		return this.nome;
 	}
 
 	public void setNome(String nome) {
@@ -21,7 +21,7 @@ public class Seguradora {
 	}
 
 	public String getTelefone() {
-		return telefone;
+		return this.telefone;
 	}
 
 	public void setTelefone(String telefone) {
@@ -29,7 +29,7 @@ public class Seguradora {
 	}
 
 	public String getEmail() {
-		return email;
+		return this.email;
 	}
 
 	public void setEmail(String email) {
@@ -37,13 +37,10 @@ public class Seguradora {
 	}
 
 	public String getEndereco() {
-		return endereco;
+		return this.endereco;
 	}
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	
-	
-	
 }
