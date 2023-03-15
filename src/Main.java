@@ -1,4 +1,4 @@
-import Classes.*;
+import entidades.*;
 
 public class Main {
 
