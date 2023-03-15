@@ -14,6 +14,29 @@ public class Cliente {
 		this.endereco = endereco;
 	}
 	
+    private boolean validarCPF(String cpf){
+        cpf.replaceAll("[^0-9]", "");
+        if (cpf.length() != 11 && this.todosDigitosIguais(cpf)){
+            return false;
+        }
+
+    }
+
+    private boolean todosDigitosIguais(String cpf){
+        char[] cpfChars = cpf.toCharArray();
+        char c = cpfChars[0];
+        for (int i=1;i < cpf.length();i++){
+            if (c != cpfChars[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private String calcularDigitoVerificador(String cpf){
+
+    }
+
 	public String getNome() {
 		return nome;
 	}
