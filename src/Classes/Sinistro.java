@@ -1,20 +1,36 @@
+package Classes;
+
+import java.util.Random;
+
 public class Sinistro {
     private int id;
     private String data;
     private String endereco;
 
-    public Sinistro(int id, String data, String endereco) {
-        this.id = id;
+    public Sinistro(){
+        this.setId();
+    }
+    public Sinistro(String data, String endereco) {
         this.data = data;
         this.endereco = endereco;
+        this.setId();
     }
 
     public int getId() {
         return this.id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    private void setId() {
+        int num = 1;
+        Random random = new Random();
+        for (int i =0; i<15;i++){
+            if (i%2==0){
+                num *= random.nextInt(1,15);;
+            }else{
+                num += random.nextInt(1,50);
+            }
+        }
+        this.id = num;
     }
 
     public String getData() {
