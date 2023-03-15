@@ -1,11 +1,11 @@
+import Classes.Cliente;
+import Classes.Sinistro;
 
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("asdfsad");
-		Cliente cliente = new Cliente("null", "515", "null", 0, "null");
-
-		System.out.println(cliente.getCpf());
+		Sinistro sinistro = new Sinistro();
+		System.out.println(sinistro.getId());
 	}
 
 }
