@@ -10,6 +10,7 @@ public class Sinistro {
     public Sinistro(){
         this.setId();
     }
+
     public Sinistro(String data, String endereco) {
         this.data = data;
         this.endereco = endereco;
@@ -48,7 +49,4 @@ public class Sinistro {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
- 
-
-
 }
