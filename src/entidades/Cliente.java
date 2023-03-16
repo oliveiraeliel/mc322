@@ -7,7 +7,9 @@ public class Cliente {
     private int idade;
     private String endereco;
 
-    public Cliente(){}
+    public Cliente() {
+    }
+
     public Cliente(String nome, String cpf, String dataNascimento, int idade, String endereco) {
         this.nome = nome;
         this.setCpf(cpf);
@@ -15,9 +17,6 @@ public class Cliente {
         this.idade = idade;
         this.endereco = endereco;
     }
-
-//    public Cliente() {
-//    }
 
     private boolean validarCPF(String cpf) {
         return cpf.length() == 11 && !this.todosDigitosIguais(cpf)
@@ -35,7 +34,7 @@ public class Cliente {
     }
 
     private boolean digitosValidos(String cpf) {
-        return cpf.charAt(9)-'0' == this.primeiroDigitoCPF(cpf) && cpf.charAt(10)-'0' == this.segundoDigitoCPF(cpf);
+        return cpf.charAt(9) - '0' == this.primeiroDigitoCPF(cpf) && cpf.charAt(10) - '0' == this.segundoDigitoCPF(cpf);
     }
 
     private int primeiroDigitoCPF(String cpf) {
@@ -52,9 +51,10 @@ public class Cliente {
         return 11 - resto;
     }
 
-    private String formatarCpf(String cpf){
+    private String formatarCpf(String cpf) {
         return cpf.replaceAll("[^0-9]", "");
     }
+
     private int segundoDigitoCPF(String cpf) {
         int digito = 0;
         int resto;
