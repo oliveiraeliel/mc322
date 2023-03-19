@@ -67,8 +67,8 @@ public class Cliente {
         return 11 - resto;
     }
 
+    // remove caracteres não númericos do cpf
     private String formatarCpf(String cpf) {
-        // remove caracteres não númericos do cpf
         return cpf.replaceAll("[^0-9]", "");
     }
 

@@ -23,8 +23,6 @@ public class Seguradora {
         return String.format("Seguradora: %s, Telefone: %s, Email: %s, Endereço: %s", nome, telefone, email, endereco);
     }
 
-
-
     // getters e setters
 
     public String getNome() {

@@ -20,6 +20,7 @@ public class Veiculo {
     public String toString(){
         return String.format("Placa: %s, Marca: %s, Modelo: %s", placa, marca, modelo);
     }
+
     public String getPlaca() {
         return this.placa;
     }
