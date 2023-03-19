@@ -5,6 +5,9 @@ public class Veiculo {
     private String marca;
     private String modelo;
 
+    public Veiculo() {
+    }
+
     public Veiculo(String placa, String marca, String modelo) {
         this.setPlaca(placa);
         this.setMarca(marca);
