@@ -6,17 +6,23 @@ public class Veiculo {
     private String modelo;
 
     public Veiculo(String placa, String marca, String modelo) {
-        this.placa = placa;
-        this.marca = marca;
-        this.modelo = modelo;
+        this.setPlaca(placa);
+        this.setMarca(marca);
+        this.setModelo(modelo);
     }
 
+    /**
+     *  Retorna uma String com os valores atuais do objeto
+     */
+    public String toString(){
+        return String.format("Placa: %s, Marca: %s, Modelo: %s", placa, marca, modelo);
+    }
     public String getPlaca() {
         return this.placa;
     }
 
     public void setPlaca(String placa) {
-        this.placa = placa;
+        this.placa = placa.trim();
     }
 
     public String getMarca() {
@@ -24,7 +30,7 @@ public class Veiculo {
     }
 
     public void setMarca(String marca) {
-        this.marca = marca;
+        this.marca = marca.trim();
     }
 
     public String getModelo() {
@@ -32,6 +38,6 @@ public class Veiculo {
     }
 
     public void setModelo(String modelo) {
-        this.modelo = modelo;
+        this.modelo = modelo.trim();
     }
 }

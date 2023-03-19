@@ -10,18 +10,29 @@ public class Seguradora {
     }
 
     public Seguradora(String nome, String telefone, String email, String endereco) {
-        this.nome = nome;
-        this.telefone = telefone;
-        this.email = email;
-        this.endereco = endereco;
+        this.setNome(nome);
+        this.setTelefone(telefone);
+        this.setEmail(email);
+        this.setEndereco(endereco);
     }
+
+    /**
+     *  Retorna uma String com os valores atuais do objeto
+     */
+    public String toString(){
+        return String.format("Seguradora: %s, Telefone: %s, Email: %s, Endereço: %s", nome, telefone, email, endereco);
+    }
+
+
+
+    // getters e setters
 
     public String getNome() {
         return this.nome;
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = nome.trim();
     }
 
     public String getTelefone() {
@@ -29,7 +40,7 @@ public class Seguradora {
     }
 
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        this.telefone = telefone.trim();
     }
 
     public String getEmail() {
@@ -37,7 +48,7 @@ public class Seguradora {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.trim();
     }
 
     public String getEndereco() {
@@ -45,6 +56,6 @@ public class Seguradora {
     }
 
     public void setEndereco(String endereco) {
-        this.endereco = endereco;
+        this.endereco = endereco.trim();
     }
 }

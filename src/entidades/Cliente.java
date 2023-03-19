@@ -7,40 +7,41 @@ public class Cliente {
     private int idade;
     private String endereco;
 
-    public Cliente(){}
+    public Cliente() {
+    }
+
     public Cliente(String nome, String cpf, String dataNascimento, int idade, String endereco) {
-        this.nome = nome;
+        this.setNome(nome);
         this.setCpf(cpf);
-        this.dataNascimento = dataNascimento;
-        this.idade = idade;
-        this.endereco = endereco;
+        this.setDataNascimento(dataNascimento);
+        this.setIdade(idade);
+        this.setEndereco(endereco);
     }
 
-//    public Cliente() {
-//    }
-
+    // verifica se a String recebida é um cpf válido
     private boolean validarCPF(String cpf) {
-        return cpf.length() == 11 && !this.todosDigitosIguais(cpf)
-                && this.digitosValidos(cpf);
+        return cpf.length() == 11 && !this.todosCharsIguais(cpf) && this.digitosValidos(cpf);
     }
 
-    private boolean todosDigitosIguais(String cpf) {
-        char c = cpf.charAt(0);
-        for (int i = 1; i < cpf.length(); i++) {
-            if (c != cpf.charAt(i)) {
+    // verifica se todos os caracteres de uma string são iguais
+    private boolean todosCharsIguais(String string) {
+        char c = string.charAt(0);
+        for (int i = 1; i < string.length(); i++) {
+            if (c != string.charAt(i)) {
                 return false;
             }
         }
         return true;
     }
 
+    // verifica se os digitos verificadores do cpf são válidos
     private boolean digitosValidos(String cpf) {
-        return cpf.charAt(9)-'0' == this.primeiroDigitoCPF(cpf) && cpf.charAt(10)-'0' == this.segundoDigitoCPF(cpf);
+        return cpf.charAt(9) - '0' == this.primeiroDigitoCPF(cpf) && cpf.charAt(10) - '0' == this.segundoDigitoCPF(cpf);
     }
 
+    // cálcula o primeiro digito verificador do cpf
     private int primeiroDigitoCPF(String cpf) {
-        int digito = 0;
-        int resto;
+        int digito = 0, resto;
         for (int i = 0; i < 9; i++) {
             int d = cpf.charAt(i) - '0';
             digito += d * (10 - i);
@@ -52,12 +53,9 @@ public class Cliente {
         return 11 - resto;
     }
 
-    private String formatarCpf(String cpf){
-        return cpf.replaceAll("[^0-9]", "");
-    }
+    // cálcula o segundo digito verificador do cpf
     private int segundoDigitoCPF(String cpf) {
-        int digito = 0;
-        int resto;
+        int digito = 0, resto;
         for (int i = 0; i < 10; i++) {
             int d = cpf.charAt(i) - '0';
             digito += d * (11 - i);
@@ -69,12 +67,26 @@ public class Cliente {
         return 11 - resto;
     }
 
+    private String formatarCpf(String cpf) {
+        // remove caracteres não númericos do cpf
+        return cpf.replaceAll("[^0-9]", "");
+    }
+
+    /**
+     *  Retorna uma String com os valores atuais do objeto
+     */
+    public String toString(){
+        return String.format("Cliente: %s, CPF: %s, Data de Nascimento: %s, Idade: %d, Endereço: %s", nome, cpf, dataNascimento, idade, endereco);
+    }
+
+    // métodos getters e setters
+
     public String getNome() {
         return nome;
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = nome.trim();
     }
 
     public String getCpf() {
@@ -95,7 +107,7 @@ public class Cliente {
     }
 
     public void setDataNascimento(String dataNascimento) {
-        this.dataNascimento = dataNascimento;
+        this.dataNascimento = dataNascimento.trim();
     }
 
     public int getIdade() {
@@ -111,6 +123,6 @@ public class Cliente {
     }
 
     public void setEndereco(String endereco) {
-        this.endereco = endereco;
+        this.endereco = endereco.trim();
     }
 }

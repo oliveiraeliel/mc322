@@ -12,15 +12,25 @@ public class Sinistro {
     }
 
     public Sinistro(String data, String endereco) {
-        this.data = data;
-        this.endereco = endereco;
+        this.setData(data);
+        this.setEndereco(endereco);
         this.setId();
     }
+
+    /**
+     *  Retorna uma String com os valores atuais do objeto
+     */
+    public String toString(){
+        return String.format("ID: %d, Data: %s, Endereço: %s", id, data, endereco);
+    }
+
+    // getters e setters
 
     public int getId() {
         return this.id;
     }
 
+    // gera e um id aleatorio e *único*
     private void setId() {
         int num = 1;
         Random random = new Random();
@@ -39,7 +49,7 @@ public class Sinistro {
     }
 
     public void setData(String data) {
-        this.data = data;
+        this.data = data.trim();
     }
 
     public String getEndereco() {
@@ -47,6 +57,6 @@ public class Sinistro {
     }
 
     public void setEndereco(String endereco) {
-        this.endereco = endereco;
+        this.endereco = endereco.trim();
     }
 }
