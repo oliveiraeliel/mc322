@@ -35,8 +35,8 @@ public class Cliente {
     }
 
     // verifica se os digitos verificadores do cpf são válidos
-    private boolean digitosValidos(String cpf) {
-        return cpf.charAt(9) - '0' == this.primeiroDigitoCPF(cpf) && cpf.charAt(10) - '0' == this.segundoDigitoCPF(cpf);
+    public boolean digitosValidos(String cpf) {
+        return cpf.charAt(9) - '0' == primeiroDigitoCPF(cpf) && cpf.charAt(10) - '0' == segundoDigitoCPF(cpf);
     }
 
     // cálcula o primeiro digito verificador do cpf
@@ -99,6 +99,7 @@ public class Cliente {
             this.cpf = _cpf;
             return;
         }
+        this.cpf = null;
         System.out.println("CPF inválido!");
     }
 
