@@ -1,14 +1,11 @@
 package entidades;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
 
 public class Sinistro {
-    private int id;
+    private int id; // id unico e sequencial. baseado no número de sinistros já gerados pelo sistema
     private String data;
     private String endereco;
-    private static Set<Integer> idSet = new HashSet<Integer>(); // previne a duplicidade de IDs
+    private static int count = 0; // contagem do número de sinistros gerados 
 
     public Sinistro(){
         this.setId();
@@ -18,18 +15,6 @@ public class Sinistro {
         this.setData(data);
         this.setEndereco(endereco);
         this.setId();
-    }
-    
-    /*
-     * Gera e um id aleatorio e *único*
-     */
-    public static int generateRandomID(){
-        Random random = new Random();
-        int num = random.nextInt(100000, 999999);
-        if (idSet.contains(num)){
-            return generateRandomID();
-        }
-        return num;
     }
 
     /**
@@ -46,9 +31,7 @@ public class Sinistro {
     }
 
     private void setId() {
-        int id = generateRandomID();
-        idSet.add(id);
-        this.id = id;
+        this.id = ++count;
     }
 
     public String getData() {
