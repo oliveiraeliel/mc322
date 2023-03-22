@@ -13,10 +13,10 @@ public class Main {
 		System.out.println(validarCPF("135.039.900-03")); // verdadeiro
 		System.out.println(validarCPF("135.039.900-13")); // falso
 		System.out.println(validarCPF("135.039.900-09")); // falso
-		System.out.println(validarCPF("135.039.900-aa")); // verdadeiro
+		System.out.println(validarCPF("135.039.900-aa")); // falso
 
 		for (int i=0; i < 30; i++)
-			System.out.println("id: "+new Sinistro().getId());
+			System.out.println("id: " + new Sinistro().getId());
 
 		System.out.println(cliente.toString());
 		System.out.println(veiculo.toString());
