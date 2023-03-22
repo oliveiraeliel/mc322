@@ -19,63 +19,15 @@ public class Cliente {
     }
 
     // verifica se a String recebida é um cpf válido
-    private boolean validarCPF(String cpf) {
-        return cpf.length() == 11 && !this.todosCharsIguais(cpf) && this.digitosValidos(cpf);
-    }
-
-    // verifica se todos os caracteres de uma string são iguais
-    private boolean todosCharsIguais(String string) {
-        char c = string.charAt(0);
-        for (int i = 1; i < string.length(); i++) {
-            if (c != string.charAt(i)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // verifica se os digitos verificadores do cpf são válidos
-    public boolean digitosValidos(String cpf) {
-        return cpf.charAt(9) - '0' == primeiroDigitoCPF(cpf) && cpf.charAt(10) - '0' == segundoDigitoCPF(cpf);
-    }
-
-    // cálcula o primeiro digito verificador do cpf
-    private int primeiroDigitoCPF(String cpf) {
-        int digito = 0, resto;
-        for (int i = 0; i < 9; i++) {
-            int d = cpf.charAt(i) - '0';
-            digito += d * (10 - i);
-        }
-        resto = digito % 11;
-        if (resto == 0 || resto == 1) {
-            return 0;
-        }
-        return 11 - resto;
-    }
-
-    // cálcula o segundo digito verificador do cpf
-    private int segundoDigitoCPF(String cpf) {
-        int digito = 0, resto;
-        for (int i = 0; i < 10; i++) {
-            int d = cpf.charAt(i) - '0';
-            digito += d * (11 - i);
-        }
-        resto = digito % 11;
-        if (resto == 0 || resto == 1) {
-            return 0;
-        }
-        return 11 - resto;
-    }
-
-    // remove caracteres não númericos do cpf
-    private String formatarCpf(String cpf) {
-        return cpf.replaceAll("[^0-9]", "");
+    public static boolean validarCPF(String cpf) {
+        cpf = CPF.formatarCpf(cpf);
+        return cpf.length() == 11 && !CPF.todosCharsIguais(cpf) && CPF.digitosValidos(cpf);
     }
 
     /**
-     *  Retorna uma String com os valores atuais do objeto
+     * Retorna uma String com os valores atuais do objeto
      */
-    public String toString(){
+    public String toString() {
         return String.format("Cliente: %s, CPF: %s, Data de Nascimento: %s, Idade: %d, Endereço: %s", nome, cpf, dataNascimento, idade, endereco);
     }
 
@@ -94,9 +46,8 @@ public class Cliente {
     }
 
     public void setCpf(String cpf) {
-        String _cpf = this.formatarCpf(cpf);
-        if (this.validarCPF(_cpf)) {
-            this.cpf = _cpf;
+        if (validarCPF(cpf)) {
+            this.cpf = CPF.formatarCpf(cpf);
             return;
         }
         this.cpf = null;
@@ -125,5 +76,58 @@ public class Cliente {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco.trim();
+    }
+}
+
+
+// Classe com métodos de verificacão do cpf
+class CPF {
+    // verifica se todos os caracteres de uma string são iguais
+    public static boolean todosCharsIguais(String string) {
+        char c = string.charAt(0);
+        for (int i = 1; i < string.length(); i++) {
+            if (c != string.charAt(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // verifica se os digitos verificadores do cpf são válidos
+    public static boolean digitosValidos(String cpf) {
+        return cpf.charAt(9) - '0' == primeiroDigitoCPF(cpf) && cpf.charAt(10) - '0' == segundoDigitoCPF(cpf);
+    }
+
+    // cálcula o primeiro digito verificador do cpf
+    private static int primeiroDigitoCPF(String cpf) {
+        int digito = 0, resto;
+        for (int i = 0; i < 9; i++) {
+            int d = cpf.charAt(i) - '0';
+            digito += d * (10 - i);
+        }
+        resto = digito % 11;
+        if (resto == 0 || resto == 1) {
+            return 0;
+        }
+        return 11 - resto;
+    }
+
+    // cálcula o segundo digito verificador do cpf
+    private static int segundoDigitoCPF(String cpf) {
+        int digito = 0, resto;
+        for (int i = 0; i < 10; i++) {
+            int d = cpf.charAt(i) - '0';
+            digito += d * (11 - i);
+        }
+        resto = digito % 11;
+        if (resto == 0 || resto == 1) {
+            return 0;
+        }
+        return 11 - resto;
+    }
+
+    // remove caracteres não númericos do cpf
+    public static String formatarCpf(String cpf) {
+        return cpf.replaceAll("[^0-9]", "");
     }
 }
