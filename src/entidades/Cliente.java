@@ -46,6 +46,7 @@ public class Cliente {
     }
 
     public void setCpf(String cpf) {
+        cpf = cpf.trim();
         if (validarCPF(cpf)) {
             this.cpf = CPF.formatarCpf(cpf);
             return;
@@ -128,6 +129,6 @@ class CPF {
 
     // remove caracteres não númericos do cpf
     public static String formatarCpf(String cpf) {
-        return cpf.replaceAll("[^0-9]", "");
+        return cpf.replaceAll("\\.|-", "");
     }
 }

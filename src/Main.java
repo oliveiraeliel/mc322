@@ -9,6 +9,7 @@ public class Main {
 		Seguradora seguradora = new Seguradora("Eliel Seguradoras", "123456789", "e221437@dac.unicamp.br", "Rua Saturnino, 110");
 
 		System.out.println(validarCPF("779.610.200-39")); // verdadeiro
+		System.out.println(validarCPF("779sad.610.200-39 ")); // falso
 		System.out.println(validarCPF("77961020039")); // verdadeiro
 		System.out.println(validarCPF("135.039.900-03")); // verdadeiro
 		System.out.println(validarCPF("135.039.900-13")); // falso
