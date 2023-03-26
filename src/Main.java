@@ -24,9 +24,9 @@ public class Main {
 			new Sinistro().getId();
 		System.out.println("id: " + new Sinistro().getId());
 
-		System.out.println(cliente.toString());
-		System.out.println(veiculo.toString());
-		System.out.println(sinistro.toString());
-		System.out.println(seguradora.toString());
+		System.out.println(cliente);
+		System.out.println(veiculo);
+		System.out.println(sinistro);
+		System.out.println(seguradora);
 	}
 }
