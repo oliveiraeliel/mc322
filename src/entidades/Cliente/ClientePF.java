@@ -1,12 +1,30 @@
 package entidades.Cliente;
 
 import java.util.Date;
+import java.util.List;
+
+import entidades.Veiculo;
 
 public class ClientePF extends Cliente {
     private final String CPF;
     private Date dataNascimento;
 
-    public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String cpf, Date dataNascimento) {
+    public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String genero, String classeEconomica, String cpf, Date dataNascimento) throws Exception {
+        super(nome, endereco, dataLicenca, educacao, genero, classeEconomica);
+        cpf = CPFvalidator.formatarCpf(cpf);
+        if (!ClientePF.validarCPF(cpf)) {
+            throw new Exception("CPF inválido");
+        }
+        this.CPF = cpf;
+        this.dataNascimento = dataNascimento;
+    }
+
+    public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos, String cpf, Date dataNascimento) throws Exception{
+        super(nome, endereco, dataLicenca, educacao, genero, classeEconomica, listaVeiculos);
+        cpf = CPFvalidator.formatarCpf(cpf);
+        if (!ClientePF.validarCPF(cpf)){
+            throw new Exception("CPF inválido");
+        }
         this.CPF = cpf;
         this.dataNascimento = dataNascimento;
     }
@@ -25,7 +43,6 @@ public class ClientePF extends Cliente {
 
     // verifica se a String recebida é um cpf válido
     private static boolean validarCPF(String cpf) {
-        cpf = CPFvalidator.formatarCpf(cpf);
         return cpf.length() == 11 && !CPFvalidator.todosCharsIguais(cpf) && CPFvalidator.digitosValidos(cpf);
     }
 }
