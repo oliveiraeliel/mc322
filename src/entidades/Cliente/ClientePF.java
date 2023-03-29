@@ -1,32 +1,37 @@
 package entidades.Cliente;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import entidades.Veiculo;
 
 public class ClientePF extends Cliente {
     private final String CPF;
-    private Date dataNascimento;
+    private Date dataNascimento = new Date();
 
-    public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String genero, String classeEconomica, String cpf, Date dataNascimento) throws Exception {
+    public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String genero,
+            String classeEconomica, String cpf, Date dataNascimento) {
         super(nome, endereco, dataLicenca, educacao, genero, classeEconomica);
         cpf = CPFvalidator.formatarCpf(cpf);
-        if (!ClientePF.validarCPF(cpf)) {
-            throw new Exception("CPF inválido");
-        }
         this.CPF = cpf;
         this.dataNascimento = dataNascimento;
     }
 
-    public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos, String cpf, Date dataNascimento) throws Exception{
+    public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String genero,
+            String classeEconomica, List<Veiculo> listaVeiculos, String cpf, Date dataNascimento) {
         super(nome, endereco, dataLicenca, educacao, genero, classeEconomica, listaVeiculos);
         cpf = CPFvalidator.formatarCpf(cpf);
-        if (!ClientePF.validarCPF(cpf)){
-            throw new Exception("CPF inválido");
-        }
         this.CPF = cpf;
         this.dataNascimento = dataNascimento;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof ClientePF)){
+            return false;
+        }
+
+        ClientePF c = (ClientePF)obj;
+        return c.getCPF().equals(getCPF());
     }
 
     public String getCPF() {
@@ -46,7 +51,6 @@ public class ClientePF extends Cliente {
         return cpf.length() == 11 && !CPFvalidator.todosCharsIguais(cpf) && CPFvalidator.digitosValidos(cpf);
     }
 }
-
 
 // Classe com métodos de verificacão do cpf
 class CPFvalidator {

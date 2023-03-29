@@ -39,9 +39,11 @@ public class Cliente {
     /**
      * Retorna uma String com os valores atuais do objeto
      */
+    @Override
     public String toString() {
         return String.format("Cliente: %s, Endereço: %s, Data Licenca: %s", nome, endereco, dataLicenca.toString());
     }
+
 
     // métodos getters e setters
 

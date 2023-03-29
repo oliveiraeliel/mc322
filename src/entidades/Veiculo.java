@@ -9,9 +9,9 @@ public class Veiculo {
     }
 
     public Veiculo(String placa, String marca, String modelo) {
-        this.setPlaca(placa);
-        this.setMarca(marca);
-        this.setModelo(modelo);
+        setPlaca(placa);
+        setMarca(marca);
+        setModelo(modelo);
     }
 
     /**

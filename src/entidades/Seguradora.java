@@ -1,20 +1,62 @@
 package entidades;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import entidades.Cliente.Cliente;
+import entidades.Cliente.ClientePF;
+import entidades.Cliente.ClientePJ;
+
 public class Seguradora {
     private String nome;
     private String telefone;
     private String email;
     private String endereco;
-
-    public Seguradora() {
-    }
+    private List<Cliente> listaClientes = new ArrayList<Cliente>();
+    private List<Sinistro> listaSinistros = new ArrayList<Sinistro>();
 
     public Seguradora(String nome, String telefone, String email, String endereco) {
-        this.setNome(nome);
-        this.setTelefone(telefone);
-        this.setEmail(email);
-        this.setEndereco(endereco);
+        setNome(nome);
+        setTelefone(telefone);
+        setEmail(email);
+        setEndereco(endereco);
     }
+
+    public boolean cadastrarCliente(Cliente cliente){
+        if (listaClientes.contains(cliente)){
+            return false;
+        }
+        listaClientes.add(cliente);
+        return true;
+    }
+
+    public List<Cliente> listarClientes(String tipoCliente){
+        List<Cliente> listaClientes = new ArrayList<>();
+        for (Cliente cliente: this.listaClientes){
+            if (cliente instanceof ClientePF && tipoCliente.equals("PF")){
+                listaClientes.add(cliente);
+            }else if (cliente instanceof ClientePJ && tipoCliente.equals("PJ")){
+                listaClientes.add(cliente);
+            }
+        }
+
+        return listaClientes;
+    }
+
+    public boolean gerarSinistro(){
+        Sinistro sinistro = new Sinistro("email", "endereco", null);
+        this.listaSinistros.add(sinistro);
+        return true;
+    }
+
+    // public boolean removerCliente(Cliente cliente) {
+    //     if (listaClientes.contains(cliente)) {
+    //         return false;
+    //     }
+    //     listaClientes.removeIf(c -> c.getCPF().equals(cliente));
+    //     listaClientes.add(cliente);
+    //     return true;
+    // }
 
     /**
      *  Retorna uma String com os valores atuais do objeto
