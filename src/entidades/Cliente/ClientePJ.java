@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import entidades.Veiculo;
+import entidades.Cliente.validators.CNPJvalidator;
 
 public class ClientePJ extends Cliente{
     private final String CNPJ;
@@ -44,4 +45,10 @@ public class ClientePJ extends Cliente{
     public void setDataFundacao(Date dataFundacao) {
         this.dataFundacao = dataFundacao;
     }
+
+    public static boolean validarCNPJ(String cpf) {
+        return cpf.length() == 14 && !CNPJvalidator.todosCharsIguais(cpf) && CNPJvalidator.digitosValidos(cpf);
+    }
 }
+
+

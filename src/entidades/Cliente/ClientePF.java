@@ -3,6 +3,7 @@ package entidades.Cliente;
 import java.util.*;
 
 import entidades.Veiculo;
+import entidades.Cliente.validators.CPFvalidator;
 
 public class ClientePF extends Cliente {
     private final String CPF;
@@ -24,13 +25,56 @@ public class ClientePF extends Cliente {
         this.dataNascimento = dataNascimento;
     }
 
+    public static ClientePF lerCliente() {
+        Scanner scan = new Scanner(System.in);
+        System.out.print("Nome: ");
+        String nome = scan.nextLine();
+        System.out.print("Endereço: ");
+        String endereco = scan.nextLine();
+        System.out.print("Dia da licenca: ");
+        int diaLicenca = scan.nextInt();
+        System.out.print("Mês da licenca: ");
+        int mesLicenca = scan.nextInt();
+        System.out.print("Ano da licenca: ");
+        int anoLicenca = scan.nextInt();
+        System.out.print("Escolaridade: ");
+        String educacao = scan.next();
+        System.out.print("Gênero: ");
+        String genero = scan.next();
+        System.out.print("Classe econômica: ");
+        String classeEconomica = scan.next();
+        System.out.print("CPF: ");
+        String cpf = scan.next();
+        System.out.print("Dia do nascimento: ");
+        int diaNascimento = scan.nextInt();
+        System.out.print("Mês do nascimento: ");
+        int mesNascimento = scan.nextInt();
+        System.out.print("Ano do nascimento: ");
+        int anoNascimento = scan.nextInt();
+        scan.close();
+
+        Calendar dtLicenca = Calendar.getInstance();
+        dtLicenca.set(diaLicenca, mesLicenca, anoLicenca);
+
+        Calendar dtNascimento = Calendar.getInstance();
+        dtNascimento.set(diaNascimento, mesNascimento, anoNascimento);
+
+        return new ClientePF(nome, endereco, dtLicenca.getTime(), educacao, genero, classeEconomica, cpf,
+                dtNascimento.getTime());
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "\nCPF: " + CPF + "\nData de nascimento: " + dataNascimento+"\n}";
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof ClientePF)){
+        if (!(obj instanceof ClientePF)) {
             return false;
         }
 
-        ClientePF c = (ClientePF)obj;
+        ClientePF c = (ClientePF) obj;
         return c.getCPF().equals(getCPF());
     }
 
@@ -47,59 +91,7 @@ public class ClientePF extends Cliente {
     }
 
     // verifica se a String recebida é um cpf válido
-    private static boolean validarCPF(String cpf) {
+    public static boolean validarCPF(String cpf) {
         return cpf.length() == 11 && !CPFvalidator.todosCharsIguais(cpf) && CPFvalidator.digitosValidos(cpf);
-    }
-}
-
-// Classe com métodos de verificacão do cpf
-class CPFvalidator {
-    // verifica se todos os caracteres de uma string são iguais
-    public static boolean todosCharsIguais(String string) {
-        char c = string.charAt(0);
-        for (int i = 1; i < string.length(); i++) {
-            if (c != string.charAt(i)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    // verifica se os digitos verificadores do cpf são válidos
-    public static boolean digitosValidos(String cpf) {
-        return cpf.charAt(9) - '0' == primeiroDigitoCPF(cpf) && cpf.charAt(10) - '0' == segundoDigitoCPF(cpf);
-    }
-
-    // cálcula o primeiro digito verificador do cpf
-    private static int primeiroDigitoCPF(String cpf) {
-        int digito = 0, resto;
-        for (int i = 0; i < 9; i++) {
-            int d = cpf.charAt(i) - '0';
-            digito += d * (10 - i);
-        }
-        resto = digito % 11;
-        if (resto == 0 || resto == 1) {
-            return 0;
-        }
-        return 11 - resto;
-    }
-
-    // cálcula o segundo digito verificador do cpf
-    private static int segundoDigitoCPF(String cpf) {
-        int digito = 0, resto;
-        for (int i = 0; i < 10; i++) {
-            int d = cpf.charAt(i) - '0';
-            digito += d * (11 - i);
-        }
-        resto = digito % 11;
-        if (resto == 0 || resto == 1) {
-            return 0;
-        }
-        return 11 - resto;
-    }
-
-    // remove caracteres não númericos do cpf
-    public static String formatarCpf(String cpf) {
-        return cpf.replaceAll("\\.|-", "").trim();
     }
 }

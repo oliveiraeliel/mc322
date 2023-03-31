@@ -15,8 +15,8 @@ public class Cliente {
     private String classeEconomica;
     private List<Veiculo> listaVeiculos;
 
-
-    public Cliente(String nome, String endereco, Date dataLicenca, String educacao, String genero, String classeEconomica) {
+    public Cliente(String nome, String endereco, Date dataLicenca, String educacao, String genero,
+            String classeEconomica) {
         setNome(nome);
         setEndereco(endereco);
         setDataLicenca(dataLicenca);
@@ -26,7 +26,8 @@ public class Cliente {
         setListaVeiculos(new ArrayList<Veiculo>());
     }
 
-    public Cliente(String nome, String endereco, Date dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos) {
+    public Cliente(String nome, String endereco, Date dataLicenca, String educacao, String genero,
+            String classeEconomica, List<Veiculo> listaVeiculos) {
         setNome(nome);
         setEndereco(endereco);
         setDataLicenca(dataLicenca);
@@ -36,14 +37,36 @@ public class Cliente {
         setListaVeiculos(listaVeiculos);
     }
 
+    public boolean addVeiculo(Veiculo veiculo) {
+        if (this.listaVeiculos.contains(veiculo)) {
+            return false;
+        }
+        this.listaVeiculos.add(veiculo);
+        return true;
+    }
+
+    public boolean removeVeiculo(Veiculo veiculo) {
+        if (!this.listaVeiculos.contains(veiculo)) {
+            return false;
+        }
+        this.listaVeiculos.remove(veiculo);
+        return true;
+    }
+
     /**
      * Retorna uma String com os valores atuais do objeto
      */
     @Override
     public String toString() {
-        return String.format("Cliente: %s, Endereço: %s, Data Licenca: %s", nome, endereco, dataLicenca.toString());
+        return "{"+
+                "\nCliente: " + nome +
+                "\nEndereço: " + endereco +
+                "\nData Licenca: " + dataLicenca +
+                "\nEscolaridade: " + educacao +
+                "\nGênero: " + genero +
+                "\nClasse Econômica: " + classeEconomica +
+                "\nVeículos: " + listaVeiculos;
     }
-
 
     // métodos getters e setters
 

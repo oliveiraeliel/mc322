@@ -43,20 +43,23 @@ public class Seguradora {
         return listaClientes;
     }
 
-    public boolean gerarSinistro(){
-        Sinistro sinistro = new Sinistro("email", "endereco", null);
+    public boolean gerarSinistro(Cliente cliente, Veiculo veiculo){
+        if (!this.listaClientes.contains(cliente)){
+            return false;
+        }
+        Sinistro sinistro = new Sinistro("data", "endereco", cliente, veiculo, this);
         this.listaSinistros.add(sinistro);
         return true;
     }
 
-    // public boolean removerCliente(Cliente cliente) {
-    //     if (listaClientes.contains(cliente)) {
-    //         return false;
-    //     }
-    //     listaClientes.removeIf(c -> c.getCPF().equals(cliente));
-    //     listaClientes.add(cliente);
-    //     return true;
-    // }
+    public boolean removerCliente(Cliente cliente) {
+        if (!listaClientes.contains(cliente)) {
+            return false;
+        }
+        // listaClientes.removeIf(c -> c.equals(cliente));
+        listaClientes.remove(cliente);
+        return true;
+    }
 
     /**
      *  Retorna uma String com os valores atuais do objeto

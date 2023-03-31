@@ -2,8 +2,7 @@ import java.util.*;
 
 import entidades.*;
 import entidades.Cliente.*;
-import factories.ClienteFactory;
-import factories.SeguradoraFactory;
+import factories.*;
 
 public class Main {
 	public static void main(String[] args) {
@@ -13,5 +12,11 @@ public class Main {
 		seguradora.cadastrarCliente(ClienteFactory.createClientePF("12345678911"));
 		List<Cliente> l = seguradora.listarClientes("PF");
 		System.out.println(l.size());
+
+		cliente.addVeiculo(VeiculoFactory.generateVeiculo());
+		cliente.addVeiculo(VeiculoFactory.generateVeiculo());
+		// ClientePF c = ClientePF.lerCliente();
+		System.out.println(cliente);
+		System.out.println(l);
 	}
 }
