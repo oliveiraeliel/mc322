@@ -1,5 +1,6 @@
 package entidades.Cliente;
 
+import java.io.InputStream;
 import java.util.*;
 
 import entidades.Veiculo;
@@ -25,26 +26,11 @@ public class ClientePF extends Cliente {
         this.dataNascimento = dataNascimento;
     }
 
-    public static ClientePF lerCliente() {
-        Scanner scan = new Scanner(System.in);
-        System.out.print("Nome: ");
-        String nome = scan.nextLine();
-        System.out.print("Endereço: ");
-        String endereco = scan.nextLine();
-        System.out.print("Dia da licenca: ");
-        int diaLicenca = scan.nextInt();
-        System.out.print("Mês da licenca: ");
-        int mesLicenca = scan.nextInt();
-        System.out.print("Ano da licenca: ");
-        int anoLicenca = scan.nextInt();
-        System.out.print("Escolaridade: ");
-        String educacao = scan.next();
-        System.out.print("Gênero: ");
-        String genero = scan.next();
-        System.out.print("Classe econômica: ");
-        String classeEconomica = scan.next();
+    public ClientePF(InputStream in){
+        super(in);
+        Scanner scan = new Scanner(in);
         System.out.print("CPF: ");
-        String cpf = scan.next();
+        this.CPF = scan.nextLine();
         System.out.print("Dia do nascimento: ");
         int diaNascimento = scan.nextInt();
         System.out.print("Mês do nascimento: ");
@@ -52,17 +38,11 @@ public class ClientePF extends Cliente {
         System.out.print("Ano do nascimento: ");
         int anoNascimento = scan.nextInt();
         scan.close();
-
-        Calendar dtLicenca = Calendar.getInstance();
-        dtLicenca.set(diaLicenca, mesLicenca, anoLicenca);
-
         Calendar dtNascimento = Calendar.getInstance();
         dtNascimento.set(diaNascimento, mesNascimento, anoNascimento);
-
-        return new ClientePF(nome, endereco, dtLicenca.getTime(), educacao, genero, classeEconomica, cpf,
-                dtNascimento.getTime());
+        setDataNascimento(dtNascimento.getTime());
     }
-
+    
     @Override
     public String toString() {
         return super.toString() + "\nCPF: " + CPF + "\nData de nascimento: " + dataNascimento+"\n}";

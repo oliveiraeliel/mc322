@@ -1,8 +1,11 @@
 package entidades.Cliente;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 import entidades.Veiculo;
 
@@ -37,6 +40,31 @@ public class Cliente {
         setListaVeiculos(listaVeiculos);
     }
 
+    public Cliente(InputStream in) {
+        Scanner scan = new Scanner(in);
+        System.out.print("Nome: ");
+        setNome(scan.nextLine());
+        System.out.print("Endereço: ");
+        setEndereco(scan.nextLine());
+        System.out.print("Dia da licenca: ");
+        int diaLicenca = scan.nextInt();
+        System.out.print("Mês da licenca: ");
+        int mesLicenca = scan.nextInt();
+        System.out.print("Ano da licenca: ");
+        int anoLicenca = scan.nextInt();
+        System.out.print("Escolaridade: ");
+        setEducacao(scan.next());
+        System.out.print("Gênero: ");
+        setGenero(scan.next());
+        System.out.print("Classe econômica: ");
+        setClasseEconomica(scan.next());
+        scan.close();
+        Calendar dtLicenca = Calendar.getInstance();
+        dtLicenca.set(diaLicenca, mesLicenca, anoLicenca);
+        setDataLicenca(dtLicenca.getTime());
+    }
+
+
     public boolean addVeiculo(Veiculo veiculo) {
         if (this.listaVeiculos.contains(veiculo)) {
             return false;
@@ -58,7 +86,7 @@ public class Cliente {
      */
     @Override
     public String toString() {
-        return "{"+
+        return "{" +
                 "\nCliente: " + nome +
                 "\nEndereço: " + endereco +
                 "\nData Licenca: " + dataLicenca +
