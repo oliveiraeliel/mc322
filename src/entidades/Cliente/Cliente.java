@@ -1,5 +1,6 @@
 package entidades.Cliente;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ public class Cliente {
     private String genero;
     private String classeEconomica;
     private List<Veiculo> listaVeiculos;
+
     public Cliente(String nome, String endereco, Date dataLicenca, String educacao, String genero,
             String classeEconomica) {
         setNome(nome);
@@ -59,7 +61,7 @@ public class Cliente {
         return "{" +
                 "\nCliente: " + nome +
                 "\nEndereço: " + endereco +
-                "\nData Licenca: " + dataLicenca +
+                "\nData Licenca: " + new SimpleDateFormat("dd/MM/yyyy").format(dataLicenca) +
                 "\nEscolaridade: " + educacao +
                 "\nGênero: " + genero +
                 "\nClasse Econômica: " + classeEconomica +

@@ -19,7 +19,7 @@ public class Main {
 		// ClientePF c = ClientePFFactory.generateClientePF();
 		// ClientePJ j = ClientePJFactory.lerClientePJ();
 		// System.out.println(j);
-		// System.out.println(c);
-		ClienteFactory.lerCliente("PF");
+		System.out.println(ClienteFactory.lerCliente("PF"));
+
 	}
 }

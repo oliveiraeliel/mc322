@@ -1,5 +1,6 @@
 package entidades.Cliente;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,8 @@ public class ClientePJ extends Cliente {
 
     @Override
     public String toString() {
-        return super.toString() + "\nCNPJ: " + CNPJ + "\nData de Fundacao: " + dataFundacao;
+        return super.toString() + "\nCNPJ: " + CNPJ + "\nData de Fundacao: "
+                + new SimpleDateFormat("dd/MM/yyyy").format(dataFundacao);
     }
 
     @Override

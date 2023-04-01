@@ -1,6 +1,9 @@
 package factories;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 import entidades.Cliente.Cliente;
@@ -37,11 +40,11 @@ public class ClienteFactory {
     }
 
     public static Cliente lerCliente(String tipo) {
-        if (!tipo.equals("PF") && !tipo.equals("pj")){
+        if (!tipo.equals("PF") && !tipo.equals("pj")) {
             throw new IllegalArgumentException("Tipo inválido. Insira 'PF' ou 'PJ'.");
         }
         String cString = tipo.equals("PF") ? "CPF" : "CNPJ";
-        String dataString = tipo.equals("PF") ? "Nascimento" : "Fundação";
+        String dataString = tipo.equals("PF") ? "Data de Nascimento (dd/mm/yyyy): " : "Data de Fundação (dd/mm/yyyy): ";
         Scanner scan = new Scanner(System.in);
         System.out.print("Nome: ");
         String nome = scan.nextLine();
@@ -49,18 +52,8 @@ public class ClienteFactory {
         String cpfcnpj = scan.nextLine();
         System.out.print("Endereço: ");
         String endereco = scan.nextLine();
-        System.out.print("Dia da licenca: ");
-        int diaLicenca = scan.nextInt();
-        System.out.print("Mês da licenca: ");
-        int mesLicenca = scan.nextInt();
-        System.out.print("Ano da licenca: ");
-        int anoLicenca = scan.nextInt();
-        System.out.printf("Dia %s: ", dataString);
-        int dia = scan.nextInt();
-        System.out.printf("Mês %s: ", dataString);
-        int mes = scan.nextInt();
-        System.out.printf("Ano %s: ", dataString);
-        int ano = scan.nextInt();
+        Date dataLicenca = lerData("Data da Licenca (dd/mm/yyyy): ", scan);
+        Date date = lerData(dataString, scan);
         System.out.print("Escolaridade: ");
         String educacao = scan.next();
         System.out.print("Gênero: ");
@@ -68,18 +61,23 @@ public class ClienteFactory {
         System.out.print("Classe econômica: ");
         String classeEconomica = scan.next();
         scan.close();
-        Calendar dtLicenca = Calendar.getInstance();
-        dtLicenca.set(diaLicenca, mesLicenca, anoLicenca);
-        Calendar dt = Calendar.getInstance();
-        dt.set(dia, mes, ano);
 
         if (tipo.equals("PF")) {
-            return new ClientePF(nome, endereco, dtLicenca.getTime(), educacao, genero, classeEconomica, cpfcnpj,
-                    dt.getTime());
-        }else{
-            return new ClientePJ(nome, endereco, dtLicenca.getTime(), educacao, genero, classeEconomica, cpfcnpj,
-                    dt.getTime());
+            return new ClientePF(nome, endereco, dataLicenca, educacao, genero, classeEconomica, cpfcnpj, date);
+        } else {
+            return new ClientePJ(nome, endereco, dataLicenca, educacao, genero, classeEconomica, cpfcnpj, date);
         }
     }
 
+    private static Date lerData(String stringScan, Scanner scan) {
+        System.out.print(stringScan);
+        String d = scan.nextLine();
+
+        try {
+            return new SimpleDateFormat("dd/MM/yyyy").parse(d);
+        } catch (ParseException e) {
+            System.out.println("Insira uma data no formato 'dd/mm/yyyy'!");
+            return lerData(stringScan, scan);
+        }
+    }
 }

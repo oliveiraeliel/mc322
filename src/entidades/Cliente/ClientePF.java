@@ -1,5 +1,6 @@
 package entidades.Cliente;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import entidades.Veiculo;
@@ -8,6 +9,7 @@ import entidades.Cliente.validators.CPFvalidator;
 public class ClientePF extends Cliente {
     private final String CPF;
     private Date dataNascimento = new Date();
+
     public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String genero,
             String classeEconomica, String cpf, Date dataNascimento) {
         super(nome, endereco, dataLicenca, educacao, genero, classeEconomica);
@@ -23,10 +25,11 @@ public class ClientePF extends Cliente {
         this.CPF = cpf;
         this.dataNascimento = dataNascimento;
     }
-    
+
     @Override
     public String toString() {
-        return super.toString() + "\nCPF: " + CPF + "\nData de nascimento: " + dataNascimento+"\n}";
+        return super.toString() + "\nCPF: " + CPF + "\nData de nascimento: "
+                + new SimpleDateFormat("dd/MM/yyyy").format(dataNascimento) + "\n}";
     }
 
     @Override
