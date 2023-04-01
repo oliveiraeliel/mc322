@@ -16,7 +16,10 @@ public class Main {
 		cliente.addVeiculo(VeiculoFactory.generateVeiculo());
 		cliente.addVeiculo(VeiculoFactory.generateVeiculo());
 		// ClientePF c = ClientePF.lerCliente();
-		System.out.println(cliente);
-		System.out.println(l);
+		// ClientePF c = ClientePFFactory.generateClientePF();
+		// ClientePJ j = ClientePJFactory.lerClientePJ();
+		// System.out.println(j);
+		// System.out.println(c);
+		ClienteFactory.lerCliente("PF");
 	}
 }

@@ -6,22 +6,28 @@ import java.util.List;
 import entidades.Veiculo;
 import entidades.Cliente.validators.CNPJvalidator;
 
-public class ClientePJ extends Cliente{
+public class ClientePJ extends Cliente {
     private final String CNPJ;
     private Date dataFundacao;
 
-    public ClientePJ(String nome, String endereco, Date dataLicenca, String educacao, String genero, String classeEconomica, String cnpj, Date dataFundacao) throws Exception {
+    public ClientePJ(String nome, String endereco, Date dataLicenca, String educacao, String genero,
+            String classeEconomica, String cnpj, Date dataFundacao) {
         super(nome, endereco, dataLicenca, educacao, genero, classeEconomica);
         this.CNPJ = cnpj;
         this.dataFundacao = dataFundacao;
     }
 
-    public ClientePJ(String nome, String endereco, Date dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos, String cnpj, Date datafuncadao) throws Exception{
+    public ClientePJ(String nome, String endereco, Date dataLicenca, String educacao, String genero,
+            String classeEconomica, List<Veiculo> listaVeiculos, String cnpj, Date datafuncadao) {
         super(nome, endereco, dataLicenca, educacao, genero, classeEconomica, listaVeiculos);
         this.CNPJ = cnpj;
         this.dataFundacao = datafuncadao;
     }
 
+    @Override
+    public String toString() {
+        return super.toString() + "\nCNPJ: " + CNPJ + "\nData de Fundacao: " + dataFundacao;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -32,7 +38,6 @@ public class ClientePJ extends Cliente{
         ClientePJ c = (ClientePJ) obj;
         return c.getCNPJ().equals(getCNPJ());
     }
-
 
     public String getCNPJ() {
         return this.CNPJ;
@@ -50,5 +55,3 @@ public class ClientePJ extends Cliente{
         return cpf.length() == 14 && !CNPJvalidator.todosCharsIguais(cpf) && CNPJvalidator.digitosValidos(cpf);
     }
 }
-
-
