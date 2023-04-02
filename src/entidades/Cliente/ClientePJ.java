@@ -24,11 +24,13 @@ public class ClientePJ extends Cliente {
         this.CNPJ = cnpj;
         this.dataFundacao = datafuncadao;
     }
-
+    
     @Override
     public String toString() {
-        return super.toString() + "\nCNPJ: " + CNPJ + "\nData de Fundacao: "
-                + new SimpleDateFormat("dd/MM/yyyy").format(dataFundacao);
+        return super.toString() + ", 'CNPJ': '" + CNPJ + "', 'Data de fundação': '"
+                + new SimpleDateFormat("dd/MM/yyyy").format(dataFundacao) +
+                "'Veículos': '" + this.getListaVeiculos()
+                + "'}";
     }
 
     @Override

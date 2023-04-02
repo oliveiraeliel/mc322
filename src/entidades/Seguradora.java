@@ -22,20 +22,20 @@ public class Seguradora {
         setEndereco(endereco);
     }
 
-    public boolean cadastrarCliente(Cliente cliente){
-        if (listaClientes.contains(cliente)){
+    public boolean cadastrarCliente(Cliente cliente) {
+        if (listaClientes.contains(cliente)) {
             return false;
         }
         listaClientes.add(cliente);
         return true;
     }
 
-    public List<Cliente> listarClientes(String tipoCliente){
+    public List<Cliente> listarClientes(String tipoCliente) {
         List<Cliente> listaClientes = new ArrayList<>();
-        for (Cliente cliente: this.listaClientes){
-            if (cliente instanceof ClientePF && tipoCliente.equals("PF")){
+        for (Cliente cliente : this.listaClientes) {
+            if (cliente instanceof ClientePF && tipoCliente.equals("PF")) {
                 listaClientes.add(cliente);
-            }else if (cliente instanceof ClientePJ && tipoCliente.equals("PJ")){
+            } else if (cliente instanceof ClientePJ && tipoCliente.equals("PJ")) {
                 listaClientes.add(cliente);
             }
         }
@@ -43,8 +43,8 @@ public class Seguradora {
         return listaClientes;
     }
 
-    public boolean gerarSinistro(Cliente cliente, Veiculo veiculo){
-        if (!this.listaClientes.contains(cliente)){
+    public boolean gerarSinistro(Cliente cliente, Veiculo veiculo) {
+        if (!this.listaClientes.contains(cliente)) {
             return false;
         }
         Sinistro sinistro = new Sinistro("data", "endereco", cliente, veiculo, this);
@@ -62,10 +62,14 @@ public class Seguradora {
     }
 
     /**
-     *  Retorna uma String com os valores atuais do objeto
+     * Retorna uma String com os valores atuais do objeto
      */
-    public String toString(){
-        return String.format("Seguradora: %s, Telefone: %s, Email: %s, Endereço: %s", nome, telefone, email, endereco);
+    public String toString() {
+        return "{'Seguradora': '" + nome +
+                "', 'Telefone': '" + telefone +
+                "', 'Email': '" + email +
+                "', 'Endereço': '" + endereco +
+                "', 'Clientes': '" + listaClientes + "'}";
     }
 
     // getters e setters

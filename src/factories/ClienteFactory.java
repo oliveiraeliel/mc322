@@ -39,13 +39,14 @@ public class ClienteFactory {
                 "Classe média", cnpj, cal.getTime());
     }
 
-    public static Cliente lerCliente(String tipo) {
+    public static Cliente lerCliente(String tipo, Scanner scan) {
         if (!tipo.equals("PF") && !tipo.equals("pj")) {
             throw new IllegalArgumentException("Tipo inválido. Insira 'PF' ou 'PJ'.");
         }
+        System.out.println("------------- Cliente --------------");
         String cString = tipo.equals("PF") ? "CPF" : "CNPJ";
         String dataString = tipo.equals("PF") ? "Data de Nascimento (dd/mm/yyyy): " : "Data de Fundação (dd/mm/yyyy): ";
-        Scanner scan = new Scanner(System.in);
+        // Scanner scan = new Scanner(System.in);
         System.out.print("Nome: ");
         String nome = scan.nextLine();
         System.out.printf("%s: ", cString);
@@ -55,12 +56,12 @@ public class ClienteFactory {
         Date dataLicenca = lerData("Data da Licenca (dd/mm/yyyy): ", scan);
         Date date = lerData(dataString, scan);
         System.out.print("Escolaridade: ");
-        String educacao = scan.next();
+        String educacao = scan.nextLine();
         System.out.print("Gênero: ");
-        String genero = scan.next();
+        String genero = scan.nextLine();
         System.out.print("Classe econômica: ");
-        String classeEconomica = scan.next();
-        scan.close();
+        String classeEconomica = scan.nextLine();
+        // scan.close();
 
         if (tipo.equals("PF")) {
             return new ClientePF(nome, endereco, dataLicenca, educacao, genero, classeEconomica, cpfcnpj, date);

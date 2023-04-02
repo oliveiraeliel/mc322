@@ -59,13 +59,12 @@ public class Cliente {
     @Override
     public String toString() {
         return "{" +
-                "\nCliente: " + nome +
-                "\nEndereço: " + endereco +
-                "\nData Licenca: " + new SimpleDateFormat("dd/MM/yyyy").format(dataLicenca) +
-                "\nEscolaridade: " + educacao +
-                "\nGênero: " + genero +
-                "\nClasse Econômica: " + classeEconomica +
-                "\nVeículos: " + listaVeiculos;
+                "'Cliente': '" + nome +
+                "', 'Endereço': '" + endereco +
+                "', 'Data Licenca': '" + new SimpleDateFormat("dd/MM/yyyy").format(dataLicenca) +
+                "', 'Escolaridade': '" + educacao +
+                "', 'Gênero': '" + genero +
+                "', 'Classe Econômica': '" + classeEconomica;
     }
 
     // métodos getters e setters

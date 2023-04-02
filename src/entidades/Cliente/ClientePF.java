@@ -28,8 +28,10 @@ public class ClientePF extends Cliente {
 
     @Override
     public String toString() {
-        return super.toString() + "\nCPF: " + CPF + "\nData de nascimento: "
-                + new SimpleDateFormat("dd/MM/yyyy").format(dataNascimento) + "\n}";
+        return super.toString() + ", 'CPF': '" + CPF + "', 'Data de nascimento': '"
+                + new SimpleDateFormat("dd/MM/yyyy").format(dataNascimento) +
+                "'Veículos': '" + this.getListaVeiculos()
+                + "'}";
     }
 
     @Override
