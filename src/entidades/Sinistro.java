@@ -1,17 +1,19 @@
 package entidades;
 
+import java.util.Date;
+
 import entidades.Cliente.Cliente;
 
 public class Sinistro {
     private final int ID = ++count; // id unico e sequencial. baseado no número de sinistros já gerados pelo sistema
-    private String data;
+    private Date data;
     private String endereco;
     private static int count = 0; // contagem do número de sinistros gerados
     private Cliente cliente;
     private Veiculo veiculo;
     private Seguradora seguradora;
 
-    public Sinistro(String data, String endereco, Cliente cliente, Veiculo veiculo, Seguradora seguradora) {
+    public Sinistro(Date data, String endereco, Cliente cliente, Veiculo veiculo, Seguradora seguradora) {
         setData(data);
         setEndereco(endereco);
         setCliente(cliente);
@@ -43,12 +45,12 @@ public class Sinistro {
         return this.ID;
     }
 
-    public String getData() {
+    public Date getData() {
         return this.data;
     }
 
-    public void setData(String data) {
-        this.data = data.trim();
+    public void setData(Date data) {
+        this.data = data;
     }
 
     public String getEndereco() {

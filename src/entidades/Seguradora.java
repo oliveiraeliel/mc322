@@ -6,6 +6,7 @@ import java.util.List;
 import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePF;
 import entidades.Cliente.ClientePJ;
+import entidades.utils.DateUtils;
 import factories.SinistroFactory;
 
 public class Seguradora {
@@ -44,10 +45,13 @@ public class Seguradora {
         return listaClientes;
     }
 
-    public boolean gerarSinistro() {
-        Sinistro sinistro = SinistroFactory.generateSinitro();
-        this.listaSinistros.add(sinistro);
-        return true;
+    public boolean gerarSinistro(Cliente cliente, Veiculo veiculo, String endereco) {
+        if (this.listaClientes.contains(cliente)){
+            Sinistro sinistro = new Sinistro(DateUtils.localDate(), endereco, cliente, veiculo, this);
+            this.listaSinistros.add(sinistro);
+            return true;
+        }
+        return false;
     }
 
     public boolean removerCliente(String cliente) {
