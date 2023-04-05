@@ -2,12 +2,12 @@ package entidades;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePF;
 import entidades.Cliente.ClientePJ;
 import entidades.utils.DateUtils;
-import factories.SinistroFactory;
 
 public class Seguradora {
     private String nome;
@@ -25,11 +25,11 @@ public class Seguradora {
     }
 
     public boolean cadastrarCliente(Cliente cliente) {
-        if (listaClientes.contains(cliente)) {
-            return false;
+        if (!listaClientes.contains(cliente)) {
+            addCliente(cliente);
+            return true;
         }
-        listaClientes.add(cliente);
-        return true;
+        return false;
     }
 
     public List<Cliente> listarClientes(String tipoCliente) {
@@ -41,14 +41,13 @@ public class Seguradora {
                 listaClientes.add(cliente);
             }
         }
-
         return listaClientes;
     }
 
     public boolean gerarSinistro(Cliente cliente, Veiculo veiculo, String endereco) {
-        if (this.listaClientes.contains(cliente)){
+        if (this.listaClientes.contains(cliente)) {
             Sinistro sinistro = new Sinistro(DateUtils.localDate(), endereco, cliente, veiculo, this);
-            this.listaSinistros.add(sinistro);
+            addSinistro(sinistro);
             return true;
         }
         return false;
@@ -85,15 +84,38 @@ public class Seguradora {
         return false;
     }
 
-    /**
-     * Retorna uma String com os valores atuais do objeto
-     */
+    private void addSinistro(Sinistro sinistro) {
+        listaSinistros.add(sinistro);
+    }
+
+    private void addCliente(Cliente cliente) {
+        listaClientes.add(cliente);
+    }
+
+    @Override
     public String toString() {
-        return "{'Seguradora': '" + nome +
-                "', 'Telefone': '" + telefone +
-                "', 'Email': '" + email +
-                "', 'Endereço': '" + endereco +
-                "', 'Clientes': '" + listaClientes + "'}";
+        return "{" +
+                " nome='" + getNome() + "'" +
+                ", telefone='" + getTelefone() + "'" +
+                ", email='" + getEmail() + "'" +
+                ", endereco='" + getEndereco() + "'" +
+                ", listaClientes='" + getListaClientes() + "'" +
+                ", listaSinistros='" + getListaSinistros() + "'" +
+                "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Seguradora)) {
+            return false;
+        }
+        Seguradora seguradora = (Seguradora) o;
+        return Objects.equals(nome, seguradora.nome) && Objects.equals(telefone, seguradora.telefone)
+                && Objects.equals(email, seguradora.email) && Objects.equals(endereco, seguradora.endereco)
+                && Objects.equals(listaClientes, seguradora.listaClientes)
+                && Objects.equals(listaSinistros, seguradora.listaSinistros);
     }
 
     // getters e setters
@@ -129,4 +151,13 @@ public class Seguradora {
     public void setEndereco(String endereco) {
         this.endereco = endereco.trim();
     }
+
+    public List<Cliente> getListaClientes() {
+        return listaClientes;
+    }
+
+    public List<Sinistro> getListaSinistros() {
+        return listaSinistros;
+    }
+
 }

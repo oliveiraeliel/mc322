@@ -1,5 +1,7 @@
 package entidades;
 
+import java.util.Objects;
+
 public class Veiculo {
     private String placa;
     private String marca;
@@ -11,11 +13,25 @@ public class Veiculo {
         setModelo(modelo);
     }
 
-    /**
-     * Retorna uma String com os valores atuais do objeto
-     */
+    @Override
     public String toString() {
-        return String.format("{'Placa': '%s', 'Marca': '%s', 'Modelo': '%s'}", placa, marca, modelo);
+        return "{" +
+                " placa='" + getPlaca() + "'" +
+                ", marca='" + getMarca() + "'" +
+                ", modelo='" + getModelo() + "'" +
+                "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Veiculo)) {
+            return false;
+        }
+        Veiculo veiculo = (Veiculo) o;
+        return Objects.equals(placa, veiculo.placa) && Objects.equals(marca, veiculo.marca)
+                && Objects.equals(modelo, veiculo.modelo);
     }
 
     public String getPlaca() {

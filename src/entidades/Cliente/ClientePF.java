@@ -1,10 +1,10 @@
 package entidades.Cliente;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import entidades.Veiculo;
 import entidades.Cliente.validators.CPFvalidator;
+import entidades.utils.DateUtils;
 
 public class ClientePF extends Cliente {
     private final String CPF;
@@ -28,20 +28,26 @@ public class ClientePF extends Cliente {
 
     @Override
     public String toString() {
-        return super.toString() + ", 'CPF': '" + CPF + "', 'Data de nascimento': '"
-                + new SimpleDateFormat("dd/MM/yyyy").format(dataNascimento) +
-                "'Veículos': '" + this.getListaVeiculos()
-                + "'}";
+        return "{" +
+                " nome= '" + super.getNome() + "'" +
+                ", CPF='" + getCPF() + "'" +
+                ", endereco='" + super.getEndereco() + "'" +
+                ", genero='" + super.getGenero() + "'" +
+                ", classeEconomica='" + super.getClasseEconomica() + "'" +
+                ", dataLicenca='" + DateUtils.formatDate(super.getDataLicenca(), "dd/MM/yyyy") + "'" +
+                ", dataNascimento='" + DateUtils.formatDate(getDataLicenca(), "dd/MM/yyyy") + "'" +
+                "}";
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ClientePF)) {
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof ClientePF)) {
             return false;
         }
-
-        ClientePF c = (ClientePF) obj;
-        return c.getCPF().equals(getCPF());
+        ClientePF clientePF = (ClientePF) o;
+        return Objects.equals(CPF, clientePF.CPF);
     }
 
     public String getCPF() {

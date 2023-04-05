@@ -4,6 +4,7 @@ import entidades.Seguradora;
 import entidades.Sinistro;
 import entidades.Veiculo;
 import entidades.Cliente.ClientePF;
+import entidades.utils.DateUtils;
 
 public class SinistroFactory {
     public static Sinistro generateSinitro() {
@@ -11,6 +12,6 @@ public class SinistroFactory {
         ClientePF cliente = ClienteFactory.createClientePF();
         Veiculo veiculo = VeiculoFactory.generateVeiculo();
         cliente.addVeiculo(veiculo);
-        return new Sinistro("13/12/2013", "Rua Saturnino, 322", cliente, veiculo, seguradora);
+        return new Sinistro(DateUtils.localDate(), "Rua Saturnino, 322", cliente, veiculo, seguradora);
     }
 }

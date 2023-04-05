@@ -1,6 +1,7 @@
 package entidades;
 
 import java.util.Date;
+import java.util.Objects;
 
 import entidades.Cliente.Cliente;
 
@@ -21,23 +22,29 @@ public class Sinistro {
         setSeguradora(seguradora);
     }
 
-    /**
-     * Retorna uma String com os valores atuais do objeto
-     */
     @Override
     public String toString() {
-        return String.format("ID: %d, Data: %s, Endereço: %s", ID, data, endereco);
+        return "{" +
+                " ID='" + getID() + "'" +
+                ", data='" + getData() + "'" +
+                ", endereco='" + getEndereco() + "'" +
+                ", cliente='" + getCliente() + "'" +
+                ", veiculo='" + getVeiculo() + "'" +
+                ", seguradora='" + getSeguradora() + "'" +
+                "}";
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Sinistro) {
-            Sinistro s = (Sinistro) obj;
-            if (this.getID() == s.getID()) {
-                return true;
-            }
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Sinistro)) {
+            return false;
         }
-        return false;
+        Sinistro sinistro = (Sinistro) o;
+        return ID == sinistro.ID && Objects.equals(data, sinistro.data) && Objects.equals(endereco, sinistro.endereco)
+                && Objects.equals(cliente, sinistro.cliente) && Objects.equals(veiculo, sinistro.veiculo)
+                && Objects.equals(seguradora, sinistro.seguradora);
     }
 
     // getters e setters

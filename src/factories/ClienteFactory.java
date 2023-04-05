@@ -39,35 +39,36 @@ public class ClienteFactory {
                 "Classe média", cnpj, cal.getTime());
     }
 
-    public static Cliente lerCliente(String tipo, Scanner scan) {
-        if (!tipo.equals("PF") && !tipo.equals("pj")) {
-            throw new IllegalArgumentException("Tipo inválido. Insira 'PF' ou 'PJ'.");
-        }
+    public static Cliente lerClientePJ(Scanner scan) {
         System.out.println("------------- Cliente --------------");
-        String cString = tipo.equals("PF") ? "CPF" : "CNPJ";
-        String dataString = tipo.equals("PF") ? "Data de Nascimento (dd/mm/yyyy): " : "Data de Fundação (dd/mm/yyyy): ";
-        // Scanner scan = new Scanner(System.in);
         System.out.print("Nome: ");
         String nome = scan.nextLine();
-        System.out.printf("%s: ", cString);
-        String cpfcnpj = scan.nextLine();
+        System.out.printf("CNPJ: ");
+        String cnpj = scan.nextLine();
         System.out.print("Endereço: ");
         String endereco = scan.nextLine();
         Date dataLicenca = lerData("Data da Licenca (dd/mm/yyyy): ", scan);
-        Date date = lerData(dataString, scan);
+        Date dataFundacao = lerData("Data de fundação", scan);
+        return new ClientePJ(nome, endereco, dataLicenca, cnpj, dataFundacao);
+    }
+
+    public static Cliente lerClientePF(Scanner scan) {
+        System.out.println("------------- Cliente --------------");
+        System.out.print("Nome: ");
+        String nome = scan.nextLine();
+        System.out.print("CPF: ");
+        String cpf = scan.nextLine();
+        System.out.print("Endereço: ");
+        String endereco = scan.nextLine();
+        Date dataLicenca = lerData("Data da Licenca (dd/mm/yyyy): ", scan);
+        Date dataNascimento = lerData("Data de Nascimento (dd/MM/yyyy)", scan);
         System.out.print("Escolaridade: ");
         String educacao = scan.nextLine();
         System.out.print("Gênero: ");
         String genero = scan.nextLine();
         System.out.print("Classe econômica: ");
         String classeEconomica = scan.nextLine();
-        // scan.close();
-
-        if (tipo.equals("PF")) {
-            return new ClientePF(nome, endereco, dataLicenca, educacao, genero, classeEconomica, cpfcnpj, date);
-        } else {
-            return new ClientePJ(nome, endereco, dataLicenca, educacao, genero, classeEconomica, cpfcnpj, date);
-        }
+        return new ClientePF(nome, endereco, dataLicenca, educacao, genero, classeEconomica, cpf, dataNascimento);
     }
 
     private static Date lerData(String stringScan, Scanner scan) {

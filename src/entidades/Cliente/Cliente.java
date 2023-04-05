@@ -1,10 +1,12 @@
 package entidades.Cliente;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+
 import entidades.Veiculo;
+import entidades.utils.DateUtils;
 
 public class Cliente {
     private String nome;
@@ -14,6 +16,20 @@ public class Cliente {
     private String genero;
     private String classeEconomica;
     private List<Veiculo> listaVeiculos;
+
+    public Cliente(String nome, String endereco, Date dataLicenca, List<Veiculo> listaVeiculos) {
+        setNome(nome);
+        setEndereco(endereco);
+        setDataLicenca(dataLicenca);
+        setListaVeiculos(listaVeiculos);
+    }
+
+    public Cliente(String nome, String endereco, Date dataLicenca) {
+        setNome(nome);
+        setEndereco(endereco);
+        setDataLicenca(dataLicenca);
+        setListaVeiculos(new ArrayList<Veiculo>());
+    }
 
     public Cliente(String nome, String endereco, Date dataLicenca, String educacao, String genero,
             String classeEconomica) {
@@ -53,18 +69,31 @@ public class Cliente {
         return true;
     }
 
-    /**
-     * Retorna uma String com os valores atuais do objeto
-     */
     @Override
     public String toString() {
         return "{" +
-                "'Cliente': '" + nome +
-                "', 'Endereço': '" + endereco +
-                "', 'Data Licenca': '" + new SimpleDateFormat("dd/MM/yyyy").format(dataLicenca) +
-                "', 'Escolaridade': '" + educacao +
-                "', 'Gênero': '" + genero +
-                "', 'Classe Econômica': '" + classeEconomica;
+                " nome='" + getNome() + "'" +
+                ", endereco='" + getEndereco() + "'" +
+                ", dataLicenca='" + DateUtils.formatDate(getDataLicenca(), "dd/MM/yyyy") + "'" +
+                ", educacao='" + getEducacao() + "'" +
+                ", genero='" + getGenero() + "'" +
+                ", classeEconomica='" + getClasseEconomica() + "'" +
+                ", listaVeiculos='" + getListaVeiculos() + "'" +
+                "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Cliente)) {
+            return false;
+        }
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(nome, cliente.nome) && Objects.equals(endereco, cliente.endereco)
+                && Objects.equals(dataLicenca, cliente.dataLicenca) && Objects.equals(educacao, cliente.educacao)
+                && Objects.equals(genero, cliente.genero) && Objects.equals(classeEconomica, cliente.classeEconomica)
+                && Objects.equals(listaVeiculos, cliente.listaVeiculos);
     }
 
     // métodos getters e setters
