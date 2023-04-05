@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Objects;
 
 import entidades.Cliente.Cliente;
+import utils.DateUtils;
 
 public class Sinistro {
     private final int ID = ++count; // id unico e sequencial. baseado no número de sinistros já gerados pelo sistema
@@ -26,11 +27,11 @@ public class Sinistro {
     public String toString() {
         return "{" +
                 " ID='" + getID() + "'" +
-                ", data='" + getData() + "'" +
+                ", data='" + DateUtils.formatDate(getData(), "dd/MM/yyyy") + "'" +
                 ", endereco='" + getEndereco() + "'" +
                 ", cliente='" + getCliente() + "'" +
                 ", veiculo='" + getVeiculo() + "'" +
-                ", seguradora='" + getSeguradora() + "'" +
+                ", seguradora='" + getSeguradora().getNome() + "'" +
                 "}";
     }
 

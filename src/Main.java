@@ -13,8 +13,16 @@ public class Main {
 
 		cliente.addVeiculo(veiculo);
 		seguradora.cadastrarCliente(cliente);
+		seguradora.gerarSinistro(cliente, veiculo, "av. 13 de maio");
 
 		System.out.println(seguradora);
 		scan.close();
-	}
+		// Seguradora seguradora = SeguradoraFactory.generateSeguradora();
+		// Cliente cliente = ClienteFactory.createClientePF();
+		// Veiculo veiculo = VeiculoFactory.generateVeiculo();
+		// cliente.addVeiculo(veiculo);
+		// seguradora.cadastrarCliente(cliente);
+		// seguradora.gerarSinistro(cliente, veiculo, "adfas");
+		// System.out.println(seguradora);
+		}
 }
