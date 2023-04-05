@@ -51,62 +51,32 @@ public class Seguradora {
     }
 
     public boolean removerCliente(String cliente) {
-        if (ClientePF.validarCPF(cliente)) {
-            for (Cliente cli : listaClientes) {
-                if (cli instanceof ClientePF) {
-                    ClientePF clientePF = (ClientePF) cli;
-                    if (clientePF.getCPF().equals(cliente)) {
-                        listaClientes.remove(cli);
-                        return true;
-                    }
-                }
+        for (Cliente cli : listaClientes) {
+            if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(cliente)) {
+                listaClientes.remove(cli);
+                return true;
             }
-        } else if (ClientePJ.validarCNPJ(cliente)) {
-            for (Cliente cli : listaClientes) {
-                if (cli instanceof ClientePF) {
-                    ClientePJ clientePJ = (ClientePJ) cli;
-                    if (clientePJ.getCNPJ().equals(cliente)) {
-                        listaClientes.remove(cli);
-                        return true;
-                    }
-                }
+            if (cli instanceof ClientePJ && ((ClientePJ) cli).getCNPJ().equals(cliente)) {
+                listaClientes.remove(cli);
+                return true;
             }
         }
         return false;
     }
 
-    private List<Sinistro> getAllSinistrosBy(String cliente, String tipo) {
-        List<Sinistro> lSinistros = new ArrayList<>();
+    public boolean visualizarSinistro(String cliente) {
+        List<Sinistro> sinistros = new ArrayList<>();
         for (Sinistro sinistro : listaSinistros) {
-            if (sinistro.getCliente() instanceof ClientePF && tipo.equals("PF")) {
-                ClientePF cli = (ClientePF) sinistro.getCliente();
-                if (cli.getCPF().equals(cliente)) {
-                    lSinistros.add(sinistro);
-                }
-            } else if (sinistro.getCliente() instanceof ClientePJ && tipo.equals("PJ")) {
-                ClientePJ cli = (ClientePJ) sinistro.getCliente();
-                if (cli.getCNPJ().equals(cliente)) {
-                    lSinistros.add(sinistro);
-                }
+            Cliente cli = sinistro.getCliente();
+            if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(cliente)) {
+                sinistros.add(sinistro);
+            } else if (cli instanceof ClientePJ && ((ClientePJ) cli).getCNPJ().equals(cliente)) {
+                sinistros.add(sinistro);
             }
         }
-        return lSinistros;
-    }
-
-    public boolean visualizarSinistro(String cliente) {
-        List<Sinistro> sinistros;
-        if (ClientePF.validarCPF(cliente)) {
-            sinistros = getAllSinistrosBy(cliente, "PF");
-            if (!sinistros.isEmpty()) {
-                System.out.println(sinistros);
-                return true;
-            }
-        } else if (ClientePJ.validarCNPJ(cliente)) {
-            sinistros = getAllSinistrosBy(cliente, "PJ");
-            if (!sinistros.isEmpty()) {
-                System.out.println(sinistros);
-                return true;
-            }
+        if (!sinistros.isEmpty()) {
+            System.out.println(sinistros);
+            return true;
         }
         return false;
     }
