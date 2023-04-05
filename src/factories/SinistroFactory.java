@@ -11,6 +11,6 @@ public class SinistroFactory {
         ClientePF cliente = ClienteFactory.createClientePF();
         Veiculo veiculo = VeiculoFactory.generateVeiculo();
         cliente.addVeiculo(veiculo);
-        return new Sinistro("null", "null", cliente, veiculo, seguradora);
+        return new Sinistro("13/12/2013", "Rua Saturnino, 322", cliente, veiculo, seguradora);
     }
 }

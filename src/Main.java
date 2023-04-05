@@ -15,14 +15,6 @@ public class Main {
 		seguradora.cadastrarCliente(cliente);
 
 		System.out.println(seguradora);
-		// Seguradora s = SeguradoraFactory.generateSeguradora();
-		// Cliente c = ClienteFactory.createClientePF();
-		// s.cadastrarCliente(c);
-		// c.addVeiculo(VeiculoFactory.generateVeiculo());
-		// c.addVeiculo(VeiculoFactory.generateVeiculo());
-		// c.addVeiculo(VeiculoFactory.generateVeiculo());
-		// System.out.println(s);
 		scan.close();
-
 	}
 }

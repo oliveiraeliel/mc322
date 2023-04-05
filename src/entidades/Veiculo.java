@@ -5,9 +5,6 @@ public class Veiculo {
     private String marca;
     private String modelo;
 
-    public Veiculo() {
-    }
-
     public Veiculo(String placa, String marca, String modelo) {
         setPlaca(placa);
         setMarca(marca);
@@ -15,9 +12,9 @@ public class Veiculo {
     }
 
     /**
-     *  Retorna uma String com os valores atuais do objeto
+     * Retorna uma String com os valores atuais do objeto
      */
-    public String toString(){
+    public String toString() {
         return String.format("{'Placa': '%s', 'Marca': '%s', 'Modelo': '%s'}", placa, marca, modelo);
     }
 

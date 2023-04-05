@@ -6,11 +6,10 @@ public class Sinistro {
     private final int ID = ++count; // id unico e sequencial. baseado no número de sinistros já gerados pelo sistema
     private String data;
     private String endereco;
-    private static int count = 0; // contagem do número de sinistros gerados 
+    private static int count = 0; // contagem do número de sinistros gerados
     private Cliente cliente;
     private Veiculo veiculo;
     private Seguradora seguradora;
-
 
     public Sinistro(String data, String endereco, Cliente cliente, Veiculo veiculo, Seguradora seguradora) {
         setData(data);
@@ -21,14 +20,25 @@ public class Sinistro {
     }
 
     /**
-     *  Retorna uma String com os valores atuais do objeto
+     * Retorna uma String com os valores atuais do objeto
      */
-    public String toString(){
+    @Override
+    public String toString() {
         return String.format("ID: %d, Data: %s, Endereço: %s", ID, data, endereco);
     }
 
-    // getters e setters
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Sinistro) {
+            Sinistro s = (Sinistro) obj;
+            if (this.getID() == s.getID()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
+    // getters e setters
     public int getID() {
         return this.ID;
     }
@@ -57,7 +67,6 @@ public class Sinistro {
         this.cliente = cliente;
     }
 
-
     public Veiculo getVeiculo() {
         return this.veiculo;
     }
@@ -73,5 +82,4 @@ public class Sinistro {
     public void setSeguradora(Seguradora seguradora) {
         this.seguradora = seguradora;
     }
-
 }
