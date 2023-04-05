@@ -4,7 +4,7 @@ import entidades.Seguradora;
 import entidades.Sinistro;
 import entidades.Veiculo;
 import entidades.Cliente.ClientePF;
-import entidades.utils.DateUtils;
+import utils.DateUtils;
 
 public class SinistroFactory {
     public static Sinistro generateSinitro() {

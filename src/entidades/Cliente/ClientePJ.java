@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import entidades.Veiculo;
 import entidades.Cliente.validators.CNPJvalidator;
-import entidades.utils.DateUtils;
+import utils.DateUtils;
 
 public class ClientePJ extends Cliente {
     private final String CNPJ;

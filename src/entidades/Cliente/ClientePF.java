@@ -4,7 +4,7 @@ import java.util.*;
 
 import entidades.Veiculo;
 import entidades.Cliente.validators.CPFvalidator;
-import entidades.utils.DateUtils;
+import utils.DateUtils;
 
 public class ClientePF extends Cliente {
     private final String CPF;

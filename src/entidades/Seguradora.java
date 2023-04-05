@@ -7,7 +7,7 @@ import java.util.Objects;
 import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePF;
 import entidades.Cliente.ClientePJ;
-import entidades.utils.DateUtils;
+import utils.DateUtils;
 
 public class Seguradora {
     private String nome;
