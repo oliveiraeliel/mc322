@@ -30,8 +30,7 @@ public class Veiculo {
             return false;
         }
         Veiculo veiculo = (Veiculo) o;
-        return Objects.equals(placa, veiculo.placa) && Objects.equals(marca, veiculo.marca)
-                && Objects.equals(modelo, veiculo.modelo);
+        return Objects.equals(placa, veiculo.getPlaca());
     }
 
     public String getPlaca() {

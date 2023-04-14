@@ -112,10 +112,10 @@ public class Seguradora {
             return false;
         }
         Seguradora seguradora = (Seguradora) o;
-        return Objects.equals(nome, seguradora.nome) && Objects.equals(telefone, seguradora.telefone)
-                && Objects.equals(email, seguradora.email) && Objects.equals(endereco, seguradora.endereco)
-                && Objects.equals(listaClientes, seguradora.listaClientes)
-                && Objects.equals(listaSinistros, seguradora.listaSinistros);
+        return Objects.equals(nome, seguradora.getNome()) && Objects.equals(telefone, seguradora.getTelefone())
+                && Objects.equals(email, seguradora.getEmail()) && Objects.equals(endereco, seguradora.getEndereco())
+                && Objects.equals(listaClientes, seguradora.getListaClientes())
+                && Objects.equals(listaSinistros, seguradora.getListaSinistros());
     }
 
     // getters e setters

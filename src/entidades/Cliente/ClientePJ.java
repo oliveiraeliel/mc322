@@ -1,28 +1,41 @@
 package entidades.Cliente;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import entidades.Veiculo;
-import entidades.Cliente.validators.CNPJvalidator;
-import utils.DateUtils;
+import utils.*;
 
 public class ClientePJ extends Cliente {
+    private static Set<String> cnpjSet = new HashSet<>();
     private final String CNPJ;
     private Date dataFundacao;
 
-    public ClientePJ(String nome, String endereco, Date dataLicenca, String cnpj, Date dataFundacao) {
-        super(nome, endereco, dataLicenca);
+    public ClientePJ(String nome, String endereco, String cnpj, Date dataFundacao) {
+        super(nome, endereco);
+        cnpj = ValidatorUtils.formatarCNPJ(cnpj);
         this.CNPJ = cnpj;
-        this.dataFundacao = dataFundacao;
+        setDataFundacao(dataFundacao);
+        cnpjSet.add(cnpj);
     }
 
-    public ClientePJ(String nome, String endereco, Date dataLicenca, List<Veiculo> listaVeiculos, String cnpj,
-            Date datafuncadao) {
-        super(nome, endereco, dataLicenca, listaVeiculos);
+    public ClientePJ(String nome, String endereco, List<Veiculo> listaVeiculos, String cnpj, Date datafuncadao) {
+        super(nome, endereco, listaVeiculos);
+        cnpj = ValidatorUtils.formatarCNPJ(cnpj);
         this.CNPJ = cnpj;
-        this.dataFundacao = datafuncadao;
+        setDataFundacao(dataFundacao);
+        cnpjSet.add(cnpj);
+    }
+
+    public static boolean cnpjCadastrado(String cnpj) {
+        return cnpjSet.contains(cnpj);
+    }
+
+    public static boolean validarCNPJ(String cnpj) {
+        return cnpj.length() == 14 && !ValidatorUtils.todosCharsIguais(cnpj) && ValidatorUtils.digitosCnpjValidos(cnpj);
     }
 
     @Override
@@ -31,7 +44,6 @@ public class ClientePJ extends Cliente {
                 " nome= '" + super.getNome() + "'" +
                 ", CNPJ='" + getCNPJ() + "'" +
                 ", endereco='" + super.getEndereco() + "'" +
-                ", dataLicenca='" + DateUtils.formatDate(super.getDataLicenca(), "dd/MM/yyyy") + "'" +
                 ", dataFundacao='" + DateUtils.formatDate(getDataFundacao(), "dd/MM/yyyy") + "'" +
                 "}";
     }
@@ -44,7 +56,7 @@ public class ClientePJ extends Cliente {
             return false;
         }
         ClientePJ clientePJ = (ClientePJ) o;
-        return Objects.equals(CNPJ, clientePJ.CNPJ) && Objects.equals(dataFundacao, clientePJ.dataFundacao);
+        return Objects.equals(CNPJ, clientePJ.getCNPJ());
     }
 
     public String getCNPJ() {
@@ -57,9 +69,5 @@ public class ClientePJ extends Cliente {
 
     public void setDataFundacao(Date dataFundacao) {
         this.dataFundacao = dataFundacao;
-    }
-
-    public static boolean validarCNPJ(String cpf) {
-        return cpf.length() == 14 && !CNPJvalidator.todosCharsIguais(cpf) && CNPJvalidator.digitosValidos(cpf);
     }
 }

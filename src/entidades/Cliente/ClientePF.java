@@ -3,27 +3,51 @@ package entidades.Cliente;
 import java.util.*;
 
 import entidades.Veiculo;
-import entidades.Cliente.validators.CPFvalidator;
 import utils.DateUtils;
+import utils.ValidatorUtils;
 
 public class ClientePF extends Cliente {
+    private static Set<String> cpfSet = new HashSet<>();
     private final String CPF;
-    private Date dataNascimento = new Date();
+    private Date dataNascimento;
+    private Date dataLicenca;
+    private String educacao;
+    private String genero;
+    private String classeEconomica;
 
     public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String genero,
             String classeEconomica, String cpf, Date dataNascimento) {
-        super(nome, endereco, dataLicenca, educacao, genero, classeEconomica);
-        cpf = CPFvalidator.formatarCpf(cpf);
+        super(nome, endereco);
+        cpf = ValidatorUtils.formatarCPF(cpf);
         this.CPF = cpf;
-        this.dataNascimento = dataNascimento;
+        setDataLicenca(dataLicenca);
+        setDataNascimento(dataNascimento);
+        setEducacao(educacao);
+        setGenero(genero);
+        setClasseEconomica(classeEconomica);
+        cpfSet.add(cpf);
     }
 
     public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String genero,
             String classeEconomica, List<Veiculo> listaVeiculos, String cpf, Date dataNascimento) {
-        super(nome, endereco, dataLicenca, educacao, genero, classeEconomica, listaVeiculos);
-        cpf = CPFvalidator.formatarCpf(cpf);
+        super(nome, endereco, listaVeiculos);
+        cpf = ValidatorUtils.formatarCPF(cpf);
         this.CPF = cpf;
-        this.dataNascimento = dataNascimento;
+        setDataLicenca(dataLicenca);
+        setDataNascimento(dataNascimento);
+        setEducacao(educacao);
+        setGenero(genero);
+        setClasseEconomica(classeEconomica);
+        cpfSet.add(cpf);
+    }
+
+    public static boolean cpfCadastrado(String cpf) {
+        return cpfSet.contains(cpf);
+    }
+
+    // verifica se a String recebida é um cpf válido
+    public static boolean validarCPF(String cpf) {
+        return cpf.length() == 11 && !ValidatorUtils.todosCharsIguais(cpf) && ValidatorUtils.digitosCpfValidos(cpf);
     }
 
     @Override
@@ -31,10 +55,10 @@ public class ClientePF extends Cliente {
         return "{" +
                 " nome= '" + super.getNome() + "'" +
                 ", CPF='" + getCPF() + "'" +
-                ", endereco='" + super.getEndereco() + "'" +
-                ", genero='" + super.getGenero() + "'" +
-                ", classeEconomica='" + super.getClasseEconomica() + "'" +
-                ", dataLicenca='" + DateUtils.formatDate(super.getDataLicenca(), "dd/MM/yyyy") + "'" +
+                ", endereco='" + getEndereco() + "'" +
+                ", genero='" + getGenero() + "'" +
+                ", classeEconomica='" + getClasseEconomica() + "'" +
+                ", dataLicenca='" + DateUtils.formatDate(getDataLicenca(), "dd/MM/yyyy") + "'" +
                 ", dataNascimento='" + DateUtils.formatDate(getDataLicenca(), "dd/MM/yyyy") + "'" +
                 "}";
     }
@@ -47,7 +71,7 @@ public class ClientePF extends Cliente {
             return false;
         }
         ClientePF clientePF = (ClientePF) o;
-        return Objects.equals(CPF, clientePF.CPF);
+        return Objects.equals(CPF, clientePF.getCPF());
     }
 
     public String getCPF() {
@@ -62,8 +86,35 @@ public class ClientePF extends Cliente {
         this.dataNascimento = dataNascimento;
     }
 
-    // verifica se a String recebida é um cpf válido
-    public static boolean validarCPF(String cpf) {
-        return cpf.length() == 11 && !CPFvalidator.todosCharsIguais(cpf) && CPFvalidator.digitosValidos(cpf);
+    public Date getDataLicenca() {
+        return this.dataLicenca;
+    }
+
+    public void setDataLicenca(Date dataLicenca) {
+        this.dataLicenca = dataLicenca;
+    }
+
+    public String getEducacao() {
+        return this.educacao;
+    }
+
+    public void setEducacao(String educacao) {
+        this.educacao = educacao.trim();
+    }
+
+    public String getGenero() {
+        return this.genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero.trim();
+    }
+
+    public String getClasseEconomica() {
+        return this.classeEconomica;
+    }
+
+    public void setClasseEconomica(String classeEconomica) {
+        this.classeEconomica = classeEconomica.trim();
     }
 }

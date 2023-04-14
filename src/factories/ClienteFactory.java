@@ -6,9 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
 
-import entidades.Cliente.Cliente;
-import entidades.Cliente.ClientePF;
-import entidades.Cliente.ClientePJ;
+import entidades.Cliente.*;
+import utils.ValidatorUtils;
 
 public class ClienteFactory {
     public static ClientePF createClientePF() {
@@ -43,21 +42,32 @@ public class ClienteFactory {
         System.out.println("------------- Cliente --------------");
         System.out.print("Nome: ");
         String nome = scan.nextLine();
-        System.out.printf("CNPJ: ");
-        String cnpj = scan.nextLine();
+        String cnpj = lerCNPJ(scan);
         System.out.print("Endereço: ");
         String endereco = scan.nextLine();
-        Date dataLicenca = lerData("Data da Licenca (dd/mm/yyyy): ", scan);
         Date dataFundacao = lerData("Data de fundação", scan);
-        return new ClientePJ(nome, endereco, dataLicenca, cnpj, dataFundacao);
+        return new ClientePJ(nome, endereco, cnpj, dataFundacao);
+    }
+
+    private static String lerCNPJ(Scanner scan){
+        System.out.print("CNPJ: ");
+        String cnpj = ValidatorUtils.formatarCNPJ(scan.nextLine());
+        if (!ClientePJ.validarCNPJ(cnpj)) {
+            System.out.println("Insira um CNPJ válido!");
+            return lerCNPJ(scan);
+        }
+        if (ClientePJ.cnpjCadastrado(cnpj)) {
+            System.out.println("CNPJ já cadastrado!");
+            return lerCNPJ(scan);
+        }
+        return cnpj;
     }
 
     public static Cliente lerClientePF(Scanner scan) {
         System.out.println("------------- Cliente --------------");
         System.out.print("Nome: ");
         String nome = scan.nextLine();
-        System.out.print("CPF: ");
-        String cpf = scan.nextLine();
+        String cpf = lerCPF(scan);
         System.out.print("Endereço: ");
         String endereco = scan.nextLine();
         Date dataLicenca = lerData("Data da Licenca (dd/mm/yyyy): ", scan);
@@ -69,6 +79,21 @@ public class ClienteFactory {
         System.out.print("Classe econômica: ");
         String classeEconomica = scan.nextLine();
         return new ClientePF(nome, endereco, dataLicenca, educacao, genero, classeEconomica, cpf, dataNascimento);
+    }
+
+
+    private static String lerCPF(Scanner scan) {
+        System.out.print("CPF: ");
+        String cpf = ValidatorUtils.formatarCPF(scan.nextLine());
+        if (!ClientePF.validarCPF(cpf)) {
+            System.out.println("Insira um CPF válido!");
+            return lerCPF(scan);
+        }
+        if (ClientePF.cpfCadastrado(cpf)){
+            System.out.println("CPF já cadastrado!");
+            return lerCPF(scan);
+        }
+        return cpf;
     }
 
     private static Date lerData(String stringScan, Scanner scan) {

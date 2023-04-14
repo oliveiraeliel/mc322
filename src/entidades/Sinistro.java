@@ -1,7 +1,6 @@
 package entidades;
 
 import java.util.Date;
-import java.util.Objects;
 
 import entidades.Cliente.Cliente;
 import utils.DateUtils;
@@ -43,9 +42,7 @@ public class Sinistro {
             return false;
         }
         Sinistro sinistro = (Sinistro) o;
-        return ID == sinistro.ID && Objects.equals(data, sinistro.data) && Objects.equals(endereco, sinistro.endereco)
-                && Objects.equals(cliente, sinistro.cliente) && Objects.equals(veiculo, sinistro.veiculo)
-                && Objects.equals(seguradora, sinistro.seguradora);
+        return ID == sinistro.getID();
     }
 
     // getters e setters
