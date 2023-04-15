@@ -31,12 +31,23 @@ public class Cliente {
         return true;
     }
 
-    public boolean removeVeiculo(Veiculo veiculo) {
-        if (!this.listaVeiculos.contains(veiculo)) {
-            return false;
+    public boolean removeVeiculo(String veiculo) {
+        for (Veiculo v : listaVeiculos) {
+            if (v.getPlaca().equals(veiculo)) {
+                listaVeiculos.remove(v);
+                return true;
+            }
         }
-        this.listaVeiculos.remove(veiculo);
-        return true;
+        return false;
+    }
+
+    public Veiculo getVeiculo(String placa){
+        for (Veiculo veiculo: listaVeiculos){
+            if (veiculo.getPlaca().equals(placa)){
+                return veiculo;
+            }
+        }
+        return null;
     }
 
     @Override

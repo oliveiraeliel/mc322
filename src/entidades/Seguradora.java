@@ -24,6 +24,17 @@ public class Seguradora {
         setEndereco(endereco);
     }
 
+    public Cliente getClienteByCadastro(String cliente) {
+        for (Cliente cli : this.listaClientes) {
+            if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(cliente)) {
+                return cli;
+            } else if (cli instanceof ClientePJ && ((ClientePJ) cli).getCNPJ().equals(cliente)) {
+                return cli;
+            }
+        }
+        return null;
+    }
+
     public boolean cadastrarCliente(Cliente cliente) {
         if (!listaClientes.contains(cliente)) {
             addCliente(cliente);
@@ -42,6 +53,10 @@ public class Seguradora {
             }
         }
         return listaClientes;
+    }
+
+    public List<Sinistro> listarSinistros() {
+        return listaSinistros;
     }
 
     public boolean gerarSinistro(Cliente cliente, Veiculo veiculo, String endereco) {
@@ -100,7 +115,7 @@ public class Seguradora {
                 ", email='" + getEmail() + "'" +
                 ", endereco='" + getEndereco() + "'" +
                 ", listaClientes='" + getListaClientes() + "'" +
-                ", listaSinistros='" + getListaSinistros() + "'" +
+                ", listaSinistros='" + listarSinistros() + "'" +
                 "}";
     }
 
@@ -115,7 +130,7 @@ public class Seguradora {
         return Objects.equals(nome, seguradora.getNome()) && Objects.equals(telefone, seguradora.getTelefone())
                 && Objects.equals(email, seguradora.getEmail()) && Objects.equals(endereco, seguradora.getEndereco())
                 && Objects.equals(listaClientes, seguradora.getListaClientes())
-                && Objects.equals(listaSinistros, seguradora.getListaSinistros());
+                && Objects.equals(listaSinistros, seguradora.listarSinistros());
     }
 
     // getters e setters
@@ -155,9 +170,4 @@ public class Seguradora {
     public List<Cliente> getListaClientes() {
         return listaClientes;
     }
-
-    public List<Sinistro> getListaSinistros() {
-        return listaSinistros;
-    }
-
 }
