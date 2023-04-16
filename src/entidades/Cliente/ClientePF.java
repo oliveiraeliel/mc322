@@ -47,6 +47,7 @@ public class ClientePF extends Cliente {
 
     // verifica se a String recebida é um cpf válido
     public static boolean validarCPF(String cpf) {
+        cpf = ValidatorUtils.formatarCPF(cpf);
         return cpf.length() == 11 && !ValidatorUtils.todosCharsIguais(cpf) && ValidatorUtils.digitosCpfValidos(cpf);
     }
 
@@ -60,6 +61,7 @@ public class ClientePF extends Cliente {
                 ", classeEconomica='" + getClasseEconomica() + "'" +
                 ", dataLicenca='" + DateUtils.formatDate(getDataLicenca(), "dd/MM/yyyy") + "'" +
                 ", dataNascimento='" + DateUtils.formatDate(getDataLicenca(), "dd/MM/yyyy") + "'" +
+                ", listaVeiculos='" + super.getListaVeiculos() + "'" +
                 "}";
     }
 

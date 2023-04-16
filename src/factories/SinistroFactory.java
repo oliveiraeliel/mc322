@@ -9,8 +9,8 @@ import utils.DateUtils;
 public class SinistroFactory {
     public static Sinistro generateSinitro() {
         Seguradora seguradora = SeguradoraFactory.generateSeguradora();
-        ClientePF cliente = ClienteFactory.createClientePF();
-        Veiculo veiculo = VeiculoFactory.generateVeiculo();
+        ClientePF cliente = ClienteFactory.generateClientePF();
+        Veiculo veiculo = VeiculoFactory.generateVeiculo("ABC1234");
         cliente.addVeiculo(veiculo);
         return new Sinistro(DateUtils.localDate(), "Rua Saturnino, 322", cliente, veiculo, seguradora);
     }

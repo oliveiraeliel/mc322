@@ -8,6 +8,7 @@ import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePF;
 import entidades.Cliente.ClientePJ;
 import utils.DateUtils;
+import utils.ValidatorUtils;
 
 public class Seguradora {
     private String nome;
@@ -70,16 +71,26 @@ public class Seguradora {
 
     public boolean removerCliente(String cliente) {
         for (Cliente cli : listaClientes) {
-            if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(cliente)) {
+            if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(ValidatorUtils.formatarCPF(cliente))) {
                 listaClientes.remove(cli);
+                removerSinistros(cli);
                 return true;
             }
-            if (cli instanceof ClientePJ && ((ClientePJ) cli).getCNPJ().equals(cliente)) {
+            if (cli instanceof ClientePJ && ((ClientePJ) cli).getCNPJ().equals(ValidatorUtils.formatarCNPJ(cliente))) {
                 listaClientes.remove(cli);
+                removerSinistros(cli);
                 return true;
             }
         }
         return false;
+    }
+
+    private void removerSinistros(Cliente cliente) {
+        for (Sinistro sinistro : listaSinistros) {
+            if (sinistro.getCliente().equals(cliente)) {
+                listaSinistros.remove(sinistro);
+            }
+        }
     }
 
     public boolean visualizarSinistro(String cliente) {

@@ -10,32 +10,30 @@ import entidades.Cliente.*;
 import utils.ValidatorUtils;
 
 public class ClienteFactory {
-    public static ClientePF createClientePF() {
+    public static ClientePF generateClientePF() {
         Calendar cal = Calendar.getInstance();
         cal.set(2004, 3, 24);
         return new ClientePF("Joãozinho", "Rua Pitágoras", cal.getTime(), "Ensino Superior", "Masculino",
                 "Classe média", "705.828.810-05", cal.getTime());
     }
 
-    public static ClientePF createClientePF(String cpf) {
+    public static ClientePF generateClientePF(String cpf) {
         Calendar cal = Calendar.getInstance();
         cal.set(2004, 3, 24);
         return new ClientePF("Joãozinho", "Rua Pitágoras", cal.getTime(), "Ensino Superior", "Masculino",
                 "Classe média", cpf, cal.getTime());
     }
 
-    public static ClientePF createClientePJ() {
+    public static ClientePJ generateClientePJ() {
         Calendar cal = Calendar.getInstance();
         cal.set(2004, 3, 24);
-        return new ClientePF("Joãozinho Caminhões", "Rua Pitágoras", cal.getTime(), "Ensino Superior", "Masculino",
-                "Classe média", "97.909.112/0001-00", cal.getTime());
+        return new ClientePJ("Joãozinho Caminhões", "Rua Pitágoras", "97.909.112/0001-00", cal.getTime());
     }
 
-    public static ClientePF createClientePJ(String cnpj) {
+    public static ClientePJ generateClientePJ(String cnpj) {
         Calendar cal = Calendar.getInstance();
         cal.set(2004, 3, 24);
-        return new ClientePF("Joãozinho Caminhões", "Rua Pitágoras", cal.getTime(), "Ensino Superior", "Masculino",
-                "Classe média", cnpj, cal.getTime());
+        return new ClientePJ("Joãozinho Caminhões", "Rua Pitágoras", cnpj, cal.getTime());
     }
 
     public static Cliente lerClientePJ(Scanner scan) {
@@ -71,7 +69,7 @@ public class ClienteFactory {
         System.out.print("Endereço: ");
         String endereco = scan.nextLine();
         Date dataLicenca = lerData("Data da Licenca (dd/mm/yyyy): ", scan);
-        Date dataNascimento = lerData("Data de Nascimento (dd/MM/yyyy)", scan);
+        Date dataNascimento = lerData("Data de Nascimento (dd/MM/yyyy): ", scan);
         System.out.print("Escolaridade: ");
         String educacao = scan.nextLine();
         System.out.print("Gênero: ");

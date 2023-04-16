@@ -5,8 +5,8 @@ import java.util.Scanner;
 import entidades.Veiculo;
 
 public class VeiculoFactory {
-    public static Veiculo generateVeiculo() {
-        return new Veiculo("ABC-1234", "Ford", "K");
+    public static Veiculo generateVeiculo(String placa) {
+        return new Veiculo(placa, "Ford", "K");
     }
 
     public static Veiculo lerVeiculo(Scanner scan) {

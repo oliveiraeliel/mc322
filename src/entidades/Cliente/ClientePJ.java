@@ -35,6 +35,7 @@ public class ClientePJ extends Cliente {
     }
 
     public static boolean validarCNPJ(String cnpj) {
+        cnpj = ValidatorUtils.formatarCNPJ(cnpj);
         return cnpj.length() == 14 && !ValidatorUtils.todosCharsIguais(cnpj) && ValidatorUtils.digitosCnpjValidos(cnpj);
     }
 
