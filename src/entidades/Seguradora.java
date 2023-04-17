@@ -1,6 +1,7 @@
 package entidades;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -133,9 +134,11 @@ public class Seguradora {
      * @param cliente Identificador único do cliente (CPF/CNPJ).
      */
     private void removerSinistros(Cliente cliente) {
-        for (Sinistro sinistro : new ArrayList<>(listaSinistros)) {
-            if (sinistro.getCliente().equals(cliente)) {
-                listaSinistros.remove(sinistro);
+        Iterator<Sinistro> iter = listaSinistros.iterator();
+        while(iter.hasNext()){
+            Sinistro sinistro = iter.next();
+            if (sinistro.getCliente().equals(cliente)){
+                iter.remove();
             }
         }
     }
