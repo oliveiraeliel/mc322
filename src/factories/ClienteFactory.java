@@ -9,6 +9,8 @@ import java.util.Scanner;
 import entidades.Cliente.*;
 import utils.ValidatorUtils;
 
+
+// classe utilizada para a criação de objetos do tipo cliente
 public class ClienteFactory {
     public static ClientePF generateClientePF() {
         Calendar cal = Calendar.getInstance();
@@ -43,7 +45,7 @@ public class ClienteFactory {
         String cnpj = lerCNPJ(scan);
         System.out.print("Endereço: ");
         String endereco = scan.nextLine();
-        Date dataFundacao = lerData("Data de fundação", scan);
+        Date dataFundacao = lerData("Data de fundação: ", scan);
         return new ClientePJ(nome, endereco, cnpj, dataFundacao);
     }
 

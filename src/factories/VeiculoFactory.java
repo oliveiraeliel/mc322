@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import entidades.Veiculo;
 
+// classe utilizada para a criação de objetos do tipo cliente
 public class VeiculoFactory {
     public static Veiculo generateVeiculo(String placa) {
         return new Veiculo(placa, "Ford", "K");

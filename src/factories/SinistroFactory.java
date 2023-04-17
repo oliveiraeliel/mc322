@@ -6,6 +6,7 @@ import entidades.Veiculo;
 import entidades.Cliente.ClientePF;
 import utils.DateUtils;
 
+// classe utilizada para a criação de objetos do tipo cliente
 public class SinistroFactory {
     public static Sinistro generateSinitro() {
         Seguradora seguradora = SeguradoraFactory.generateSeguradora();

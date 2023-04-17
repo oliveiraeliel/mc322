@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import entidades.Seguradora;
 
+// classe utilizada para a criação de objetos do tipo seguradora
 public class SeguradoraFactory {
     public static Seguradora generateSeguradora() {
         return new Seguradora("Eliel Seguros", "123456789", "seguros@eliel.seguros.com", "R. Saturnino de Brito, 573 - Cidade Universitária, Campinas - SP, 13083-852");

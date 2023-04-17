@@ -34,9 +34,10 @@ public class Seguradora {
      */
     public Cliente getClienteByCadastro(String cliente) {
         for (Cliente cli : this.listaClientes) {
-            if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(cliente)) {
+            if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(ValidatorUtils.formatarCPF(cliente))) {
                 return cli;
-            } else if (cli instanceof ClientePJ && ((ClientePJ) cli).getCNPJ().equals(cliente)) {
+            } else if (cli instanceof ClientePJ
+                    && ((ClientePJ) cli).getCNPJ().equals(ValidatorUtils.formatarCNPJ(cliente))) {
                 return cli;
             }
         }
@@ -132,7 +133,7 @@ public class Seguradora {
      * @param cliente Identificador único do cliente (CPF/CNPJ).
      */
     private void removerSinistros(Cliente cliente) {
-        for (Sinistro sinistro : listaSinistros) {
+        for (Sinistro sinistro : new ArrayList<>(listaSinistros)) {
             if (sinistro.getCliente().equals(cliente)) {
                 listaSinistros.remove(sinistro);
             }
@@ -149,9 +150,10 @@ public class Seguradora {
         List<Sinistro> sinistros = new ArrayList<>();
         for (Sinistro sinistro : listaSinistros) {
             Cliente cli = sinistro.getCliente();
-            if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(cliente)) {
+            if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(ValidatorUtils.formatarCPF(cliente))) {
                 sinistros.add(sinistro);
-            } else if (cli instanceof ClientePJ && ((ClientePJ) cli).getCNPJ().equals(cliente)) {
+            } else if (cli instanceof ClientePJ
+                    && ((ClientePJ) cli).getCNPJ().equals(ValidatorUtils.formatarCNPJ(cliente))) {
                 sinistros.add(sinistro);
             }
         }
