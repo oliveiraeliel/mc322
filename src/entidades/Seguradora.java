@@ -25,6 +25,13 @@ public class Seguradora {
         setEndereco(endereco);
     }
 
+    /**
+     * Dado um valor de cadastro, retorna um cliente que corresponda a esse
+     * cadastro, se existir.
+     * 
+     * @param cliente Identificador único do cliente (CPF/CNPJ).
+     * @return Cliente se existir, null se não existir
+     */
     public Cliente getClienteByCadastro(String cliente) {
         for (Cliente cli : this.listaClientes) {
             if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(cliente)) {
@@ -36,6 +43,12 @@ public class Seguradora {
         return null;
     }
 
+    /**
+     * Cadastra um cliente no sistema, se ele ainda não foi cadastrado.
+     * 
+     * @param cliente Cliente
+     * @return boolean
+     */
     public boolean cadastrarCliente(Cliente cliente) {
         if (!listaClientes.contains(cliente)) {
             addCliente(cliente);
@@ -44,6 +57,13 @@ public class Seguradora {
         return false;
     }
 
+    /**
+     * Dado um tipo de cliente, retorna uma lista de todos os clientes que são
+     * daquele tipo.
+     * 
+     * @param tipoCliente PF | PJ
+     * @return List<Cliente>
+     */
     public List<Cliente> listarClientes(String tipoCliente) {
         List<Cliente> listaClientes = new ArrayList<>();
         for (Cliente cliente : this.listaClientes) {
@@ -56,12 +76,27 @@ public class Seguradora {
         return listaClientes;
     }
 
+    /**
+     * Lista os sinistros cadastrados no sistema.
+     * 
+     * @return List<Sinistro>
+     */
     public List<Sinistro> listarSinistros() {
         return listaSinistros;
     }
 
+    /**
+     * Gera um sinistro, dado um cliente, veículo e endereço, se o cliente estiver
+     * cadastrado e
+     * o veículo for do cliente.
+     * 
+     * @param cliente  Cliente
+     * @param veiculo  Veiculo
+     * @param endereco Endereço do ocorrido
+     * @return boolean
+     */
     public boolean gerarSinistro(Cliente cliente, Veiculo veiculo, String endereco) {
-        if (this.listaClientes.contains(cliente)) {
+        if (this.listaClientes.contains(cliente) && cliente.getListaVeiculos().contains(veiculo)) {
             Sinistro sinistro = new Sinistro(DateUtils.localDate(), endereco, cliente, veiculo, this);
             addSinistro(sinistro);
             return true;
@@ -69,6 +104,12 @@ public class Seguradora {
         return false;
     }
 
+    /**
+     * Remove um cliente, se ele estiver cadastrado.
+     * 
+     * @param cliente Identificador único do cliente (CPF/CNPJ).
+     * @return boolean
+     */
     public boolean removerCliente(String cliente) {
         for (Cliente cli : listaClientes) {
             if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(ValidatorUtils.formatarCPF(cliente))) {
@@ -85,6 +126,11 @@ public class Seguradora {
         return false;
     }
 
+    /**
+     * Remove os sinistros de um cliente, se ele possuir algum
+     * 
+     * @param cliente Identificador único do cliente (CPF/CNPJ).
+     */
     private void removerSinistros(Cliente cliente) {
         for (Sinistro sinistro : listaSinistros) {
             if (sinistro.getCliente().equals(cliente)) {
@@ -93,6 +139,12 @@ public class Seguradora {
         }
     }
 
+    /**
+     * Visualiza os sinistros de um cliente, se ele possuir algum.
+     * 
+     * @param cliente Identificador único do cliente (CPF/CNPJ).
+     * @return boolean.
+     */
     public boolean visualizarSinistro(String cliente) {
         List<Sinistro> sinistros = new ArrayList<>();
         for (Sinistro sinistro : listaSinistros) {
@@ -110,12 +162,32 @@ public class Seguradora {
         return false;
     }
 
-    private void addSinistro(Sinistro sinistro) {
-        listaSinistros.add(sinistro);
+    /**
+     * Adiciona um sinistro à lista de sinistros, se ainda não estiver presente.
+     * 
+     * @param sinistro Sinistro a ser adicionado.
+     * @return boolean
+     */
+    private boolean addSinistro(Sinistro sinistro) {
+        if (!listaSinistros.contains(sinistro)) {
+            listaSinistros.add(sinistro);
+            return true;
+        }
+        return false;
     }
 
-    private void addCliente(Cliente cliente) {
-        listaClientes.add(cliente);
+    /**
+     * Adiciona um cliente à lista de clientes
+     * 
+     * @param cliente Cliente a ser adicionado.
+     * @return boolean
+     */
+    private boolean addCliente(Cliente cliente) {
+        if (!listaClientes.contains(cliente)) {
+            listaClientes.add(cliente);
+            return true;
+        }
+        return false;
     }
 
     @Override
