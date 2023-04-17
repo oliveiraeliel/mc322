@@ -41,11 +41,22 @@ public class ClientePF extends Cliente {
         cpfSet.add(cpf);
     }
 
-    public static boolean cpfCadastrado(String cpf) {
+    /**
+     * Verifica se um cpf já foi utilizado por outro cliente.
+     * 
+     * @param cpf CPF
+     * @return boolean
+     */
+    public static boolean cpfUtilizado(String cpf) {
         return cpfSet.contains(cpf);
     }
 
-    // verifica se a String recebida é um cpf válido
+    /**
+     * Verifica se o cpf dado é válido.
+     * 
+     * @param cpf CPF
+     * @return boolean
+     */
     public static boolean validarCPF(String cpf) {
         cpf = ValidatorUtils.formatarCPF(cpf);
         return cpf.length() == 11 && !ValidatorUtils.todosCharsIguais(cpf) && ValidatorUtils.digitosCpfValidos(cpf);

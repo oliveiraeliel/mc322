@@ -23,6 +23,13 @@ public class Cliente {
         setListaVeiculos(listaVeiculos);
     }
 
+    /**
+     * Adiciona um veículo na lista de veículos do cliente, se ainda não estiver
+     * presente.
+     * 
+     * @param veiculo O veículo a ser adicionado.
+     * @return boolean
+     */
     public boolean addVeiculo(Veiculo veiculo) {
         if (this.listaVeiculos.contains(veiculo)) {
             return false;
@@ -31,9 +38,15 @@ public class Cliente {
         return true;
     }
 
-    public boolean removeVeiculo(String veiculo) {
+    /**
+     * Remove um veículo da lista de veículos do cliente, se presente.
+     * 
+     * @param placa A placa do veículo a ser removido.
+     * @return boolean
+     */
+    public boolean removeVeiculo(String placa) {
         for (Veiculo v : listaVeiculos) {
-            if (v.getPlaca().equals(veiculo)) {
+            if (v.getPlaca().equals(placa)) {
                 listaVeiculos.remove(v);
                 return true;
             }
@@ -41,9 +54,16 @@ public class Cliente {
         return false;
     }
 
-    public Veiculo getVeiculo(String placa){
-        for (Veiculo veiculo: listaVeiculos){
-            if (veiculo.getPlaca().equals(placa)){
+    /**
+     * Retorna o objeto Veiculo correspondente à placa informada, se presente na
+     * lista de veículos do cliente.
+     * 
+     * @param placa A placa do veículo procurado.
+     * @return Veiculo ou null
+     */
+    public Veiculo getVeiculo(String placa) {
+        for (Veiculo veiculo : listaVeiculos) {
+            if (veiculo.getPlaca().equals(placa)) {
                 return veiculo;
             }
         }

@@ -30,10 +30,22 @@ public class ClientePJ extends Cliente {
         cnpjSet.add(cnpj);
     }
 
-    public static boolean cnpjCadastrado(String cnpj) {
+    /**
+     * Verifica se um cnpj já foi utilizado
+     * 
+     * @param cnpj CNPJ
+     * @return boolean
+     */
+    public static boolean cnpjUtilizado(String cnpj) {
         return cnpjSet.contains(cnpj);
     }
 
+    /**
+     * Verifica se o cnpj dado é válido.
+     * 
+     * @param cnpj CNPJ
+     * @return boolean
+     */
     public static boolean validarCNPJ(String cnpj) {
         cnpj = ValidatorUtils.formatarCNPJ(cnpj);
         return cnpj.length() == 14 && !ValidatorUtils.todosCharsIguais(cnpj) && ValidatorUtils.digitosCnpjValidos(cnpj);
