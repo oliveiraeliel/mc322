@@ -1,12 +1,9 @@
-import java.util.List;
 import java.util.Scanner;
 
 import entidades.*;
 import entidades.Cliente.*;
 import factories.*;
 import utils.ValidatorUtils;
-
-import utils.DateUtils;
 import utils.MenuUtils;
 
 public class Main {
