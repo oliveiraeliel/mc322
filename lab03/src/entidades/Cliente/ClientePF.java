@@ -7,7 +7,6 @@ import utils.DateUtils;
 import utils.ValidatorUtils;
 
 public class ClientePF extends Cliente {
-    private static Set<String> cpfSet = new HashSet<>();
     private final String CPF;
     private Date dataNascimento;
     private Date dataLicenca;
@@ -25,7 +24,6 @@ public class ClientePF extends Cliente {
         setEducacao(educacao);
         setGenero(genero);
         setClasseEconomica(classeEconomica);
-        cpfSet.add(cpf);
     }
 
     public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String genero,
@@ -38,18 +36,8 @@ public class ClientePF extends Cliente {
         setEducacao(educacao);
         setGenero(genero);
         setClasseEconomica(classeEconomica);
-        cpfSet.add(cpf);
     }
 
-    /**
-     * Verifica se um cpf já foi utilizado por outro cliente.
-     * 
-     * @param cpf CPF
-     * @return boolean
-     */
-    public static boolean cpfUtilizado(String cpf) {
-        return cpfSet.contains(cpf);
-    }
 
     /**
      * Verifica se o cpf dado é válido.

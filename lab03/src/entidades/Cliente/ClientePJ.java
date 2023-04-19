@@ -1,16 +1,13 @@
 package entidades.Cliente;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import entidades.Veiculo;
 import utils.*;
 
 public class ClientePJ extends Cliente {
-    private static Set<String> cnpjSet = new HashSet<>();
     private final String CNPJ;
     private Date dataFundacao;
 
@@ -19,7 +16,6 @@ public class ClientePJ extends Cliente {
         cnpj = ValidatorUtils.formatarCNPJ(cnpj);
         this.CNPJ = cnpj;
         setDataFundacao(dataFundacao);
-        cnpjSet.add(cnpj);
     }
 
     public ClientePJ(String nome, String endereco, List<Veiculo> listaVeiculos, String cnpj, Date datafuncadao) {
@@ -27,17 +23,6 @@ public class ClientePJ extends Cliente {
         cnpj = ValidatorUtils.formatarCNPJ(cnpj);
         this.CNPJ = cnpj;
         setDataFundacao(dataFundacao);
-        cnpjSet.add(cnpj);
-    }
-
-    /**
-     * Verifica se um cnpj já foi utilizado
-     * 
-     * @param cnpj CNPJ
-     * @return boolean
-     */
-    public static boolean cnpjUtilizado(String cnpj) {
-        return cnpjSet.contains(cnpj);
     }
 
     /**

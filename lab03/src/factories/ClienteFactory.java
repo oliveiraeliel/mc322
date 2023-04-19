@@ -56,10 +56,6 @@ public class ClienteFactory {
             System.out.println("Insira um CNPJ válido!");
             return lerCNPJ(scan);
         }
-        if (ClientePJ.cnpjUtilizado(cnpj)) {
-            System.out.println("CNPJ já cadastrado!");
-            return lerCNPJ(scan);
-        }
         return cnpj;
     }
 
@@ -87,10 +83,6 @@ public class ClienteFactory {
         String cpf = ValidatorUtils.formatarCPF(scan.nextLine());
         if (!ClientePF.validarCPF(cpf)) {
             System.out.println("Insira um CPF válido!");
-            return lerCPF(scan);
-        }
-        if (ClientePF.cpfUtilizado(cpf)){
-            System.out.println("CPF já cadastrado!");
             return lerCPF(scan);
         }
         return cpf;
