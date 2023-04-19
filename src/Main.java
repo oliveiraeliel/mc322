@@ -25,7 +25,8 @@ public class Main {
 		System.out.println(veiculo); // toString
 		System.out.println(clientePF);
 		System.out.println(clientePJ);
-		while (menu(seguradora, scan)); // menu
+		while (menu(seguradora, scan))
+			; // menu
 		System.out.println(seguradora);
 		scan.close();
 	}
@@ -83,18 +84,36 @@ public class Main {
 		return true;
 	}
 
+	/**
+	 * Cadastra um cliente pessoa física na seguradora.
+	 * 
+	 * @param seguradora Seguradora
+	 * @param scan       Scanner
+	 */
 	private static void cadastrarClientePF(Seguradora seguradora, Scanner scan) {
 		if (!seguradora.cadastrarCliente(ClienteFactory.lerClientePF(scan))) {
 			System.out.println("Cliente já cadastrado!");
 		}
 	}
 
+	/**
+	 * Cadastra um cliente pessoa jurídica na seguradora.
+	 * 
+	 * @param seguradora Seguradora
+	 * @param scan       Scanner
+	 */
 	private static void cadastrarClientePJ(Seguradora seguradora, Scanner scan) {
 		if (!seguradora.cadastrarCliente(ClienteFactory.lerClientePJ(scan))) {
 			System.out.println("Cliente já cadastrado!");
 		}
 	}
 
+	/**
+	 * Remove um cliente da seguradora.
+	 * 
+	 * @param seguradora Seguradora
+	 * @param scan       Scanner
+	 */
 	private static void removerCliente(Seguradora seguradora, Scanner scan) {
 		String cadastro = lerCadastro(scan);
 		if (!ClientePF.validarCPF(cadastro) && !ClientePJ.validarCNPJ(cadastro)) {
@@ -108,6 +127,12 @@ public class Main {
 		System.out.println("Cliente removido.");
 	}
 
+	/**
+	 * Adiciona um veículo a um cliente cadastrado na seguradora.
+	 * 
+	 * @param seguradora Seguradora
+	 * @param scan       Scanner
+	 */
 	private static void adicionarVeiculo(Seguradora seguradora, Scanner scan) {
 		Cliente cliente = encontrarCliente(seguradora, scan);
 		if (cliente == null) {
@@ -118,6 +143,12 @@ public class Main {
 		cliente.addVeiculo(veiculo);
 	}
 
+	/**
+	 * Lista os veículos de um cliente cadastrado na seguradora.
+	 * 
+	 * @param seguradora A seguradora onde serão listados os veículos.
+	 * @param scan       Scanner
+	 */
 	private static void listarVeiculosCliente(Seguradora seguradora, Scanner scan) {
 		Cliente cliente = encontrarCliente(seguradora, scan);
 		if (cliente == null) {
@@ -131,6 +162,12 @@ public class Main {
 		System.out.println(cliente.getListaVeiculos());
 	}
 
+	/**
+	 * Remove um veículo de um cliente cadastrado na seguradora.
+	 * 
+	 * @param seguradora Seguradora
+	 * @param scan       Scanner
+	 */
 	private static void removerVeiculo(Seguradora seguradora, Scanner scan) {
 		Cliente cliente = encontrarCliente(seguradora, scan);
 		if (cliente == null) {
@@ -146,6 +183,12 @@ public class Main {
 		System.out.println("Veículo removido.");
 	}
 
+	/**
+	 * Exibe os dados de um cliente cadastrado na seguradora.
+	 * 
+	 * @param seguradora Seguradora
+	 * @param scan       Scanner
+	 */
 	private static void verCliente(Seguradora seguradora, Scanner scan) {
 		Cliente cliente = encontrarCliente(seguradora, scan);
 		if (cliente == null) {
@@ -155,6 +198,13 @@ public class Main {
 		System.out.println(cliente);
 	}
 
+	/**
+	 * Lista os clientes cadastrados na seguradora de acordo com o tipo (PF ou PJ).
+	 * 
+	 * @param seguradora Seguradora
+	 * @param scan       Scanner
+	 * @param tipo       O tipo de cliente a ser listado (PF ou PJ).
+	 */
 	private static void verClientes(Seguradora seguradora, Scanner scan, String tipo) {
 		List<Cliente> clientes = seguradora.listarClientes(tipo);
 		if (clientes.isEmpty()) {
@@ -164,6 +214,12 @@ public class Main {
 		System.out.println(clientes);
 	}
 
+	/**
+	 * Gera um sinistro para um veículo de um cliente cadastrado na seguradora.
+	 * 
+	 * @param seguradora Seguradora
+	 * @param scan       Scanner
+	 */
 	private static void gerarSinistro(Seguradora seguradora, Scanner scan) {
 		Cliente cliente = encontrarCliente(seguradora, scan);
 		if (cliente == null) {
@@ -184,6 +240,12 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Exibe os sinistros de um cliente cadastrado na seguradora.
+	 * 
+	 * @param seguradora Seguradora
+	 * @param scan       Scanner
+	 */
 	private static void visualizarSinistro(Seguradora seguradora, Scanner scan) {
 		String cadastro = lerCadastro(scan);
 		if (!seguradora.visualizarSinistro(cadastro)) {
@@ -191,6 +253,13 @@ public class Main {
 		}
 	}
 
+	/**
+	 * Lista todos os sinistros registrados no sistema de uma dada seguradora.
+	 * 
+	 * @param seguradora Seguradora
+	 * @param scan       Scanner
+	 * @param tipo       O tipo de cliente a ser listado (PF ou PJ).
+	 */
 	private static void listarSinistros(Seguradora seguradora, Scanner scan) {
 		List<Sinistro> sinistros = seguradora.listarSinistros();
 		if (sinistros.isEmpty()) {
@@ -204,8 +273,8 @@ public class Main {
 	 * Lê um cadastro do usuário, e retorna o cliente correspondente, se estiver
 	 * cadastrado na seguradora
 	 * 
-	 * @param seguradora
-	 * @param scan
+	 * @param seguradora Seguradora
+	 * @param scan       Seguradora
 	 * @return Cliente
 	 */
 	private static Cliente encontrarCliente(Seguradora seguradora, Scanner scan) {
@@ -216,8 +285,8 @@ public class Main {
 	 * Retorna um veículo relacionado à placa lida do teclado, se ele estiver na
 	 * lista de veículos do cliente.
 	 * 
-	 * @param cliente
-	 * @param scan
+	 * @param cliente Cliente
+	 * @param scan    Scanner
 	 * @return Veiculo | null
 	 */
 	private static Veiculo encontrarVeiculo(Cliente cliente, Scanner scan) {
@@ -227,6 +296,12 @@ public class Main {
 		return veiculo;
 	}
 
+	/**
+	 * Lê o cadastro de um cliente (CPF/CNPJ). Aceita apenas cadastros válidos.
+	 * 
+	 * @param scan Scanner
+	 * @return String
+	 */
 	private static String lerCadastro(Scanner scan) {
 		System.out.print("CPF/CNPJ: ");
 		String cadastro = scan.nextLine();
