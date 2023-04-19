@@ -25,8 +25,7 @@ public class Main {
 		System.out.println(veiculo); // toString
 		System.out.println(clientePF);
 		System.out.println(clientePJ);
-		while (menu(seguradora, scan))
-			; // menu
+		while (menu(seguradora, scan)); // menu
 		System.out.println(seguradora);
 		scan.close();
 	}
@@ -54,121 +53,151 @@ public class Main {
 		System.out.println("12- Lista sinistros");
 		String digito = scan.nextLine();
 
-		switch (digito) {
-			case "0":
-				return false;
-			case "1":
-				seguradora.cadastrarCliente(ClienteFactory.lerClientePF(scan));
-				break;
-			case "2":
-				seguradora.cadastrarCliente(ClienteFactory.lerClientePJ(scan));
-				break;
-			case "3":
-				System.out.print("CPF/CNPJ: ");
-				String cadastro = scan.nextLine();
-				if (!ClientePF.validarCPF(cadastro) && !ClientePJ.validarCNPJ(cadastro)) {
-					System.out.println("Insira um CPF/CNPJ válido!");
-					break;
-				}
-				if (!seguradora.removerCliente(cadastro)) {
-					System.out.println("Cliente não encontrado!");
-					break;
-				}
-				System.out.println("Cliente removido.");
-				break;
-			case "4":
-				Cliente cliente = encontrarCliente(seguradora, scan);
-				addVeiculo(seguradora, scan, cliente);
-				break;
-			case "5":
-				cliente = encontrarCliente(seguradora, scan);
-				if (cliente == null) {
-					System.out.println("Cliente não encontrado.");
-					break;
-				}
-				if (cliente.getListaVeiculos().isEmpty()) {
-					System.out.println("Nenhum veículo encontrado.");
-					break;
-				}
-				System.out.println(cliente.getListaVeiculos());
-				break;
-			case "6":
-				cliente = encontrarCliente(seguradora, scan);
-				if (cliente == null) {
-					System.out.println("Cliente não encontrado.");
-					break;
-				}
-				System.out.println("Placa: ");
-				String placa = scan.nextLine();
-				if (!cliente.removeVeiculo(placa)) {
-					System.out.println("Veículo não encontrado.");
-					break;
-				}
-				System.out.println("Veículo removido.");
-				break;
-			case "7":
-				cliente = encontrarCliente(seguradora, scan);
-				if (cliente == null) {
-					System.out.println("Cliente não encontrado.");
-					break;
-				}
-				System.out.println(cliente);
-				break;
-			case "8":
-				List<Cliente> clientes = seguradora.listarClientes("PF");
-				if (clientes.isEmpty()) {
-					System.out.println("Nenhum cliente cadastrado.");
-					break;
-				}
-				System.out.println(clientes);
-				break;
-			case "9":
-				clientes = seguradora.listarClientes("PJ");
-				if (clientes.isEmpty()) {
-					System.out.println("Nenhum cliente cadastrado.");
-					break;
-				}
-				System.out.println(clientes);
-				break;
-			case "10":
-				cliente = encontrarCliente(seguradora, scan);
-				if (cliente == null) {
-					System.out.println("Nenhum cliente cadastrado.");
-					break;
-				}
-				Veiculo veiculo = encontrarVeiculo(cliente, scan);
-				if (veiculo == null) {
-					System.out.println("Veículo não encontrado.");
-					break;
-				}
-				System.out.print("Endereço do ocorrido: ");
-				String endereco = scan.nextLine();
-				if (seguradora.gerarSinistro(cliente, veiculo, endereco)) {
-					System.out.println("Sinistro gerado");
-				} else {
-					System.out.println("Sinistro não gerado :C");
-				}
-				break;
-			case "11":
-				System.out.print("CPF/CNPJ: ");
-				cadastro = scan.nextLine();
-				if (!seguradora.visualizarSinistro(cadastro)) {
-					System.out.println("Nenhum sinistro encontrado relacionado com esse cadastro.");
-				}
-				break;
-
-			case "12":
-				List<Sinistro> sinistros = seguradora.listarSinistros();
-				if (sinistros.isEmpty()) {
-					System.out.println("Nenhum sinistro encontrado no sistema.");
-					break;
-				}
-				System.out.println(sinistros);
-				break;
-			default:
-				break;
+		if (digito.equals("0")) {
+			return false;
+		} else if (digito.equals("1")) {
+			cadastrarClientePF(seguradora, scan);
+		} else if (digito.equals("2")) {
+			cadastrarClientePJ(seguradora, scan);
+		} else if (digito.equals("3")) {
+			removerCliente(seguradora, scan);
+		} else if (digito.equals("4")) {
+			adicionarVeiculo(seguradora, scan);
+		} else if (digito.equals("5")) {
+			listarVeiculosCliente(seguradora, scan);
+		} else if (digito.equals("6")) {
+			removerVeiculo(seguradora, scan);
+		} else if (digito.equals("7")) {
+			verCliente(seguradora, scan);
+		} else if (digito.equals("8")) {
+			verClientes(seguradora, scan, "PF");
+		} else if (digito.equals("9")) {
+			verClientes(seguradora, scan, "PJ");
+		} else if (digito.equals("10")) {
+			gerarSinistro(seguradora, scan);
+		} else if (digito.equals("11")) {
+			visualizarSinistro(seguradora, scan);
+		} else if (digito.equals("12")) {
+			listarSinistros(seguradora, scan);
 		}
 		return true;
+	}
+
+	private static void cadastrarClientePF(Seguradora seguradora, Scanner scan) {
+		if (!seguradora.cadastrarCliente(ClienteFactory.lerClientePF(scan))) {
+			System.out.println("Cliente já cadastrado!");
+		}
+	}
+
+	private static void cadastrarClientePJ(Seguradora seguradora, Scanner scan) {
+		if (!seguradora.cadastrarCliente(ClienteFactory.lerClientePJ(scan))) {
+			System.out.println("Cliente já cadastrado!");
+		}
+	}
+
+	private static void removerCliente(Seguradora seguradora, Scanner scan) {
+		String cadastro = lerCadastro(scan);
+		if (!ClientePF.validarCPF(cadastro) && !ClientePJ.validarCNPJ(cadastro)) {
+			System.out.println("Insira um CPF/CNPJ válido!");
+			return;
+		}
+		if (!seguradora.removerCliente(cadastro)) {
+			System.out.println("Cliente não encontrado!");
+			return;
+		}
+		System.out.println("Cliente removido.");
+	}
+
+	private static void adicionarVeiculo(Seguradora seguradora, Scanner scan) {
+		Cliente cliente = encontrarCliente(seguradora, scan);
+		if (cliente == null) {
+			System.out.println("Cliente não encontrado.");
+			return;
+		}
+		Veiculo veiculo = VeiculoFactory.lerVeiculo(scan);
+		cliente.addVeiculo(veiculo);
+	}
+
+	private static void listarVeiculosCliente(Seguradora seguradora, Scanner scan) {
+		Cliente cliente = encontrarCliente(seguradora, scan);
+		if (cliente == null) {
+			System.out.println("Cliente não encontrado.");
+			return;
+		}
+		if (cliente.getListaVeiculos().isEmpty()) {
+			System.out.println("Nenhum veículo encontrado.");
+			return;
+		}
+		System.out.println(cliente.getListaVeiculos());
+	}
+
+	private static void removerVeiculo(Seguradora seguradora, Scanner scan) {
+		Cliente cliente = encontrarCliente(seguradora, scan);
+		if (cliente == null) {
+			System.out.println("Cliente não encontrado.");
+			return;
+		}
+		System.out.println("Placa: ");
+		String placa = scan.nextLine();
+		if (!cliente.removeVeiculo(placa)) {
+			System.out.println("Veículo não encontrado.");
+			return;
+		}
+		System.out.println("Veículo removido.");
+	}
+
+	private static void verCliente(Seguradora seguradora, Scanner scan) {
+		Cliente cliente = encontrarCliente(seguradora, scan);
+		if (cliente == null) {
+			System.out.println("Cliente não encontrado.");
+			return;
+		}
+		System.out.println(cliente);
+	}
+
+	private static void verClientes(Seguradora seguradora, Scanner scan, String tipo) {
+		List<Cliente> clientes = seguradora.listarClientes(tipo);
+		if (clientes.isEmpty()) {
+			System.out.printf("Nenhum cliente %s cadastrado.\n", tipo);
+			return;
+		}
+		System.out.println(clientes);
+	}
+
+	private static void gerarSinistro(Seguradora seguradora, Scanner scan) {
+		Cliente cliente = encontrarCliente(seguradora, scan);
+		if (cliente == null) {
+			System.out.println("Nenhum cliente cadastrado.");
+			return;
+		}
+		Veiculo veiculo = encontrarVeiculo(cliente, scan);
+		if (veiculo == null) {
+			System.out.println("Veículo não encontrado.");
+			return;
+		}
+		System.out.print("Endereço do ocorrido: ");
+		String endereco = scan.nextLine();
+		if (seguradora.gerarSinistro(cliente, veiculo, endereco)) {
+			System.out.println("Sinistro gerado");
+		} else {
+			System.out.println("Sinistro não gerado :C");
+		}
+	}
+
+	private static void visualizarSinistro(Seguradora seguradora, Scanner scan) {
+		String cadastro = lerCadastro(scan);
+		if (!seguradora.visualizarSinistro(cadastro)) {
+			System.out.println("Nenhum sinistro encontrado relacionado com esse cadastro.");
+		}
+	}
+
+	private static void listarSinistros(Seguradora seguradora, Scanner scan) {
+		List<Sinistro> sinistros = seguradora.listarSinistros();
+		if (sinistros.isEmpty()) {
+			System.out.println("Nenhum sinistro encontrado no sistema.");
+			return;
+		}
+		System.out.println(sinistros);
 	}
 
 	/**
@@ -180,29 +209,7 @@ public class Main {
 	 * @return Cliente
 	 */
 	private static Cliente encontrarCliente(Seguradora seguradora, Scanner scan) {
-		System.out.print("CPF/CNPJ: ");
-		String cadastro = scan.nextLine();
-		if (!ClientePF.validarCPF(cadastro) && !ClientePJ.validarCNPJ(cadastro)) {
-			System.out.println("Insira um CPF/CNPJ válido!");
-			return encontrarCliente(seguradora, scan);
-		}
-		return seguradora.getClienteByCadastro(cadastro);
-	}
-
-	/**
-	 * Adiciona um veículo ao cadastro de um cliente, se o cliente nao for nulo.
-	 * 
-	 * @param seguradora
-	 * @param scan
-	 * @param cliente
-	 */
-	private static void addVeiculo(Seguradora seguradora, Scanner scan, Cliente cliente) {
-		if (cliente == null) {
-			System.out.println("Cliente não encontrado.");
-			return;
-		}
-		Veiculo veiculo = VeiculoFactory.lerVeiculo(scan);
-		cliente.addVeiculo(veiculo);
+		return seguradora.getClienteByCadastro(lerCadastro(scan));
 	}
 
 	/**
@@ -218,5 +225,15 @@ public class Main {
 		String placa = scan.nextLine();
 		Veiculo veiculo = cliente.getVeiculo(placa);
 		return veiculo;
+	}
+
+	private static String lerCadastro(Scanner scan) {
+		System.out.print("CPF/CNPJ: ");
+		String cadastro = scan.nextLine();
+		if (!ClientePF.validarCPF(cadastro) && !ClientePJ.validarCNPJ(cadastro)) {
+			System.out.println("Insira um CPF/CNPJ válido!");
+			return lerCadastro(scan);
+		}
+		return cadastro;
 	}
 }
