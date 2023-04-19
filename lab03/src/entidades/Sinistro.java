@@ -6,7 +6,7 @@ import entidades.Cliente.Cliente;
 import utils.DateUtils;
 
 public class Sinistro {
-    private final int ID = ++count; // id unico e sequencial. baseado no número de sinistros já gerados pelo sistema
+    private final int ID; // id unico e sequencial. baseado no número de sinistros já gerados pelo sistema
     private Date data;
     private String endereco;
     private static int count = 0; // contagem do número de sinistros gerados
@@ -20,6 +20,7 @@ public class Sinistro {
         setCliente(cliente);
         setVeiculo(veiculo);
         setSeguradora(seguradora);
+        ID = ++count;
     }
 
     @Override
