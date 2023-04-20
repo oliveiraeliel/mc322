@@ -43,6 +43,7 @@ public class ClientePJ extends Cliente {
                 ", CNPJ='" + getCNPJ() + "'" +
                 ", endereco='" + super.getEndereco() + "'" +
                 ", dataFundacao='" + DateUtils.formatDate(getDataFundacao(), "dd/MM/yyyy") + "'" +
+                ", listaVeiculos='" + super.getListaVeiculos() + "'" +
                 "}";
     }
 
