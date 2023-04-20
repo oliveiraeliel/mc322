@@ -5,12 +5,14 @@ import entidades.*;
 import entidades.Cliente.*;
 import factories.*;
 import utils.ValidatorUtils;
+
 public class Main {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		Seguradora seguradora = SeguradoraFactory.generateSeguradora(); // instanciação dos objetos
 		ClientePF clientePF = ClienteFactory.generateClientePF("776.457.590-97");
 		ClientePJ clientePJ = ClienteFactory.generateClientePJ("88.085.363/0001-18");
+		clientePJ.addVeiculo(VeiculoFactory.generateVeiculo("ADBD145"));
 		Veiculo veiculo = VeiculoFactory.generateVeiculo("ABCD1234");
 		System.out.println(ClientePF.validarCPF(ValidatorUtils.formatarCPF("776.457.590-97")));
 		System.out.println(ClientePJ.validarCNPJ(ValidatorUtils.formatarCNPJ("88.085.363/0001-18")));
@@ -22,6 +24,8 @@ public class Main {
 		seguradora.cadastrarCliente(clientePJ);
 		clientePF.addVeiculo(veiculo);
 		seguradora.gerarSinistro(clientePF, veiculo, "Rua 20 de fevereiro, 2004");
+		System.out.println(seguradora.listarSinistros());
+		seguradora.visualizarSinistro(clientePF.getCPF());
 		System.out.println(veiculo); // toString
 		System.out.println(clientePF);
 		System.out.println(clientePJ);
@@ -311,6 +315,5 @@ public class Main {
 		}
 		return cadastro;
 	}
-
 
 }
