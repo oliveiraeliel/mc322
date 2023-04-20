@@ -20,6 +20,7 @@ public class Main {
 		System.out.println(seguradora.listarClientes("PF"));
 		seguradora.cadastrarCliente(clientePF);
 		seguradora.cadastrarCliente(clientePJ);
+		clientePF.addVeiculo(veiculo);
 		seguradora.gerarSinistro(clientePF, veiculo, "Rua 20 de fevereiro, 2004");
 		System.out.println(veiculo); // toString
 		System.out.println(clientePF);
