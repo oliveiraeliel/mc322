@@ -3,6 +3,7 @@ package entidades.Cliente;
 import java.util.*;
 
 import entidades.Veiculo;
+import enums.CalcSeguro;
 import utils.DateUtils;
 import utils.ValidatorUtils;
 
@@ -38,16 +39,12 @@ public class ClientePF extends Cliente {
         setClasseEconomica(classeEconomica);
     }
 
+    public String getCadastro() {
+        return getCPF();
+    }
 
-    /**
-     * Verifica se o cpf dado é válido.
-     * 
-     * @param cpf CPF
-     * @return boolean
-     */
-    public static boolean validarCPF(String cpf) {
-        cpf = ValidatorUtils.formatarCPF(cpf);
-        return cpf.length() == 11 && !ValidatorUtils.todosCharsIguais(cpf) && ValidatorUtils.digitosCpfValidos(cpf);
+    public Double calculaScore() {
+        return CalcSeguro.VALOR_BASE.getValor() * CalcSeguro.fatorIdade(getIdade()) * quantidadeCarros();
     }
 
     @Override
@@ -117,5 +114,9 @@ public class ClientePF extends Cliente {
 
     public void setClasseEconomica(String classeEconomica) {
         this.classeEconomica = classeEconomica.trim();
+    }
+
+    public int getIdade() {
+        return 18;
     }
 }

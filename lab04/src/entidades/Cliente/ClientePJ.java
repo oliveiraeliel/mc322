@@ -5,35 +5,37 @@ import java.util.List;
 import java.util.Objects;
 
 import entidades.Veiculo;
+import enums.CalcSeguro;
 import utils.*;
 
 public class ClientePJ extends Cliente {
     private final String CNPJ;
     private Date dataFundacao;
+    private int qtdeFuncionarios;
 
-    public ClientePJ(String nome, String endereco, String cnpj, Date dataFundacao) {
+    public ClientePJ(String nome, String endereco, String cnpj, Date dataFundacao, int qtdeFuncionarios) {
         super(nome, endereco);
         cnpj = ValidatorUtils.formatarCNPJ(cnpj);
         this.CNPJ = cnpj;
         setDataFundacao(dataFundacao);
+        setQtdeFuncionarios(qtdeFuncionarios);
     }
 
-    public ClientePJ(String nome, String endereco, List<Veiculo> listaVeiculos, String cnpj, Date datafuncadao) {
+    public ClientePJ(String nome, String endereco, List<Veiculo> listaVeiculos, String cnpj, Date datafuncadao,
+            int qtdeFuncionarios) {
         super(nome, endereco, listaVeiculos);
         cnpj = ValidatorUtils.formatarCNPJ(cnpj);
         this.CNPJ = cnpj;
         setDataFundacao(dataFundacao);
+        setQtdeFuncionarios(qtdeFuncionarios);
     }
 
-    /**
-     * Verifica se o cnpj dado é válido.
-     * 
-     * @param cnpj CNPJ
-     * @return boolean
-     */
-    public static boolean validarCNPJ(String cnpj) {
-        cnpj = ValidatorUtils.formatarCNPJ(cnpj);
-        return cnpj.length() == 14 && !ValidatorUtils.todosCharsIguais(cnpj) && ValidatorUtils.digitosCnpjValidos(cnpj);
+    public String getCadastro() {
+        return getCNPJ();
+    }
+
+    public Double calculaScore() {
+        return CalcSeguro.VALOR_BASE.getValor() * (1 + (getQtdeFuncionarios() / 100)) * quantidadeCarros();
     }
 
     @Override
@@ -43,6 +45,7 @@ public class ClientePJ extends Cliente {
                 ", CNPJ='" + getCNPJ() + "'" +
                 ", endereco='" + super.getEndereco() + "'" +
                 ", dataFundacao='" + DateUtils.formatDate(getDataFundacao(), "dd/MM/yyyy") + "'" +
+                ", listaVeiculos='" + super.getListaVeiculos() + "'" +
                 "}";
     }
 
@@ -68,4 +71,13 @@ public class ClientePJ extends Cliente {
     public void setDataFundacao(Date dataFundacao) {
         this.dataFundacao = dataFundacao;
     }
+
+    public int getQtdeFuncionarios() {
+        return this.qtdeFuncionarios;
+    }
+
+    public void setQtdeFuncionarios(int qtdeFuncionarios) {
+        this.qtdeFuncionarios = qtdeFuncionarios;
+    }
+
 }

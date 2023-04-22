@@ -9,7 +9,6 @@ import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePF;
 import entidades.Cliente.ClientePJ;
 import utils.DateUtils;
-import utils.ValidatorUtils;
 
 public class Seguradora {
     private String nome;
@@ -26,6 +25,28 @@ public class Seguradora {
         setEndereco(endereco);
     }
 
+    public Double calcularReceita() {
+        Double receita = 0.0;
+        for (Cliente cliente: listaClientes){
+            receita += calcularPrecoSeguroCliente(cliente);
+        }
+        return receita;
+    }
+
+    public Double calcularPrecoSeguroCliente(Cliente cliente){
+        return cliente.calculaScore() * (1 + quantidadeSinistros(cliente));
+    }
+
+    private int quantidadeSinistros(Cliente cliente){
+        int i = 0;
+        for (Sinistro sinistro: listaSinistros){
+            if (sinistro.getCliente().equals(cliente)){
+                i++;
+            }
+        }
+        return i;
+    }
+
     /**
      * Dado um valor de cadastro, retorna um cliente que corresponda a esse
      * cadastro, se existir.
@@ -35,10 +56,7 @@ public class Seguradora {
      */
     public Cliente getClienteByCadastro(String cliente) {
         for (Cliente cli : this.listaClientes) {
-            if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(ValidatorUtils.formatarCPF(cliente))) {
-                return cli;
-            } else if (cli instanceof ClientePJ
-                    && ((ClientePJ) cli).getCNPJ().equals(ValidatorUtils.formatarCNPJ(cliente))) {
+            if (cli.getCadastro().equals(cliente)) {
                 return cli;
             }
         }
@@ -114,12 +132,7 @@ public class Seguradora {
      */
     public boolean removerCliente(String cliente) {
         for (Cliente cli : listaClientes) {
-            if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(ValidatorUtils.formatarCPF(cliente))) {
-                listaClientes.remove(cli);
-                removerSinistros(cli);
-                return true;
-            }
-            if (cli instanceof ClientePJ && ((ClientePJ) cli).getCNPJ().equals(ValidatorUtils.formatarCNPJ(cliente))) {
+            if (cli.getCadastro().equals(cliente)) {
                 listaClientes.remove(cli);
                 removerSinistros(cli);
                 return true;
@@ -135,9 +148,9 @@ public class Seguradora {
      */
     private void removerSinistros(Cliente cliente) {
         Iterator<Sinistro> iter = listaSinistros.iterator();
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             Sinistro sinistro = iter.next();
-            if (sinistro.getCliente().equals(cliente)){
+            if (sinistro.getCliente().equals(cliente)) {
                 iter.remove();
             }
         }
@@ -153,10 +166,7 @@ public class Seguradora {
         List<Sinistro> sinistros = new ArrayList<>();
         for (Sinistro sinistro : listaSinistros) {
             Cliente cli = sinistro.getCliente();
-            if (cli instanceof ClientePF && ((ClientePF) cli).getCPF().equals(ValidatorUtils.formatarCPF(cliente))) {
-                sinistros.add(sinistro);
-            } else if (cli instanceof ClientePJ
-                    && ((ClientePJ) cli).getCNPJ().equals(ValidatorUtils.formatarCNPJ(cliente))) {
+            if (cli.getCadastro().equals(cliente)) {
                 sinistros.add(sinistro);
             }
         }

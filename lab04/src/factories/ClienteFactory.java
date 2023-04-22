@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.Scanner;
 
 import entidades.Cliente.*;
+import utils.Validacao;
 import utils.ValidatorUtils;
 
 
@@ -29,13 +30,13 @@ public class ClienteFactory {
     public static ClientePJ generateClientePJ() {
         Calendar cal = Calendar.getInstance();
         cal.set(2004, 3, 24);
-        return new ClientePJ("Joãozinho Caminhões", "Rua Pitágoras", "97.909.112/0001-00", cal.getTime());
+        return new ClientePJ("Joãozinho Caminhões", "Rua Pitágoras", "97.909.112/0001-00", cal.getTime(), 0);
     }
 
     public static ClientePJ generateClientePJ(String cnpj) {
         Calendar cal = Calendar.getInstance();
         cal.set(2004, 3, 24);
-        return new ClientePJ("Joãozinho Caminhões", "Rua Pitágoras", cnpj, cal.getTime());
+        return new ClientePJ("Joãozinho Caminhões", "Rua Pitágoras", cnpj, cal.getTime(), 0);
     }
 
     public static Cliente lerClientePJ(Scanner scan) {
@@ -46,13 +47,13 @@ public class ClienteFactory {
         System.out.print("Endereço: ");
         String endereco = scan.nextLine();
         Date dataFundacao = lerData("Data de fundação: ", scan);
-        return new ClientePJ(nome, endereco, cnpj, dataFundacao);
+        return new ClientePJ(nome, endereco, cnpj, dataFundacao, 0);
     }
 
     private static String lerCNPJ(Scanner scan){
         System.out.print("CNPJ: ");
         String cnpj = ValidatorUtils.formatarCNPJ(scan.nextLine());
-        if (!ClientePJ.validarCNPJ(cnpj)) {
+        if (!Validacao.validaCNPJ(cnpj)) {
             System.out.println("Insira um CNPJ válido!");
             return lerCNPJ(scan);
         }
@@ -81,7 +82,7 @@ public class ClienteFactory {
     private static String lerCPF(Scanner scan) {
         System.out.print("CPF: ");
         String cpf = ValidatorUtils.formatarCPF(scan.nextLine());
-        if (!ClientePF.validarCPF(cpf)) {
+        if (!Validacao.validaCPF(cpf)) {
             System.out.println("Insira um CPF válido!");
             return lerCPF(scan);
         }

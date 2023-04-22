@@ -1,33 +1,26 @@
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
 import entidades.*;
 import entidades.Cliente.*;
 import factories.*;
-import utils.ValidatorUtils;
+import utils.Validacao;
+
 public class Main {
 	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
-		Seguradora seguradora = SeguradoraFactory.generateSeguradora(); // instanciação dos objetos
-		ClientePF clientePF = ClienteFactory.generateClientePF("776.457.590-97");
-		ClientePJ clientePJ = ClienteFactory.generateClientePJ("88.085.363/0001-18");
-		Veiculo veiculo = VeiculoFactory.generateVeiculo("ABCD1234");
-		System.out.println(ClientePF.validarCPF(ValidatorUtils.formatarCPF("776.457.590-97")));
-		System.out.println(ClientePJ.validarCNPJ(ValidatorUtils.formatarCNPJ("88.085.363/0001-18")));
-		seguradora.cadastrarCliente(clientePF);
-		System.out.println(seguradora.listarClientes("PF"));
-		seguradora.removerCliente(clientePF.getCPF());
-		System.out.println(seguradora.listarClientes("PF"));
-		seguradora.cadastrarCliente(clientePF);
-		clientePF.addVeiculo(veiculo);
-		seguradora.cadastrarCliente(clientePJ);
-		seguradora.gerarSinistro(clientePF, veiculo, "Rua 20 de fevereiro, 2004");
-		System.out.println(veiculo); // toString
-		System.out.println(clientePF);
-		System.out.println(clientePJ);
-		while (menu(seguradora, scan)); // menu
-		System.out.println(seguradora);
-		scan.close();
+		// Scanner scan = new Scanner(System.in);
+		// scan.close();
+		Seguradora seguradora = SeguradoraFactory.generateSeguradora();
+		Cliente cliente = ClienteFactory.generateClientePF("23837495833");
+		Veiculo veiculo = VeiculoFactory.generateVeiculo("ABCD");
+		cliente.addVeiculo(veiculo);
+		seguradora.cadastrarCliente(cliente);
+		seguradora.gerarSinistro(cliente, veiculo, "adfsda");
+		System.out.println(cliente.calculaScore());
+		System.out.println(seguradora.calcularPrecoSeguroCliente(cliente));
+		System.out.println(seguradora.calcularReceita());
+
 	}
 
 	/**
@@ -37,7 +30,7 @@ public class Main {
 	 * @param scan
 	 * @return boolean
 	 */
-	private static boolean menu(Seguradora seguradora, Scanner scan) {
+	public static boolean menu(Seguradora seguradora, Scanner scan) {
 		System.out.println("\n0- Sair");
 		System.out.println("1- Criar um cliente PF");
 		System.out.println("2- Criar um cliente PJ");
@@ -116,7 +109,7 @@ public class Main {
 	 */
 	public static void removerCliente(Seguradora seguradora, Scanner scan) {
 		String cadastro = lerCadastro(scan);
-		if (!ClientePF.validarCPF(cadastro) && !ClientePJ.validarCNPJ(cadastro)) {
+		if (!Validacao.validaCPF(cadastro) && !Validacao.validaCNPJ(cadastro)) {
 			System.out.println("Insira um CPF/CNPJ válido!");
 			return;
 		}
@@ -305,12 +298,11 @@ public class Main {
 	public static String lerCadastro(Scanner scan) {
 		System.out.print("CPF/CNPJ: ");
 		String cadastro = scan.nextLine();
-		if (!ClientePF.validarCPF(cadastro) && !ClientePJ.validarCNPJ(cadastro)) {
+		if (!Validacao.validaCPF(cadastro) && !Validacao.validaCNPJ(cadastro)) {
 			System.out.println("Insira um CPF/CNPJ válido!");
 			return lerCadastro(scan);
 		}
 		return cadastro;
 	}
-
 
 }

@@ -6,7 +6,7 @@ import java.util.Objects;
 
 import entidades.Veiculo;
 
-public class Cliente {
+public abstract class Cliente {
     private String nome;
     private String endereco;
     private List<Veiculo> listaVeiculos;
@@ -22,6 +22,10 @@ public class Cliente {
         setEndereco(endereco);
         setListaVeiculos(listaVeiculos);
     }
+
+    public abstract String getCadastro();
+
+    public abstract Double calculaScore();
 
     /**
      * Adiciona um veículo na lista de veículos do cliente, se ainda não estiver
@@ -115,5 +119,9 @@ public class Cliente {
 
     public void setListaVeiculos(List<Veiculo> listaVeiculos) {
         this.listaVeiculos = listaVeiculos;
+    }
+
+    public int quantidadeCarros(){
+        return listaVeiculos.size();
     }
 }

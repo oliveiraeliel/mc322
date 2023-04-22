@@ -6,11 +6,16 @@ import java.time.ZoneId;
 import java.util.Date;
 
 public class DateUtils {
-    public static Date localDate(){
-        return new Date(LocalDate.now().atStartOfDay(ZoneId.of("America/Sao_Paulo")).toEpochSecond()*1000);
+    public static Date localDate() {
+        return new Date(LocalDate.now().atStartOfDay(ZoneId.of("America/Sao_Paulo")).toEpochSecond() * 1000);
     }
 
-    public static String formatDate(Date date, String pattern){
+    public static String formatDate(Date date, String pattern) {
         return new SimpleDateFormat(pattern).format(date);
+    }
+
+    public static int calcularIdade(Date date) {
+        // todo
+        return 18;
     }
 }
