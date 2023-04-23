@@ -5,21 +5,26 @@ import java.util.Scanner;
 import entidades.*;
 import entidades.Cliente.*;
 import factories.*;
+import utils.DateUtils;
 import utils.Validacao;
 
 public class Main {
 	public static void main(String[] args) {
 		// Scanner scan = new Scanner(System.in);
 		// scan.close();
-		Seguradora seguradora = SeguradoraFactory.generateSeguradora();
-		Cliente cliente = ClienteFactory.generateClientePF("23837495833");
-		Veiculo veiculo = VeiculoFactory.generateVeiculo("ABCD");
-		cliente.addVeiculo(veiculo);
-		seguradora.cadastrarCliente(cliente);
-		seguradora.gerarSinistro(cliente, veiculo, "adfsda");
-		System.out.println(cliente.calculaScore());
-		System.out.println(seguradora.calcularPrecoSeguroCliente(cliente));
-		System.out.println(seguradora.calcularReceita());
+		// Seguradora seguradora = SeguradoraFactory.generateSeguradora();
+		// Cliente cliente = ClienteFactory.generateClientePF("23837495833");
+		// Veiculo veiculo = VeiculoFactory.generateVeiculo("ABCD");
+		// cliente.addVeiculo(veiculo);
+		// seguradora.cadastrarCliente(cliente);
+		// seguradora.gerarSinistro(cliente, veiculo, "adfsda");
+		// System.out.println(cliente.calculaScore());
+		// System.out.println(seguradora.calcularPrecoSeguroCliente(cliente));
+		// System.out.println(seguradora.calcularReceita());
+
+		Calendar cal = Calendar.getInstance();
+		cal.set(2004, 3, 3);
+		System.out.println(DateUtils.calcularIdade(cal.getTime()));
 
 	}
 

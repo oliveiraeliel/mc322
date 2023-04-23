@@ -6,11 +6,13 @@ public class Veiculo {
     private String placa;
     private String marca;
     private String modelo;
+    private int anoFabricacao;
 
-    public Veiculo(String placa, String marca, String modelo) {
+    public Veiculo(String placa, String marca, String modelo, int anoFabricacao) {
         setPlaca(placa);
         setMarca(marca);
         setModelo(modelo);
+        setAnoFabricacao(anoFabricacao);
     }
 
     @Override
@@ -56,4 +58,14 @@ public class Veiculo {
     public void setModelo(String modelo) {
         this.modelo = modelo.trim();
     }
+
+
+    public int getAnoFabricacao() {
+        return this.anoFabricacao;
+    }
+
+    public void setAnoFabricacao(int anoFabricacao) {
+        this.anoFabricacao = anoFabricacao;
+    }
+
 }

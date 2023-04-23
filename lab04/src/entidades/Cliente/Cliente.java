@@ -2,7 +2,6 @@ package entidades.Cliente;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import entidades.Veiculo;
 
@@ -10,6 +9,7 @@ public abstract class Cliente {
     private String nome;
     private String endereco;
     private List<Veiculo> listaVeiculos;
+    private Double valorSeguro;
 
     public Cliente(String nome, String endereco) {
         setNome(nome);
@@ -74,27 +74,6 @@ public abstract class Cliente {
         return null;
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                " nome='" + getNome() + "'" +
-                ", endereco='" + getEndereco() + "'" +
-                ", listaVeiculos='" + getListaVeiculos() + "'" +
-                "}";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Cliente)) {
-            return false;
-        }
-        Cliente cliente = (Cliente) o;
-        return Objects.equals(nome, cliente.getNome()) && Objects.equals(endereco, cliente.getEndereco())
-                && Objects.equals(listaVeiculos, cliente.getListaVeiculos());
-    }
-
     // métodos getters e setters
 
     public String getNome() {
@@ -121,7 +100,16 @@ public abstract class Cliente {
         this.listaVeiculos = listaVeiculos;
     }
 
-    public int quantidadeCarros(){
+    public int quantidadeCarros() {
         return listaVeiculos.size();
     }
+
+    public Double getValorSeguro() {
+        return this.valorSeguro;
+    }
+
+    public void setValorSeguro(Double valorSeguro) {
+        this.valorSeguro = valorSeguro;
+    }
+
 }

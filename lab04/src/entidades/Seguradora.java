@@ -34,7 +34,9 @@ public class Seguradora {
     }
 
     public Double calcularPrecoSeguroCliente(Cliente cliente){
-        return cliente.calculaScore() * (1 + quantidadeSinistros(cliente));
+        Double preco = cliente.calculaScore() * (1 + quantidadeSinistros(cliente));
+        cliente.setValorSeguro(preco);
+        return preco;
     }
 
     private int quantidadeSinistros(Cliente cliente){
