@@ -39,10 +39,12 @@ public class ClientePF extends Cliente {
         setClasseEconomica(classeEconomica);
     }
 
+    @Override
     public String getCadastro() {
         return getCPF();
     }
 
+    @Override
     public Double calculaScore() {
         return CalcSeguro.VALOR_BASE.getValor() * CalcSeguro.fatorIdade(getIdade()) * quantidadeCarros();
     }
