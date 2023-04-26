@@ -62,7 +62,7 @@ public enum MenuListar {
 
     private static void listarClientes(String tipo, Map<String, Seguradora> seguradoras, Scanner scan) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
-        try {
+        if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             List<Cliente> clientes = seguradora.listarClientes(tipo);
             if (clientes.isEmpty()) {
@@ -70,14 +70,14 @@ public enum MenuListar {
             } else {
                 System.out.println(clientes);
             }
-        } catch (NullPointerException e) {
+        } else {
             System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
         }
     }
 
     private static void listarSinistros(Map<String, Seguradora> seguradoras, Scanner scan) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
-        try {
+        if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             List<Sinistro> sinistros = seguradora.listarSinistros();
             if (!sinistros.isEmpty()) {
@@ -85,27 +85,27 @@ public enum MenuListar {
             } else {
                 System.out.printf("Nenhum sinistro registrado na seguradora %s\n", nomeSeguradora);
             }
-        } catch (NullPointerException e) {
+        } else {
             System.out.printf("A seguradora %s não existe", nomeSeguradora);
         }
     }
 
     private static void listarSinistrosCliente(Map<String, Seguradora> seguradoras, Scanner scan) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
-        try {
+        if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             String cadastro = InputUtils.lerCadastro(scan);
             if (!seguradora.visualizarSinistro(cadastro)) {
                 System.out.printf("Nenhum sinistro encontrado relacionado com o cadastro %s\n", cadastro);
             }
-        } catch (NullPointerException e) {
+        } else {
             System.out.printf("A seguradora %s não existe", nomeSeguradora);
         }
     }
 
     private static void listarVeiculosCliente(Map<String, Seguradora> seguradoras, Scanner scan) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
-        try {
+        if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             String cadastro = InputUtils.lerCadastro(scan);
             List<Veiculo> veiculos = seguradora.listarVeiculosCliente(cadastro);
@@ -117,14 +117,14 @@ public enum MenuListar {
             } else {
                 System.out.println("Nenhum veículo encontrado");
             }
-        } catch (NullPointerException e) {
+        } else {
             System.out.printf("A seguradora %s não existe", nomeSeguradora);
         }
     }
 
     private static void listarVeiculoSeguradora(Map<String, Seguradora> seguradoras, Scanner scan) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
-        try {
+        if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             List<Veiculo> veiculos = seguradora.listarVeiculos();
             if (!veiculos.isEmpty()) {
@@ -132,7 +132,7 @@ public enum MenuListar {
             } else {
                 System.out.printf("Nenhum veículo relacionado com a seguradora %s encontrado\n", nomeSeguradora);
             }
-        } catch (NullPointerException e) {
+        } else {
             System.out.printf("A seguradora %s não existe", nomeSeguradora);
         }
     }

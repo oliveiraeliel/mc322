@@ -8,8 +8,7 @@ import entidades.Cliente.Cliente;
 import factories.ClienteFactory;
 import factories.SeguradoraFactory;
 import factories.VeiculoFactory;
-import utils.Validacao;
-import utils.ValidatorUtils;
+import utils.InputUtils;
 
 public enum MenuCadastrar {
     CADASTRAR_CLIENTE_PF(1),
@@ -43,59 +42,62 @@ public enum MenuCadastrar {
     }
 
     private static boolean handle(int operacao, Map<String, Seguradora> seguradorasMap, Scanner scan) {
-        if (operacao == CADASTRAR_CLIENTE_PF.getValue() || operacao == CADASTRAR_CLIENTE_PJ.getValue()) {
-            String nomeSeguradora = scan.nextLine();
-            if (seguradorasMap.containsKey(nomeSeguradora)) {
-                Cliente cliente = (operacao == CADASTRAR_CLIENTE_PF.getValue() ? ClienteFactory.lerClientePF(scan)
-                        : ClienteFactory.lerClientePJ(scan));
-                Seguradora seguradora = seguradorasMap.get(nomeSeguradora);
-                if (seguradora.cadastrarCliente(cliente)) {
-                    System.out.printf("Cliente %s cadastrado na seguradora %s com sucesso!\n", cliente.getNome(),
-                            seguradora.getNome());
-                } else {
-                    System.out.println("Cliente já cadastrado!");
-                }
-            } else {
-                System.out.println("Não encontramos seguradora com esse CNPJ!");
-            }
+        if (operacao == CADASTRAR_CLIENTE_PF.getValue()) {
+            cadastrarCliente("PF", seguradorasMap, scan);
+        } else if (operacao == CADASTRAR_CLIENTE_PJ.getValue()) {
+            cadastrarCliente("PJ", seguradorasMap, scan);
         } else if (operacao == CADASTRAR_VEICULO.getValue()) {
-            String cadastro = lerCadastro(scan);
-            String nomeSeguradora = scan.nextLine();
-            if (seguradorasMap.containsKey(nomeSeguradora)) {
-                Seguradora seguradora = seguradorasMap.get(nomeSeguradora);
-                Cliente cliente = seguradora.getClienteByCadastro(cadastro);
-                if (cliente != null) {
-                    cliente.addVeiculo(VeiculoFactory.lerVeiculo(scan));
-                } else {
-                    System.out.printf("Nenhum cliente com o cadastro %s encontrado na seguradora %s.", cadastro,
-                            seguradora.getNome());
-                }
-            } else {
-                System.out.println("Não encontramos seguradora com esse CNPJ!");
-            }
+            cadastrarVeiculo(seguradorasMap, scan);
         } else if (operacao == CADASTRAR_SEGURADORA.getValue()) {
-            Seguradora seguradora = SeguradoraFactory.lerSeguradora(scan);
-            if (!seguradorasMap.containsKey(seguradora.getNome())) {
-                seguradorasMap.put(seguradora.getNome(), seguradora);
-                System.out.printf("Seguradora %s cadastrada com sucesso!\n", seguradora.getNome());
-            } else {
-                System.out.printf("Seguradora %s já foi cadastrada!\n", seguradora.getNome());
-            }
+            cadastrarSeguradora(seguradorasMap, scan);
         } else if (operacao == VOLTAR.getValue()) {
             return false;
         }
         return true;
     }
 
-    private static String lerCadastro(Scanner scan) {
-        System.out.print("Insira o cadastro do cliente: ");
-        String cadastro = scan.nextLine();
-        if (!Validacao.validaCNPJ(cadastro) && !Validacao.validaCPF(cadastro)) {
-            System.out.println("Insira um cpf/cnpj válido!");
-            return lerCadastro(scan);
+    private static void cadastrarCliente(String tipo, Map<String, Seguradora> seguradoras, Scanner scan) {
+        String nomeSeguradora = scan.nextLine();
+        if (seguradoras.containsKey(nomeSeguradora)) {
+            Cliente cliente = (tipo.equals("PF") ? ClienteFactory.lerClientePF(scan)
+                    : ClienteFactory.lerClientePJ(scan));
+            Seguradora seguradora = seguradoras.get(nomeSeguradora);
+            if (seguradora.cadastrarCliente(cliente)) {
+                System.out.printf("Cliente %s cadastrado na seguradora %s com sucesso!\n", cliente.getNome(),
+                        seguradora.getNome());
+            } else {
+                System.out.println("Cliente já cadastrado!");
+            }
+        } else {
+            System.out.printf("A seguradora %s não existe", nomeSeguradora);
         }
-        return Validacao.validaCNPJ(cadastro) ? ValidatorUtils.formatarCNPJ(cadastro)
-                : ValidatorUtils.formatarCPF(cadastro);
+    }
+
+    private static void cadastrarVeiculo(Map<String, Seguradora> seguradoras, Scanner scan) {
+        String cadastro = InputUtils.lerCadastro(scan);
+        String nomeSeguradora = scan.nextLine();
+        if (seguradoras.containsKey(nomeSeguradora)) {
+            Seguradora seguradora = seguradoras.get(nomeSeguradora);
+            Cliente cliente = seguradora.getClienteByCadastro(cadastro);
+            if (cliente != null) {
+                cliente.addVeiculo(VeiculoFactory.lerVeiculo(scan));
+            } else {
+                System.out.printf("Nenhum cliente com o cadastro %s encontrado na seguradora %s.", cadastro,
+                        seguradora.getNome());
+            }
+        } else {
+            System.out.printf("A seguradora %s não existe", nomeSeguradora);
+        }
+    }
+
+    private static void cadastrarSeguradora(Map<String, Seguradora> seguradoras, Scanner scan) {
+        Seguradora seguradora = SeguradoraFactory.lerSeguradora(scan);
+        if (!seguradoras.containsKey(seguradora.getNome())) {
+            seguradoras.put(seguradora.getNome(), seguradora);
+            System.out.printf("Seguradora %s cadastrada com sucesso!\n", seguradora.getNome());
+        } else {
+            System.out.printf("Seguradora %s já foi cadastrada!\n", seguradora.getNome());
+        }
     }
 
     public static MenuCadastrar getOperacao(int operacao) {

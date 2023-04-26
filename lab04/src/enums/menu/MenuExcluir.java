@@ -1,6 +1,4 @@
 package enums.menu;
-
-import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -34,53 +32,64 @@ public enum MenuExcluir {
 
     private static boolean handle(int operacao, Map<String, Seguradora> seguradoras, Scanner scan) {
         if (operacao == EXCLUIR_CLIENTE.getValue()) {
-            String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
-            try {
-                Seguradora seguradora = seguradoras.get(nomeSeguradora);
-                String cadastro = InputUtils.lerCadastro(scan);
-                if (seguradora.removerCliente(cadastro)) {
-                    System.out.println("Cliente removido com sucesso!");
-                } else {
-                    System.out.println("Cliente não encontrado.");
-                }
-            } catch (Exception e) {
-                System.out.printf("A seguradora %s não existe", nomeSeguradora);
-            }
+            excluirCliente(seguradoras, scan);
         } else if (operacao == EXCLUIR_SINISTRO.getValue()) {
-            String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
-            try {
-                Seguradora seguradora = seguradoras.get(nomeSeguradora);
-                int sinistroID = scan.nextInt();
-                scan.nextLine();
-                if (seguradora.removerSinistro(sinistroID)) {
-                    System.out.println("Sinistro removido com sucesso.");
-                } else {
-                    System.out.printf("Sinistro #%d não encontrado.\n", sinistroID);
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Insira um número inteiro.");
-            } catch (Exception e) {
-                System.out.printf("A seguradora %s não existe", nomeSeguradora);
-            }
+            excluirSinistro(seguradoras, scan);
         } else if (operacao == EXCLUIR_VEICULO.getValue()) {
-            String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
-            try {
-                Seguradora seguradora = seguradoras.get(nomeSeguradora);
-                String cadastro = InputUtils.lerCadastro(scan);
-                System.out.print("Placa: ");
-                String placa = scan.nextLine();
-                if (seguradora.removerVeiculo(cadastro, placa)) {
-                    System.out.println("Veículo removido.");
-                } else {
-                    System.out.println("Não foi possível remover o veículo.");
-                }
-            } catch (Exception e) {
-                System.out.printf("A seguradora %s não existe", nomeSeguradora);
-            }
-        }else if (operacao == VOLTAR.getValue()){
+            excluirVeiculo(seguradoras, scan);
+        } else if (operacao == VOLTAR.getValue()) {
             return false;
         }
         return true;
+    }
+
+    private static void excluirCliente(Map<String, Seguradora> seguradoras, Scanner scan) {
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
+        if (seguradoras.containsKey(nomeSeguradora)) {
+            Seguradora seguradora = seguradoras.get(nomeSeguradora);
+            String cadastro = InputUtils.lerCadastro(scan);
+            if (seguradora.removerCliente(cadastro)) {
+                System.out.println("Cliente removido com sucesso!");
+            } else {
+                System.out.println("Cliente não encontrado.");
+            }
+        } else {
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+        }
+    }
+
+    private static void excluirSinistro(Map<String, Seguradora> seguradoras, Scanner scan) {
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
+        if (seguradoras.containsKey(nomeSeguradora)){
+            Seguradora seguradora = seguradoras.get(nomeSeguradora);
+            System.out.print("ID do sinistro: ");
+            int sinistroID = scan.nextInt();
+            scan.nextLine();
+            if (seguradora.removerSinistro(sinistroID)) {
+                System.out.println("Sinistro removido com sucesso.");
+            } else {
+                System.out.printf("Sinistro #%d não encontrado.\n", sinistroID);
+            }
+        } else {
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+        }
+    }
+
+    private static void excluirVeiculo(Map<String, Seguradora> seguradoras, Scanner scan) {
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
+        if (seguradoras.containsKey(nomeSeguradora)){
+            Seguradora seguradora = seguradoras.get(nomeSeguradora);
+            String cadastro = InputUtils.lerCadastro(scan);
+            System.out.print("Placa: ");
+            String placa = scan.nextLine();
+            if (seguradora.removerVeiculo(cadastro, placa)) {
+                System.out.println("Veículo removido.");
+            } else {
+                System.out.println("Não foi possível remover o veículo.");
+            }
+        } else {
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+        }
     }
 
     public int getValue() {
