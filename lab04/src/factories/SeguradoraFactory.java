@@ -10,7 +10,7 @@ import utils.ValidatorUtils;
 public class SeguradoraFactory {
     public static Seguradora generateSeguradora() {
         return new Seguradora("Eliel Seguros", "123456789", "seguros@eliel.seguros.com",
-                "R. Saturnino de Brito, 573 - Cidade Universitária, Campinas - SP, 13083-852", "18767304000144");
+                "R. Saturnino de Brito, 573 - Cidade Universitária, Campinas - SP, 13083-852");
     }
 
     public static Seguradora lerSeguradora(Scanner scan) {
@@ -23,17 +23,6 @@ public class SeguradoraFactory {
         String email = scan.nextLine();
         System.out.print("Endereço: ");
         String endereco = scan.nextLine();
-        String cnpj = lerCNPJ(scan);
-        return new Seguradora(nome, telefone, email, endereco, cnpj);
-    }
-
-    private static String lerCNPJ(Scanner scan) {
-        System.out.print("CNPJ: ");
-        String cnpj = ValidatorUtils.formatarCNPJ(scan.nextLine());
-        if (!Validacao.validaCNPJ(cnpj)) {
-            System.out.println("Insira um CNPJ válido!");
-            return lerCNPJ(scan);
-        }
-        return cnpj;
+        return new Seguradora(nome, telefone, email, endereco);
     }
 }

@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import entidades.*;
 import entidades.Cliente.*;
+import enums.MenuOperacoes;
 import enums.menu.MenuCadastrar;
 import factories.*;
 import utils.DateUtils;
@@ -15,7 +16,7 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		Map<String, Seguradora> seguradoras = new HashMap<>();
-		MenuCadastrar.cadastrar(seguradoras, scan);
+		MenuOperacoes.menu(seguradoras, scan);
 	}
 
 	/**

@@ -12,19 +12,53 @@ import utils.DateUtils;
 
 public class Seguradora {
     private String nome;
-    private final String CNPJ;
     private String telefone;
     private String email;
     private String endereco;
     private List<Cliente> listaClientes = new ArrayList<Cliente>();
     private List<Sinistro> listaSinistros = new ArrayList<Sinistro>();
 
-    public Seguradora(String nome, String telefone, String email, String endereco, String CNPJ) {
-        this.CNPJ = CNPJ;
+    public Seguradora(String nome, String telefone, String email, String endereco) {
         setNome(nome);
         setTelefone(telefone);
         setEmail(email);
         setEndereco(endereco);
+    }
+
+    public boolean removerVeiculo(String cadastro, String placa){
+        Cliente cliente = getClienteByCadastro(cadastro);
+        if (cliente == null){
+            return false;
+        }
+        return cliente.removeVeiculo(placa);
+    }
+
+    public boolean removerSinistro(int id) {
+        Iterator<Sinistro> iter = listaSinistros.iterator();
+        while (iter.hasNext()) {
+            Sinistro sinistro = iter.next();
+            if (sinistro.getID() == id) {
+                iter.remove();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public List<Veiculo> listarVeiculos() {
+        List<Veiculo> veiculos = new ArrayList<>();
+        for (Sinistro sinistro : listaSinistros) {
+            veiculos.add(sinistro.getVeiculo());
+        }
+        return veiculos;
+    }
+
+    public List<Veiculo> listarVeiculosCliente(String cadastro) {
+        Cliente cliente = getClienteByCadastro(cadastro);
+        if (cliente != null) {
+            return cliente.getListaVeiculos();
+        }
+        return null;
     }
 
     public Double calcularReceita() {
@@ -271,9 +305,5 @@ public class Seguradora {
 
     public List<Cliente> getListaClientes() {
         return listaClientes;
-    }
-
-    public String getCNPJ() {
-        return this.CNPJ;
     }
 }

@@ -44,11 +44,11 @@ public enum MenuCadastrar {
 
     private static boolean handle(int operacao, Map<String, Seguradora> seguradorasMap, Scanner scan) {
         if (operacao == CADASTRAR_CLIENTE_PF.getValue() || operacao == CADASTRAR_CLIENTE_PJ.getValue()) {
-            String cnpjSeguradora = lerCnpjSeguradora(scan);
-            if (seguradorasMap.containsKey(cnpjSeguradora)) {
-                Cliente cliente = operacao == CADASTRAR_CLIENTE_PF.getValue() ? ClienteFactory.lerClientePF(scan)
-                        : ClienteFactory.lerClientePJ(scan);
-                Seguradora seguradora = seguradorasMap.get(cnpjSeguradora);
+            String nomeSeguradora = scan.nextLine();
+            if (seguradorasMap.containsKey(nomeSeguradora)) {
+                Cliente cliente = (operacao == CADASTRAR_CLIENTE_PF.getValue() ? ClienteFactory.lerClientePF(scan)
+                        : ClienteFactory.lerClientePJ(scan));
+                Seguradora seguradora = seguradorasMap.get(nomeSeguradora);
                 if (seguradora.cadastrarCliente(cliente)) {
                     System.out.printf("Cliente %s cadastrado na seguradora %s com sucesso!\n", cliente.getNome(),
                             seguradora.getNome());
@@ -60,9 +60,9 @@ public enum MenuCadastrar {
             }
         } else if (operacao == CADASTRAR_VEICULO.getValue()) {
             String cadastro = lerCadastro(scan);
-            String cnpjSeguradora = lerCnpjSeguradora(scan);
-            if (seguradorasMap.containsKey(cnpjSeguradora)) {
-                Seguradora seguradora = seguradorasMap.get(cnpjSeguradora);
+            String nomeSeguradora = scan.nextLine();
+            if (seguradorasMap.containsKey(nomeSeguradora)) {
+                Seguradora seguradora = seguradorasMap.get(nomeSeguradora);
                 Cliente cliente = seguradora.getClienteByCadastro(cadastro);
                 if (cliente != null) {
                     cliente.addVeiculo(VeiculoFactory.lerVeiculo(scan));
@@ -75,8 +75,8 @@ public enum MenuCadastrar {
             }
         } else if (operacao == CADASTRAR_SEGURADORA.getValue()) {
             Seguradora seguradora = SeguradoraFactory.lerSeguradora(scan);
-            if (!seguradorasMap.containsKey(seguradora.getCNPJ())) {
-                seguradorasMap.put(seguradora.getCNPJ(), seguradora);
+            if (!seguradorasMap.containsKey(seguradora.getNome())) {
+                seguradorasMap.put(seguradora.getNome(), seguradora);
                 System.out.printf("Seguradora %s cadastrada com sucesso!\n", seguradora.getNome());
             } else {
                 System.out.printf("Seguradora %s já foi cadastrada!\n", seguradora.getNome());
@@ -85,16 +85,6 @@ public enum MenuCadastrar {
             return false;
         }
         return true;
-    }
-
-    private static String lerCnpjSeguradora(Scanner scan) {
-        System.out.print("Insira o cnpj da seguradora: ");
-        String cnpj = scan.nextLine();
-        if (!Validacao.validaCNPJ(cnpj)) {
-            System.out.println("Insira um cnpj válido!");
-            return lerCnpjSeguradora(scan);
-        }
-        return ValidatorUtils.formatarCNPJ(cnpj);
     }
 
     private static String lerCadastro(Scanner scan) {
