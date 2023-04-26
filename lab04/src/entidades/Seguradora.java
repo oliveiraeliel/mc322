@@ -12,13 +12,15 @@ import utils.DateUtils;
 
 public class Seguradora {
     private String nome;
+    private final String CNPJ;
     private String telefone;
     private String email;
     private String endereco;
     private List<Cliente> listaClientes = new ArrayList<Cliente>();
     private List<Sinistro> listaSinistros = new ArrayList<Sinistro>();
 
-    public Seguradora(String nome, String telefone, String email, String endereco) {
+    public Seguradora(String nome, String telefone, String email, String endereco, String CNPJ) {
+        this.CNPJ = CNPJ;
         setNome(nome);
         setTelefone(telefone);
         setEmail(email);
@@ -27,22 +29,22 @@ public class Seguradora {
 
     public Double calcularReceita() {
         Double receita = 0.0;
-        for (Cliente cliente: listaClientes){
+        for (Cliente cliente : listaClientes) {
             receita += calcularPrecoSeguroCliente(cliente);
         }
         return receita;
     }
 
-    public Double calcularPrecoSeguroCliente(Cliente cliente){
+    public Double calcularPrecoSeguroCliente(Cliente cliente) {
         Double preco = cliente.calculaScore() * (1 + quantidadeSinistros(cliente));
         cliente.setValorSeguro(preco);
         return preco;
     }
 
-    private int quantidadeSinistros(Cliente cliente){
+    private int quantidadeSinistros(Cliente cliente) {
         int i = 0;
-        for (Sinistro sinistro: listaSinistros){
-            if (sinistro.getCliente().equals(cliente)){
+        for (Sinistro sinistro : listaSinistros) {
+            if (sinistro.getCliente().equals(cliente)) {
                 i++;
             }
         }
@@ -269,5 +271,9 @@ public class Seguradora {
 
     public List<Cliente> getListaClientes() {
         return listaClientes;
+    }
+
+    public String getCNPJ() {
+        return this.CNPJ;
     }
 }
