@@ -20,12 +20,13 @@ public enum MenuListar {
     VOLTAR(7);
 
     private final int value;
+    private static final Scanner scan = new Scanner(System.in);
 
     MenuListar(int value) {
         this.value = value;
     }
 
-    public static void listar(Map<String, Seguradora> seguradoras, Scanner scan) {
+    public static void listar(Map<String, Seguradora> seguradoras) {
         System.out.println("1- Listar Clientes PF");
         System.out.println("2- Listar Clientes PJ");
         System.out.println("3- Listar Sinistros");
@@ -36,31 +37,40 @@ public enum MenuListar {
         int operacao = scan.nextInt();
         scan.nextLine();
 
-        if (handle(operacao, seguradoras, scan)) {
-            listar(seguradoras, scan);
+        if (handle(getOperacao(operacao), seguradoras)) {
+            listar(seguradoras);
         }
     }
 
-    private static boolean handle(int operacao, Map<String, Seguradora> seguradoras, Scanner scan) {
-        if (operacao == LISTAR_CLIENTE_PF.getValue()) {
-            listarClientes("PF", seguradoras, scan);
-        } else if (operacao == LISTAR_CLIENTE_PJ.getValue()) {
-            listarClientes("PJ", seguradoras, scan);
-        } else if (operacao == LISTAR_SINISTROS.getValue()) {
-            listarSinistros(seguradoras, scan);
-        } else if (operacao == LISTAR_SINISTROS_CLIENTE.getValue()) {
-            listarSinistrosCliente(seguradoras, scan);
-        } else if (operacao == LISTAR_VEICULO_CLIENTE.getValue()) {
-            listarVeiculosCliente(seguradoras, scan);
-        } else if (operacao == LISTAR_VEICULO_SEGURADORA.getValue()) {
-            listarVeiculoSeguradora(seguradoras, scan);
-        } else if (operacao == VOLTAR.getValue()) {
-            return false;
+    private static boolean handle(MenuListar operacao, Map<String, Seguradora> seguradoras) {
+        switch (operacao) {
+            case LISTAR_CLIENTE_PF:
+                listarClientes("PF", seguradoras);
+                break;
+            case LISTAR_CLIENTE_PJ:
+                listarClientes("PJ", seguradoras);
+                break;
+            case LISTAR_SINISTROS_CLIENTE:
+                listarSinistrosCliente(seguradoras);
+                break;
+            case LISTAR_SINISTROS:
+                listarSinistros(seguradoras);
+                break;
+            case LISTAR_VEICULO_CLIENTE:
+                listarVeiculosCliente(seguradoras);
+                break;
+            case LISTAR_VEICULO_SEGURADORA:
+                listarVeiculoSeguradora(seguradoras);
+                break;
+            case VOLTAR:
+                return false;
+            default:
+                break;
         }
         return true;
     }
 
-    private static void listarClientes(String tipo, Map<String, Seguradora> seguradoras, Scanner scan) {
+    private static void listarClientes(String tipo, Map<String, Seguradora> seguradoras) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
@@ -75,7 +85,7 @@ public enum MenuListar {
         }
     }
 
-    private static void listarSinistros(Map<String, Seguradora> seguradoras, Scanner scan) {
+    private static void listarSinistros(Map<String, Seguradora> seguradoras) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
@@ -90,7 +100,7 @@ public enum MenuListar {
         }
     }
 
-    private static void listarSinistrosCliente(Map<String, Seguradora> seguradoras, Scanner scan) {
+    private static void listarSinistrosCliente(Map<String, Seguradora> seguradoras) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
@@ -103,7 +113,7 @@ public enum MenuListar {
         }
     }
 
-    private static void listarVeiculosCliente(Map<String, Seguradora> seguradoras, Scanner scan) {
+    private static void listarVeiculosCliente(Map<String, Seguradora> seguradoras) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
@@ -122,7 +132,7 @@ public enum MenuListar {
         }
     }
 
-    private static void listarVeiculoSeguradora(Map<String, Seguradora> seguradoras, Scanner scan) {
+    private static void listarVeiculoSeguradora(Map<String, Seguradora> seguradoras) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
@@ -139,5 +149,26 @@ public enum MenuListar {
 
     public int getValue() {
         return value;
+    }
+
+    public static MenuListar getOperacao(int operacao) {
+        switch (operacao) {
+            case 1:
+                return LISTAR_CLIENTE_PF;
+            case 2:
+                return LISTAR_CLIENTE_PJ;
+            case 3:
+                return LISTAR_SINISTROS;
+            case 4:
+                return LISTAR_SINISTROS_CLIENTE;
+            case 5:
+                return LISTAR_VEICULO_CLIENTE;
+            case 6:
+                return LISTAR_VEICULO_SEGURADORA;
+            case 7:
+                return VOLTAR;
+            default:
+                return null;
+        }
     }
 }

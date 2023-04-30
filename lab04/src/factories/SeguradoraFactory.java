@@ -3,8 +3,6 @@ package factories;
 import java.util.Scanner;
 
 import entidades.Seguradora;
-import utils.Validacao;
-import utils.ValidatorUtils;
 
 // classe utilizada para a criação de objetos do tipo seguradora
 public class SeguradoraFactory {

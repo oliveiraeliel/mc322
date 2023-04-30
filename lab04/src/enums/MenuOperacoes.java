@@ -18,12 +18,13 @@ public enum MenuOperacoes {
     SAIR(0);
 
     private final int value;
+    private static final Scanner scan = new Scanner(System.in);
 
     MenuOperacoes(int value) {
         this.value = value;
     }
 
-    public static void menu(Map<String, Seguradora> seguradoras, Scanner scan){
+    public static void menu(Map<String, Seguradora> seguradoras) {
         System.out.println("1- Cadastros");
         System.out.println("2- Listar");
         System.out.println("3- Excluir");
@@ -34,26 +35,73 @@ public enum MenuOperacoes {
         int operacao = scan.nextInt();
         scan.nextLine();
 
-        if (handle(operacao, seguradoras, scan)){
-            menu(seguradoras, scan);
+        if (handle(getOperacao(operacao), seguradoras)) {
+            menu(seguradoras);
         }
-
     }
 
-    private static boolean handle(int operacao, Map<String, Seguradora> seguradoras, Scanner scan) {
-        if (operacao == CADASTRAR.getValue()){
-            MenuCadastrar.cadastrar(seguradoras, scan);
-        }else if (operacao == LISTAR.getValue()){
-            MenuListar.listar(seguradoras, scan);
-        }else if (operacao == EXCLUIR.getValue()){
-            MenuExcluir.excluir(seguradoras, scan);
-        }else if (operacao == SAIR.getValue()){
-            return false;
+    private static boolean handle(MenuOperacoes operacao, Map<String, Seguradora> seguradoras) {
+        switch (operacao) {
+            case CADASTRAR:
+                MenuCadastrar.cadastrar(seguradoras);
+                break;
+            case LISTAR:
+                MenuListar.listar(seguradoras);
+                break;
+            case EXCLUIR:
+                MenuExcluir.excluir(seguradoras);
+                break;
+            case GERAR_SINISTRO:
+                gerarSinistro(seguradoras);
+                break;
+            case TRANSFERIR_SEGURO:
+                transferirSeguro(seguradoras);
+                break;
+            case CALCULAR_RECEITA_SEGURADORA:
+                calcularReceitaSeguradora(seguradoras);
+                break;
+            case SAIR:
+                return false;
+            default:
+                break;
         }
         return true;
     }
 
+    private static void gerarSinistro(Map<String, Seguradora> seguradoras) {
+        // todo
+    }
+
+    private static void transferirSeguro(Map<String, Seguradora> seguradoras) {
+        // todo
+    }
+
+    private static void calcularReceitaSeguradora(Map<String, Seguradora> seguradoras) {
+        // todo
+    }
+
     public int getValue() {
         return value;
+    }
+
+    public static MenuOperacoes getOperacao(int operacao) {
+        switch (operacao) {
+            case 1:
+                return CADASTRAR;
+            case 2:
+                return LISTAR;
+            case 3:
+                return EXCLUIR;
+            case 4:
+                return GERAR_SINISTRO;
+            case 5:
+                return TRANSFERIR_SEGURO;
+            case 6:
+                return CALCULAR_RECEITA_SEGURADORA;
+            case 0:
+                return SAIR;
+            default:
+                return null;
+        }
     }
 }

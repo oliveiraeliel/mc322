@@ -35,10 +35,10 @@ public abstract class Cliente {
      * @return boolean
      */
     public boolean addVeiculo(Veiculo veiculo) {
-        if (this.listaVeiculos.contains(veiculo)) {
+        if (listaVeiculos.contains(veiculo)) {
             return false;
         }
-        this.listaVeiculos.add(veiculo);
+        listaVeiculos.add(veiculo);
         return true;
     }
 
@@ -52,6 +52,7 @@ public abstract class Cliente {
         for (Veiculo v : listaVeiculos) {
             if (v.getPlaca().equals(placa)) {
                 listaVeiculos.remove(v);
+                v.excluirSinistros();
                 return true;
             }
         }

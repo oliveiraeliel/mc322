@@ -1,4 +1,5 @@
 package enums.menu;
+
 import java.util.Map;
 import java.util.Scanner;
 
@@ -12,12 +13,13 @@ public enum MenuExcluir {
     VOLTAR(4);
 
     private final int value;
+    private static final Scanner scan = new Scanner(System.in);
 
     MenuExcluir(int value) {
         this.value = value;
     }
 
-    public static void excluir(Map<String, Seguradora> seguradoras, Scanner scan) {
+    public static void excluir(Map<String, Seguradora> seguradoras) {
         System.out.println("1- Excluir Cliente");
         System.out.println("2- Excluir Veículo");
         System.out.println("3- Excluir Sinistro");
@@ -25,25 +27,31 @@ public enum MenuExcluir {
         int operacao = scan.nextInt();
         scan.nextLine();
 
-        if (handle(operacao, seguradoras, scan)) {
-            excluir(seguradoras, scan);
+        if (handle(getOperacao(operacao), seguradoras)) {
+            excluir(seguradoras);
         }
     }
 
-    private static boolean handle(int operacao, Map<String, Seguradora> seguradoras, Scanner scan) {
-        if (operacao == EXCLUIR_CLIENTE.getValue()) {
-            excluirCliente(seguradoras, scan);
-        } else if (operacao == EXCLUIR_SINISTRO.getValue()) {
-            excluirSinistro(seguradoras, scan);
-        } else if (operacao == EXCLUIR_VEICULO.getValue()) {
-            excluirVeiculo(seguradoras, scan);
-        } else if (operacao == VOLTAR.getValue()) {
-            return false;
+    private static boolean handle(MenuExcluir operacao, Map<String, Seguradora> seguradoras) {
+        switch (operacao) {
+            case EXCLUIR_CLIENTE:
+                excluirCliente(seguradoras);
+                break;
+            case EXCLUIR_SINISTRO:
+                excluirSinistro(seguradoras);
+                break;
+            case EXCLUIR_VEICULO:
+                excluirVeiculo(seguradoras);
+                break;
+            case VOLTAR:
+                return false;
+            default:
+                break;
         }
         return true;
     }
 
-    private static void excluirCliente(Map<String, Seguradora> seguradoras, Scanner scan) {
+    private static void excluirCliente(Map<String, Seguradora> seguradoras) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
@@ -58,9 +66,9 @@ public enum MenuExcluir {
         }
     }
 
-    private static void excluirSinistro(Map<String, Seguradora> seguradoras, Scanner scan) {
+    private static void excluirSinistro(Map<String, Seguradora> seguradoras) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
-        if (seguradoras.containsKey(nomeSeguradora)){
+        if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             System.out.print("ID do sinistro: ");
             int sinistroID = scan.nextInt();
@@ -75,9 +83,9 @@ public enum MenuExcluir {
         }
     }
 
-    private static void excluirVeiculo(Map<String, Seguradora> seguradoras, Scanner scan) {
+    private static void excluirVeiculo(Map<String, Seguradora> seguradoras) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
-        if (seguradoras.containsKey(nomeSeguradora)){
+        if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             String cadastro = InputUtils.lerCadastro(scan);
             System.out.print("Placa: ");
@@ -94,5 +102,20 @@ public enum MenuExcluir {
 
     public int getValue() {
         return value;
+    }
+
+    public static MenuExcluir getOperacao(int operacao) {
+        switch (operacao) {
+            case 1:
+                return EXCLUIR_CLIENTE;
+            case 2:
+                return EXCLUIR_VEICULO;
+            case 3:
+                return EXCLUIR_VEICULO;
+            case 4:
+                return VOLTAR;
+            default:
+                return null;
+        }
     }
 }

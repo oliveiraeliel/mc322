@@ -18,6 +18,7 @@ public enum MenuCadastrar {
     VOLTAR(5);
 
     private final int value;
+    private static final Scanner scan = new Scanner(System.in);
 
     MenuCadastrar(int value) {
         this.value = value;
@@ -27,7 +28,7 @@ public enum MenuCadastrar {
         return value;
     }
 
-    public static void cadastrar(Map<String, Seguradora> seguradorasMap, Scanner scan) {
+    public static void cadastrar(Map<String, Seguradora> seguradorasMap) {
         System.out.println("1- Cadastrar Cliente PF");
         System.out.println("2- Cadastrar Cliente PJ");
         System.out.println("3- Cadastrar Veículo");
@@ -36,27 +37,33 @@ public enum MenuCadastrar {
         int operacao = scan.nextInt();
         scan.nextLine();
 
-        if (handle(operacao, seguradorasMap, scan)) {
-            cadastrar(seguradorasMap, scan);
+        if (handle(getOperacao(operacao), seguradorasMap)) {
+            cadastrar(seguradorasMap);
         }
     }
 
-    private static boolean handle(int operacao, Map<String, Seguradora> seguradorasMap, Scanner scan) {
-        if (operacao == CADASTRAR_CLIENTE_PF.getValue()) {
-            cadastrarCliente("PF", seguradorasMap, scan);
-        } else if (operacao == CADASTRAR_CLIENTE_PJ.getValue()) {
-            cadastrarCliente("PJ", seguradorasMap, scan);
-        } else if (operacao == CADASTRAR_VEICULO.getValue()) {
-            cadastrarVeiculo(seguradorasMap, scan);
-        } else if (operacao == CADASTRAR_SEGURADORA.getValue()) {
-            cadastrarSeguradora(seguradorasMap, scan);
-        } else if (operacao == VOLTAR.getValue()) {
-            return false;
+    private static boolean handle(MenuCadastrar operacao, Map<String, Seguradora> seguradorasMap) {
+        switch (operacao) {
+            case CADASTRAR_CLIENTE_PF:
+                cadastrarCliente("PF", seguradorasMap);
+                break;
+            case CADASTRAR_CLIENTE_PJ:
+                cadastrarCliente("PJ", seguradorasMap);
+                break;
+            case CADASTRAR_VEICULO:
+                cadastrarVeiculo(seguradorasMap);
+            case CADASTRAR_SEGURADORA:
+                cadastrarSeguradora(seguradorasMap);
+                break;
+            case VOLTAR:
+                return false;
+            default:
+                break;
         }
         return true;
     }
 
-    private static void cadastrarCliente(String tipo, Map<String, Seguradora> seguradoras, Scanner scan) {
+    private static void cadastrarCliente(String tipo, Map<String, Seguradora> seguradoras) {
         String nomeSeguradora = scan.nextLine();
         if (seguradoras.containsKey(nomeSeguradora)) {
             Cliente cliente = (tipo.equals("PF") ? ClienteFactory.lerClientePF(scan)
@@ -69,11 +76,11 @@ public enum MenuCadastrar {
                 System.out.println("Cliente já cadastrado!");
             }
         } else {
-            System.out.printf("A seguradora %s não existe", nomeSeguradora);
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
         }
     }
 
-    private static void cadastrarVeiculo(Map<String, Seguradora> seguradoras, Scanner scan) {
+    private static void cadastrarVeiculo(Map<String, Seguradora> seguradoras) {
         String cadastro = InputUtils.lerCadastro(scan);
         String nomeSeguradora = scan.nextLine();
         if (seguradoras.containsKey(nomeSeguradora)) {
@@ -86,11 +93,11 @@ public enum MenuCadastrar {
                         seguradora.getNome());
             }
         } else {
-            System.out.printf("A seguradora %s não existe", nomeSeguradora);
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
         }
     }
 
-    private static void cadastrarSeguradora(Map<String, Seguradora> seguradoras, Scanner scan) {
+    private static void cadastrarSeguradora(Map<String, Seguradora> seguradoras) {
         Seguradora seguradora = SeguradoraFactory.lerSeguradora(scan);
         if (!seguradoras.containsKey(seguradora.getNome())) {
             seguradoras.put(seguradora.getNome(), seguradora);
@@ -101,21 +108,19 @@ public enum MenuCadastrar {
     }
 
     public static MenuCadastrar getOperacao(int operacao) {
-        if (operacao == 1) {
-            return CADASTRAR_CLIENTE_PF;
+        switch (operacao) {
+            case 1:
+                return CADASTRAR_CLIENTE_PF;
+            case 2:
+                return CADASTRAR_CLIENTE_PJ;
+            case 3:
+                return CADASTRAR_VEICULO;
+            case 4:
+                return CADASTRAR_SEGURADORA;
+            case 5:
+                return VOLTAR;
+            default:
+                return null;
         }
-        if (operacao == 2) {
-            return CADASTRAR_CLIENTE_PJ;
-        }
-        if (operacao == 3) {
-            return CADASTRAR_VEICULO;
-        }
-        if (operacao == 4) {
-            return CADASTRAR_SEGURADORA;
-        }
-        if (operacao == 5) {
-            return VOLTAR;
-        }
-        return null;
     }
 }
