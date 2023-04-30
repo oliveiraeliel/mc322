@@ -28,7 +28,7 @@ public enum MenuCadastrar {
         return value;
     }
 
-    public static void cadastrar(Map<String, Seguradora> seguradorasMap) {
+    public static void cadastrar(Map<String, Seguradora> seguradoras) {
         System.out.println("1- Cadastrar Cliente PF");
         System.out.println("2- Cadastrar Cliente PJ");
         System.out.println("3- Cadastrar Veículo");
@@ -37,8 +37,12 @@ public enum MenuCadastrar {
         int operacao = scan.nextInt();
         scan.nextLine();
 
-        if (handle(getOperacao(operacao), seguradorasMap)) {
-            cadastrar(seguradorasMap);
+        
+        MenuCadastrar o = getOperacao(operacao);
+        if (o == null) {
+            cadastrar(seguradoras);
+        } else if (handle(o, seguradoras)) {
+            cadastrar(seguradoras);
         }
     }
 
@@ -57,8 +61,6 @@ public enum MenuCadastrar {
                 break;
             case VOLTAR:
                 return false;
-            default:
-                break;
         }
         return true;
     }
@@ -81,7 +83,7 @@ public enum MenuCadastrar {
     }
 
     private static void cadastrarVeiculo(Map<String, Seguradora> seguradoras) {
-        String cadastro = InputUtils.lerCadastro(scan);
+        String cadastro = InputUtils.lerCadastro();
         String nomeSeguradora = scan.nextLine();
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);

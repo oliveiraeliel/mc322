@@ -37,7 +37,10 @@ public enum MenuListar {
         int operacao = scan.nextInt();
         scan.nextLine();
 
-        if (handle(getOperacao(operacao), seguradoras)) {
+        MenuListar o = getOperacao(operacao);
+        if (o == null) {
+            listar(seguradoras);
+        } else if (handle(o, seguradoras)) {
             listar(seguradoras);
         }
     }
@@ -64,14 +67,12 @@ public enum MenuListar {
                 break;
             case VOLTAR:
                 return false;
-            default:
-                break;
         }
         return true;
     }
 
     private static void listarClientes(String tipo, Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             List<Cliente> clientes = seguradora.listarClientes(tipo);
@@ -86,7 +87,7 @@ public enum MenuListar {
     }
 
     private static void listarSinistros(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             List<Sinistro> sinistros = seguradora.listarSinistros();
@@ -101,10 +102,10 @@ public enum MenuListar {
     }
 
     private static void listarSinistrosCliente(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
-            String cadastro = InputUtils.lerCadastro(scan);
+            String cadastro = InputUtils.lerCadastro();
             if (!seguradora.visualizarSinistro(cadastro)) {
                 System.out.printf("Nenhum sinistro encontrado relacionado com o cadastro %s\n", cadastro);
             }
@@ -114,10 +115,10 @@ public enum MenuListar {
     }
 
     private static void listarVeiculosCliente(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
-            String cadastro = InputUtils.lerCadastro(scan);
+            String cadastro = InputUtils.lerCadastro();
             List<Veiculo> veiculos = seguradora.listarVeiculosCliente(cadastro);
             if (veiculos == null) {
                 System.out.printf("Nenhum cliente com o cadastro %s foi encontrado na seguradora %s\n", cadastro,
@@ -133,7 +134,7 @@ public enum MenuListar {
     }
 
     private static void listarVeiculoSeguradora(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             List<Veiculo> veiculos = seguradora.listarVeiculos();

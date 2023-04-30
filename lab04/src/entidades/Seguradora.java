@@ -25,6 +25,10 @@ public class Seguradora {
         setEndereco(endereco);
     }
 
+    public void update(){
+        calcularReceita();
+    }
+
     public boolean removerVeiculo(String cadastro, String placa){
         Cliente cliente = getClienteByCadastro(cadastro);
         if (cliente == null){

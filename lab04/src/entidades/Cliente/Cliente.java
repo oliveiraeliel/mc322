@@ -27,6 +27,11 @@ public abstract class Cliente {
 
     public abstract Double calculaScore();
 
+    public void transferirSeguro(Cliente cliente) {
+        cliente.addVeiculo(listaVeiculos);
+        listaVeiculos.clear();
+    }
+
     /**
      * Adiciona um veículo na lista de veículos do cliente, se ainda não estiver
      * presente.
@@ -39,7 +44,14 @@ public abstract class Cliente {
             return false;
         }
         listaVeiculos.add(veiculo);
+        veiculo.mudarSinistrosDono(this);
         return true;
+    }
+
+    public void addVeiculo(List<Veiculo> veiculos) {
+        for (Veiculo veiculo : veiculos) {
+            addVeiculo(veiculo);
+        }
     }
 
     /**

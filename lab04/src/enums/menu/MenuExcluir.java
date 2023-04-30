@@ -26,8 +26,11 @@ public enum MenuExcluir {
         System.out.println("4- Voltar");
         int operacao = scan.nextInt();
         scan.nextLine();
-
-        if (handle(getOperacao(operacao), seguradoras)) {
+        
+        MenuExcluir o = getOperacao(operacao);
+        if (o == null) {
+            excluir(seguradoras);
+        } else if (handle(o, seguradoras)) {
             excluir(seguradoras);
         }
     }
@@ -45,17 +48,15 @@ public enum MenuExcluir {
                 break;
             case VOLTAR:
                 return false;
-            default:
-                break;
         }
         return true;
     }
 
     private static void excluirCliente(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
-            String cadastro = InputUtils.lerCadastro(scan);
+            String cadastro = InputUtils.lerCadastro();
             if (seguradora.removerCliente(cadastro)) {
                 System.out.println("Cliente removido com sucesso!");
             } else {
@@ -67,7 +68,7 @@ public enum MenuExcluir {
     }
 
     private static void excluirSinistro(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             System.out.print("ID do sinistro: ");
@@ -84,10 +85,10 @@ public enum MenuExcluir {
     }
 
     private static void excluirVeiculo(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ", scan);
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
-            String cadastro = InputUtils.lerCadastro(scan);
+            String cadastro = InputUtils.lerCadastro();
             System.out.print("Placa: ");
             String placa = scan.nextLine();
             if (seguradora.removerVeiculo(cadastro, placa)) {

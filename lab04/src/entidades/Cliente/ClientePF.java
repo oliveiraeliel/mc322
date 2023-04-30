@@ -119,6 +119,6 @@ public class ClientePF extends Cliente {
     }
 
     public int getIdade() {
-        return 18;
+        return DateUtils.calcularIdade(dataNascimento);
     }
 }

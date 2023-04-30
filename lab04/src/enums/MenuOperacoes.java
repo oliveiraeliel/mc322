@@ -35,7 +35,10 @@ public enum MenuOperacoes {
         int operacao = scan.nextInt();
         scan.nextLine();
 
-        if (handle(getOperacao(operacao), seguradoras)) {
+        MenuOperacoes o = getOperacao(operacao);
+        if (o == null) {
+            menu(seguradoras);
+        } else if (handle(o, seguradoras)) {
             menu(seguradoras);
         }
     }
@@ -62,8 +65,6 @@ public enum MenuOperacoes {
                 break;
             case SAIR:
                 return false;
-            default:
-                break;
         }
         return true;
     }

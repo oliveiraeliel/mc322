@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import entidades.Cliente.Cliente;
+
 public class Veiculo {
     private String placa;
     private String marca;
@@ -38,17 +40,35 @@ public class Veiculo {
         return Objects.equals(placa, veiculo.getPlaca());
     }
 
-    public boolean addSinistro(Sinistro sinistro){
-        if (!listaSinistros.contains(sinistro)){
+    public boolean addSinistro(Sinistro sinistro) {
+        if (!listaSinistros.contains(sinistro)) {
             listaSinistros.add(sinistro);
             return true;
         }
         return false;
     }
 
-    public void excluirSinistros(){
-        for (Sinistro sinistro: listaSinistros){
+    public void excluirSinistros() {
+        List<Seguradora> listaSeguradoras = new ArrayList<>();
+        for (Sinistro sinistro : listaSinistros) {
             sinistro.getSeguradora().removerSinistro(sinistro.getID());
+            if (!listaSeguradoras.contains(sinistro.getSeguradora())) {
+                listaSeguradoras.add(sinistro.getSeguradora());
+            }
+        }
+        for (Seguradora seguradora : listaSeguradoras) {
+            seguradora.update();
+        }
+        listaSinistros.clear();
+    }
+
+    public void mudarSinistrosDono(Cliente cliente) {
+        List<Seguradora> listaSeguradoras = new ArrayList<>();
+        for (Sinistro sinistro : listaSinistros) {
+            sinistro.setCliente(cliente);
+        }
+        for (Seguradora seguradora : listaSeguradoras) {
+            seguradora.update();
         }
     }
 
@@ -75,7 +95,6 @@ public class Veiculo {
     public void setModelo(String modelo) {
         this.modelo = modelo.trim();
     }
-
 
     public int getAnoFabricacao() {
         return this.anoFabricacao;
