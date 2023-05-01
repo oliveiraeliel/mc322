@@ -30,12 +30,16 @@ public class InputUtils {
     }
 
     public static String lerNome(String outString){
-        System.out.print(outString);
-        String nome = scan.nextLine();
+        String nome = lerString(outString);
         if (!Validacao.validaNome(nome)){
             System.out.println("Insira apenas caractéres válidos!");
             return lerNome(outString);
         }
         return nome;
+    }
+
+    public static String lerString(String outString){
+        System.out.print(outString);
+        return scan.nextLine();
     }
 }

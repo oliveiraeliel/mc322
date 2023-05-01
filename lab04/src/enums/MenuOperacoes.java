@@ -4,9 +4,12 @@ import java.util.Map;
 import java.util.Scanner;
 
 import entidades.Seguradora;
+import entidades.Veiculo;
+import entidades.Cliente.Cliente;
 import enums.menu.MenuCadastrar;
 import enums.menu.MenuExcluir;
 import enums.menu.MenuListar;
+import utils.InputUtils;
 
 public enum MenuOperacoes {
     CADASTRAR(1),
@@ -70,7 +73,26 @@ public enum MenuOperacoes {
     }
 
     private static void gerarSinistro(Map<String, Seguradora> seguradoras) {
-        // todo
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
+        if (seguradoras.containsKey(nomeSeguradora)) {
+            Seguradora seguradora = seguradoras.get(nomeSeguradora);
+            String placa = InputUtils.lerString("Placa: ");
+            String cadastro = InputUtils.lerCadastro();
+            Cliente cliente = seguradora.getClienteByCadastro(cadastro);
+            if (cliente != null) {
+                Veiculo veiculo = cliente.getVeiculo(placa);
+                if (veiculo != null) {
+                    String endereco = InputUtils.lerString("Endereço: ");
+                    seguradora.gerarSinistro(cliente, veiculo, endereco);
+                } else {
+                    System.out.println("Veículo não encontrado.");
+                }
+            } else {
+                System.out.println("Cliente não encontrado.");
+            }
+        } else {
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+        }
     }
 
     private static void transferirSeguro(Map<String, Seguradora> seguradoras) {
@@ -78,7 +100,14 @@ public enum MenuOperacoes {
     }
 
     private static void calcularReceitaSeguradora(Map<String, Seguradora> seguradoras) {
-        // todo
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
+        if (seguradoras.containsKey(nomeSeguradora)) {
+            Seguradora seguradora = seguradoras.get(nomeSeguradora);
+            Double receita = seguradora.calcularReceita();
+            System.out.printf("A receita da seguradora %s é de R$ %.2f\n", nomeSeguradora, receita);
+        } else {
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+        }
     }
 
     public int getValue() {

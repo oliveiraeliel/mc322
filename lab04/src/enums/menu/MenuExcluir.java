@@ -112,7 +112,7 @@ public enum MenuExcluir {
             case 2:
                 return EXCLUIR_VEICULO;
             case 3:
-                return EXCLUIR_VEICULO;
+                return EXCLUIR_SINISTRO;
             case 4:
                 return VOLTAR;
             default:

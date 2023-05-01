@@ -37,7 +37,6 @@ public enum MenuCadastrar {
         int operacao = scan.nextInt();
         scan.nextLine();
 
-        
         MenuCadastrar o = getOperacao(operacao);
         if (o == null) {
             cadastrar(seguradoras);
@@ -56,6 +55,7 @@ public enum MenuCadastrar {
                 break;
             case CADASTRAR_VEICULO:
                 cadastrarVeiculo(seguradorasMap);
+                break;
             case CADASTRAR_SEGURADORA:
                 cadastrarSeguradora(seguradorasMap);
                 break;
@@ -66,7 +66,7 @@ public enum MenuCadastrar {
     }
 
     private static void cadastrarCliente(String tipo, Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = scan.nextLine();
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Cliente cliente = (tipo.equals("PF") ? ClienteFactory.lerClientePF(scan)
                     : ClienteFactory.lerClientePJ(scan));
@@ -84,7 +84,7 @@ public enum MenuCadastrar {
 
     private static void cadastrarVeiculo(Map<String, Seguradora> seguradoras) {
         String cadastro = InputUtils.lerCadastro();
-        String nomeSeguradora = scan.nextLine();
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             Cliente cliente = seguradora.getClienteByCadastro(cadastro);
