@@ -89,7 +89,11 @@ public enum MenuCadastrar {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             Cliente cliente = seguradora.getClienteByCadastro(cadastro);
             if (cliente != null) {
-                cliente.addVeiculo(VeiculoFactory.lerVeiculo(scan));
+                if (cliente.addVeiculo(VeiculoFactory.lerVeiculo(scan))) {
+                    System.out.println("Veículo cadastrado com sucesso.");
+                } else {
+                    System.out.println("Esse veículo já está cadastrado.");
+                }
             } else {
                 System.out.printf("Nenhum cliente com o cadastro %s encontrado na seguradora %s.", cadastro,
                         seguradora.getNome());

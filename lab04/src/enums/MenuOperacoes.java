@@ -96,7 +96,35 @@ public enum MenuOperacoes {
     }
 
     private static void transferirSeguro(Map<String, Seguradora> seguradoras) {
-        // todo
+        String nomeSeguradora1, nomeSeguradora2, cadastroDe, cadastroPara;
+        Cliente de, para;
+        nomeSeguradora1 = InputUtils.lerNome("Nome da seguradora: ");
+        if (seguradoras.containsKey(nomeSeguradora1)) {
+            Seguradora seguradora = seguradoras.get(nomeSeguradora1);
+            cadastroDe = InputUtils.lerCadastro();
+            de = seguradora.getClienteByCadastro(cadastroDe);
+            if (de == null) {
+                return;
+            }
+        } else {
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora1);
+            return;
+        }
+        nomeSeguradora2 = InputUtils.lerNome("Nome da seguradora: ");
+        if (seguradoras.containsKey(nomeSeguradora2)) {
+            Seguradora seguradora = seguradoras.get(nomeSeguradora2);
+            cadastroPara = InputUtils.lerCadastro();
+            para = seguradora.getClienteByCadastro(cadastroPara);
+            if (para == null) {
+                return;
+            }
+        } else {
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora1);
+            return;
+        }
+        de.transferirSeguro(para);
+        System.out.printf("Seguro do cliente %s foi transferido para o cliente %s.\n", de.getNome(), para.getNome());
+
     }
 
     private static void calcularReceitaSeguradora(Map<String, Seguradora> seguradoras) {

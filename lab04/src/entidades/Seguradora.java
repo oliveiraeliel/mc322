@@ -25,13 +25,13 @@ public class Seguradora {
         setEndereco(endereco);
     }
 
-    public void update(){
+    public void update() {
         calcularReceita();
     }
 
-    public boolean removerVeiculo(String cadastro, String placa){
+    public boolean removerVeiculo(String cadastro, String placa) {
         Cliente cliente = getClienteByCadastro(cadastro);
-        if (cliente == null){
+        if (cliente == null) {
             return false;
         }
         return cliente.removeVeiculo(placa);
@@ -51,8 +51,8 @@ public class Seguradora {
 
     public List<Veiculo> listarVeiculos() {
         List<Veiculo> veiculos = new ArrayList<>();
-        for (Sinistro sinistro : listaSinistros) {
-            veiculos.add(sinistro.getVeiculo());
+        for (Cliente cliente : listaClientes) {
+            veiculos.addAll(cliente.getListaVeiculos());
         }
         return veiculos;
     }
