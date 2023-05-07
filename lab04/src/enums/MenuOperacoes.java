@@ -1,8 +1,6 @@
 package enums;
 
 import java.util.Map;
-import java.util.Scanner;
-
 import entidades.Seguradora;
 import entidades.Veiculo;
 import entidades.Cliente.Cliente;
@@ -21,7 +19,6 @@ public enum MenuOperacoes {
     SAIR(0);
 
     private final int value;
-    private static final Scanner scan = new Scanner(System.in);
 
     MenuOperacoes(int value) {
         this.value = value;
@@ -35,8 +32,7 @@ public enum MenuOperacoes {
         System.out.println("5- Transferir Seguro");
         System.out.println("6- Calcular Receita Seguradora");
         System.out.println("0- Sair");
-        int operacao = scan.nextInt();
-        scan.nextLine();
+        int operacao = InputUtils.lerInt();
 
         MenuOperacoes o = getOperacao(operacao);
         if (o == null) {

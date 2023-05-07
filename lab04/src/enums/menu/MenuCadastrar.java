@@ -1,7 +1,6 @@
 package enums.menu;
 
 import java.util.Map;
-import java.util.Scanner;
 
 import entidades.Seguradora;
 import entidades.Cliente.Cliente;
@@ -10,7 +9,7 @@ import factories.SeguradoraFactory;
 import factories.VeiculoFactory;
 import utils.InputUtils;
 
-public enum MenuCadastrar {
+public enum MenuCadastrar{
     CADASTRAR_CLIENTE_PF(1),
     CADASTRAR_CLIENTE_PJ(2),
     CADASTRAR_VEICULO(3),
@@ -18,7 +17,6 @@ public enum MenuCadastrar {
     VOLTAR(5);
 
     private final int value;
-    private static final Scanner scan = new Scanner(System.in);
 
     MenuCadastrar(int value) {
         this.value = value;
@@ -34,8 +32,7 @@ public enum MenuCadastrar {
         System.out.println("3- Cadastrar Veículo");
         System.out.println("4- Cadastrar Seguradora");
         System.out.println("5- Voltar");
-        int operacao = scan.nextInt();
-        scan.nextLine();
+        int operacao = InputUtils.lerInt();
 
         MenuCadastrar o = getOperacao(operacao);
         if (o == null) {
@@ -68,8 +65,8 @@ public enum MenuCadastrar {
     private static void cadastrarCliente(String tipo, Map<String, Seguradora> seguradoras) {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
-            Cliente cliente = (tipo.equals("PF") ? ClienteFactory.lerClientePF(scan)
-                    : ClienteFactory.lerClientePJ(scan));
+            Cliente cliente = (tipo.equals("PF") ? ClienteFactory.lerClientePF()
+                    : ClienteFactory.lerClientePJ());
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             if (seguradora.cadastrarCliente(cliente)) {
                 System.out.printf("Cliente %s cadastrado na seguradora %s com sucesso!\n", cliente.getNome(),
@@ -89,7 +86,7 @@ public enum MenuCadastrar {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             Cliente cliente = seguradora.getClienteByCadastro(cadastro);
             if (cliente != null) {
-                cliente.addVeiculo(VeiculoFactory.lerVeiculo(scan));
+                cliente.addVeiculo(VeiculoFactory.lerVeiculo());
             } else {
                 System.out.printf("Nenhum cliente com o cadastro %s encontrado na seguradora %s.", cadastro,
                         seguradora.getNome());
@@ -100,7 +97,7 @@ public enum MenuCadastrar {
     }
 
     private static void cadastrarSeguradora(Map<String, Seguradora> seguradoras) {
-        Seguradora seguradora = SeguradoraFactory.lerSeguradora(scan);
+        Seguradora seguradora = SeguradoraFactory.lerSeguradora();
         if (!seguradoras.containsKey(seguradora.getNome())) {
             seguradoras.put(seguradora.getNome(), seguradora);
             System.out.printf("Seguradora %s cadastrada com sucesso!\n", seguradora.getNome());

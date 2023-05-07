@@ -1,8 +1,7 @@
 package factories;
 
-import java.util.Scanner;
-
 import entidades.Veiculo;
+import utils.InputUtils;
 
 // classe utilizada para a criação de objetos do tipo cliente
 public class VeiculoFactory {
@@ -10,15 +9,12 @@ public class VeiculoFactory {
         return new Veiculo(placa, "Ford", "K", 2004);
     }
 
-    public static Veiculo lerVeiculo(Scanner scan) {
+    public static Veiculo lerVeiculo() {
         System.out.println("------------- Veículo --------------");
-        System.out.print("Placa do veículo: ");
-        String placa = scan.nextLine();
-        System.out.print("Marca: ");
-        String marca = scan.nextLine();
-        System.out.print("Modelo: ");
-        String modelo = scan.nextLine();
-
-        return new Veiculo(placa, marca, modelo, 2004);
+        String placa = InputUtils.lerString("Placa: ");
+        String marca = InputUtils.lerString("Marca: ");
+        String modelo = InputUtils.lerString("Modelo: ");
+        int anoFabricacao = InputUtils.lerInt("Ano de fabricação: ");
+        return new Veiculo(placa, marca, modelo, anoFabricacao);
     }
 }

@@ -1,15 +1,9 @@
 package factories;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Scanner;
-
 import entidades.Cliente.*;
-import utils.Validacao;
-import utils.ValidatorUtils;
-
+import utils.InputUtils;
 
 // classe utilizada para a criação de objetos do tipo cliente
 public class ClienteFactory {
@@ -39,65 +33,26 @@ public class ClienteFactory {
         return new ClientePJ("Joãozinho Caminhões", "Rua Pitágoras", cnpj, cal.getTime(), 0);
     }
 
-    public static Cliente lerClientePJ(Scanner scan) {
-        System.out.println("------------- Cliente --------------");
-        System.out.print("Nome: ");
-        String nome = scan.nextLine();
-        String cnpj = lerCNPJ(scan);
-        System.out.print("Endereço: ");
-        String endereco = scan.nextLine();
-        Date dataFundacao = lerData("Data de fundação: ", scan);
-        return new ClientePJ(nome, endereco, cnpj, dataFundacao, 0);
+    public static Cliente lerClientePJ() {
+        System.out.println("------------- Cliente PJ --------------");
+        String nome = InputUtils.lerNome("Nome: ");
+        String cnpj = InputUtils.lerCNPJ();
+        String endereco = InputUtils.lerString("Endereco: ");
+        Date dataFundacao = InputUtils.lerData("Data de Fundação (dd/mm/yyyy): ");
+        int qtd = InputUtils.lerInt("Quantidade de funcionários: ");
+        return new ClientePJ(nome, endereco, cnpj, dataFundacao, qtd);
     }
 
-    private static String lerCNPJ(Scanner scan){
-        System.out.print("CNPJ: ");
-        String cnpj = ValidatorUtils.formatarCNPJ(scan.nextLine());
-        if (!Validacao.validaCNPJ(cnpj)) {
-            System.out.println("Insira um CNPJ válido!");
-            return lerCNPJ(scan);
-        }
-        return cnpj;
-    }
-
-    public static Cliente lerClientePF(Scanner scan) {
-        System.out.println("------------- Cliente --------------");
-        System.out.print("Nome: ");
-        String nome = scan.nextLine();
-        String cpf = lerCPF(scan);
-        System.out.print("Endereço: ");
-        String endereco = scan.nextLine();
-        Date dataLicenca = lerData("Data da Licenca (dd/mm/yyyy): ", scan);
-        Date dataNascimento = lerData("Data de Nascimento (dd/MM/yyyy): ", scan);
-        System.out.print("Escolaridade: ");
-        String educacao = scan.nextLine();
-        System.out.print("Gênero: ");
-        String genero = scan.nextLine();
-        System.out.print("Classe econômica: ");
-        String classeEconomica = scan.nextLine();
+    public static Cliente lerClientePF() {
+        System.out.println("------------- Cliente PF --------------");
+        String nome = InputUtils.lerNome("Nome: ");
+        String cpf = InputUtils.lerCPF();
+        String endereco = InputUtils.lerString("Endereco: ");
+        Date dataLicenca = InputUtils.lerData("Data da Licenca (dd/mm/yyyy): ");
+        Date dataNascimento = InputUtils.lerData("Data de Nascimento (dd/mm/yyyy): ");
+        String educacao = InputUtils.lerString("Educação: ");
+        String genero = InputUtils.lerString("Genêro: ");
+        String classeEconomica = InputUtils.lerString("Classe econômica: ");
         return new ClientePF(nome, endereco, dataLicenca, educacao, genero, classeEconomica, cpf, dataNascimento);
-    }
-
-
-    private static String lerCPF(Scanner scan) {
-        System.out.print("CPF: ");
-        String cpf = ValidatorUtils.formatarCPF(scan.nextLine());
-        if (!Validacao.validaCPF(cpf)) {
-            System.out.println("Insira um CPF válido!");
-            return lerCPF(scan);
-        }
-        return cpf;
-    }
-
-    private static Date lerData(String stringScan, Scanner scan) {
-        System.out.print(stringScan);
-        String d = scan.nextLine();
-
-        try {
-            return new SimpleDateFormat("dd/MM/yyyy").parse(d);
-        } catch (ParseException e) {
-            System.out.println("Insira uma data no formato 'dd/mm/yyyy'!");
-            return lerData(stringScan, scan);
-        }
     }
 }

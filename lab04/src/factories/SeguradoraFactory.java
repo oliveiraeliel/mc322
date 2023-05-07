@@ -1,8 +1,7 @@
 package factories;
 
-import java.util.Scanner;
-
 import entidades.Seguradora;
+import utils.InputUtils;
 
 // classe utilizada para a criação de objetos do tipo seguradora
 public class SeguradoraFactory {
@@ -11,16 +10,12 @@ public class SeguradoraFactory {
                 "R. Saturnino de Brito, 573 - Cidade Universitária, Campinas - SP, 13083-852");
     }
 
-    public static Seguradora lerSeguradora(Scanner scan) {
+    public static Seguradora lerSeguradora() {
         System.out.println("----------- Seguradora -------------");
-        System.out.print("Nome da Seguradora: ");
-        String nome = scan.nextLine();
-        System.out.print("Telefone: ");
-        String telefone = scan.nextLine();
-        System.out.print("Email: ");
-        String email = scan.nextLine();
-        System.out.print("Endereço: ");
-        String endereco = scan.nextLine();
+        String nome = InputUtils.lerNome("Nome: ");
+        String telefone = InputUtils.lerString("Telefone: ");
+        String email = InputUtils.lerString("Email: ");
+        String endereco = InputUtils.lerString("Endereço: ");
         return new Seguradora(nome, telefone, email, endereco);
     }
 }

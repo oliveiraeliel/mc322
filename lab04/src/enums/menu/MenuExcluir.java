@@ -1,7 +1,6 @@
 package enums.menu;
 
 import java.util.Map;
-import java.util.Scanner;
 
 import entidades.Seguradora;
 import utils.InputUtils;
@@ -13,7 +12,6 @@ public enum MenuExcluir {
     VOLTAR(4);
 
     private final int value;
-    private static final Scanner scan = new Scanner(System.in);
 
     MenuExcluir(int value) {
         this.value = value;
@@ -24,9 +22,8 @@ public enum MenuExcluir {
         System.out.println("2- Excluir Veículo");
         System.out.println("3- Excluir Sinistro");
         System.out.println("4- Voltar");
-        int operacao = scan.nextInt();
-        scan.nextLine();
-        
+        int operacao = InputUtils.lerInt();
+
         MenuExcluir o = getOperacao(operacao);
         if (o == null) {
             excluir(seguradoras);
@@ -71,9 +68,7 @@ public enum MenuExcluir {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
-            System.out.print("ID do sinistro: ");
-            int sinistroID = scan.nextInt();
-            scan.nextLine();
+            int sinistroID = InputUtils.lerInt("ID do sinistro: ");
             if (seguradora.removerSinistro(sinistroID)) {
                 System.out.println("Sinistro removido com sucesso.");
             } else {
@@ -89,8 +84,7 @@ public enum MenuExcluir {
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
             String cadastro = InputUtils.lerCadastro();
-            System.out.print("Placa: ");
-            String placa = scan.nextLine();
+            String placa = InputUtils.lerString("Placa: ");
             if (seguradora.removerVeiculo(cadastro, placa)) {
                 System.out.println("Veículo removido.");
             } else {

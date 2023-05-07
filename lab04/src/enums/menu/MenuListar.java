@@ -2,7 +2,6 @@ package enums.menu;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import entidades.Seguradora;
 import entidades.Sinistro;
@@ -20,8 +19,7 @@ public enum MenuListar {
     VOLTAR(7);
 
     private final int value;
-    private static final Scanner scan = new Scanner(System.in);
-
+    
     MenuListar(int value) {
         this.value = value;
     }
@@ -34,8 +32,7 @@ public enum MenuListar {
         System.out.println("5- Listar Veículos do Cliente");
         System.out.println("6- Listar Veículos Seguradora");
         System.out.println("7- Voltar");
-        int operacao = scan.nextInt();
-        scan.nextLine();
+        int operacao = InputUtils.lerInt();
 
         MenuListar o = getOperacao(operacao);
         if (o == null) {
