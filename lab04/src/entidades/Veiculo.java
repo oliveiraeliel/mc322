@@ -103,5 +103,4 @@ public class Veiculo {
     public void setAnoFabricacao(int anoFabricacao) {
         this.anoFabricacao = anoFabricacao;
     }
-
 }

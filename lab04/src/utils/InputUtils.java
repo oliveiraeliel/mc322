@@ -57,6 +57,20 @@ public class InputUtils {
         return ValidatorUtils.formatarCNPJ(cadastro);
     }
 
+    public static String lerCadastro(String outString) {
+        System.out.print(outString);
+        String cadastro = scan.nextLine();
+        if (!Validacao.validaCPF(cadastro) && !Validacao.validaCNPJ(cadastro)) {
+            System.out.println("Insira um CPF/CNPJ válido!");
+            return lerCadastro();
+        }
+
+        if (Validacao.validaCPF(cadastro)) {
+            return ValidatorUtils.formatarCPF(cadastro);
+        }
+        return ValidatorUtils.formatarCNPJ(cadastro);
+    }
+
     public static String lerNome(String outString) {
         String nome = lerString(outString);
         if (!Validacao.validaNome(nome)) {

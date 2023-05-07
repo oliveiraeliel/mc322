@@ -161,6 +161,7 @@ public class Seguradora {
         if (this.listaClientes.contains(cliente) && cliente.getListaVeiculos().contains(veiculo)) {
             Sinistro sinistro = new Sinistro(DateUtils.localDate(), endereco, cliente, veiculo, this);
             addSinistro(sinistro);
+            veiculo.addSinistro(sinistro);
             return true;
         }
         return false;

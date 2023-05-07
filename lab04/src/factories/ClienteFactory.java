@@ -27,10 +27,10 @@ public class ClienteFactory {
         return new ClientePJ("Joãozinho Caminhões", "Rua Pitágoras", "97.909.112/0001-00", cal.getTime(), 0);
     }
 
-    public static ClientePJ generateClientePJ(String cnpj) {
+    public static ClientePJ generateClientePJ(String cnpj, int qtdeFuncionarios) {
         Calendar cal = Calendar.getInstance();
         cal.set(2004, 3, 24);
-        return new ClientePJ("Joãozinho Caminhões", "Rua Pitágoras", cnpj, cal.getTime(), 0);
+        return new ClientePJ("Joãozinho Caminhões", "Rua Pitágoras", cnpj, cal.getTime(), qtdeFuncionarios);
     }
 
     public static Cliente lerClientePJ() {

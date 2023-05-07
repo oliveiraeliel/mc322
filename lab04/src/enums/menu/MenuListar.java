@@ -16,10 +16,11 @@ public enum MenuListar {
     LISTAR_SINISTROS_CLIENTE(4),
     LISTAR_VEICULO_CLIENTE(5),
     LISTAR_VEICULO_SEGURADORA(6),
-    VOLTAR(7);
+    LISTAR_SEGURADORAS(7),
+    VOLTAR(8);
 
     private final int value;
-    
+
     MenuListar(int value) {
         this.value = value;
     }
@@ -31,7 +32,8 @@ public enum MenuListar {
         System.out.println("4- Listar Sinistros do Cliente");
         System.out.println("5- Listar Veículos do Cliente");
         System.out.println("6- Listar Veículos Seguradora");
-        System.out.println("7- Voltar");
+        System.out.println("7- Listar Seguradoras");
+        System.out.println("8- Voltar");
         int operacao = InputUtils.lerInt();
 
         MenuListar o = getOperacao(operacao);
@@ -61,6 +63,9 @@ public enum MenuListar {
                 break;
             case LISTAR_VEICULO_SEGURADORA:
                 listarVeiculoSeguradora(seguradoras);
+                break;
+            case LISTAR_SEGURADORAS:
+                listarSeguradoras(seguradoras);
                 break;
             case VOLTAR:
                 return false;
@@ -145,6 +150,14 @@ public enum MenuListar {
         }
     }
 
+    private static void listarSeguradoras(Map<String, Seguradora> seguradoras) {
+        if (!seguradoras.isEmpty()) {
+            System.out.println(seguradoras.keySet());
+        } else {
+            System.out.println("Nenhuma seguradora cadastrada.");
+        }
+    }
+
     public int getValue() {
         return value;
     }
@@ -164,6 +177,8 @@ public enum MenuListar {
             case 6:
                 return LISTAR_VEICULO_SEGURADORA;
             case 7:
+                return LISTAR_SEGURADORAS;
+            case 8:
                 return VOLTAR;
             default:
                 return null;
