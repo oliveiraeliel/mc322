@@ -94,7 +94,7 @@ public enum MenuListar {
                 System.out.printf("Nenhum sinistro registrado na seguradora %s\n", nomeSeguradora);
             }
         } else {
-            System.out.printf("A seguradora %s não existe", nomeSeguradora);
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
         }
     }
 
@@ -107,7 +107,7 @@ public enum MenuListar {
                 System.out.printf("Nenhum sinistro encontrado relacionado com o cadastro %s\n", cadastro);
             }
         } else {
-            System.out.printf("A seguradora %s não existe", nomeSeguradora);
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
         }
     }
 
@@ -126,7 +126,7 @@ public enum MenuListar {
                 System.out.println("Nenhum veículo encontrado");
             }
         } else {
-            System.out.printf("A seguradora %s não existe", nomeSeguradora);
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
         }
     }
 
@@ -141,7 +141,7 @@ public enum MenuListar {
                 System.out.printf("Nenhum veículo relacionado com a seguradora %s encontrado\n", nomeSeguradora);
             }
         } else {
-            System.out.printf("A seguradora %s não existe", nomeSeguradora);
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
         }
     }
 
