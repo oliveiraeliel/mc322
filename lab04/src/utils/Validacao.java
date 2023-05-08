@@ -1,5 +1,6 @@
 package utils;
-public class Validacao {
+
+public final class Validacao {
     /**
      * Verifica se o cpf dado é válido.
      * 

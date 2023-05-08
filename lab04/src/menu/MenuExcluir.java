@@ -1,4 +1,4 @@
-package enums.menu;
+package menu;
 
 import java.util.Map;
 
@@ -18,6 +18,7 @@ public enum MenuExcluir {
     }
 
     public static void excluir(Map<String, Seguradora> seguradoras) {
+        System.out.println("------------- EXCLUIR ------------");
         System.out.println("1- Excluir Cliente");
         System.out.println("2- Excluir Veículo");
         System.out.println("3- Excluir Sinistro");

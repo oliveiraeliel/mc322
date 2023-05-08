@@ -1,4 +1,4 @@
-package enums;
+package entidades.Cliente;
 
 public enum CalcSeguro {
     VALOR_BASE(100.0),

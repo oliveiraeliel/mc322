@@ -26,6 +26,7 @@ public class Veiculo {
                 " placa='" + getPlaca() + "'" +
                 ", marca='" + getMarca() + "'" +
                 ", modelo='" + getModelo() + "'" +
+                ", anoFabricacao='" + getAnoFabricacao() + "'" +
                 "}";
     }
 

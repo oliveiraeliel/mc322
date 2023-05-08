@@ -6,7 +6,7 @@ import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
-public class DateUtils {
+public final class DateUtils {
     public static Date localDate() {
         return new Date(LocalDate.now().atStartOfDay(ZoneId.of("America/Sao_Paulo")).toEpochSecond() * 1000);
     }

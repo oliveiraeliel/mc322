@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 
 import entidades.Veiculo;
-import enums.CalcSeguro;
 import utils.*;
 
 public class ClientePJ extends Cliente {
@@ -45,6 +44,9 @@ public class ClientePJ extends Cliente {
                 ", CNPJ='" + getCNPJ() + "'" +
                 ", endereco='" + super.getEndereco() + "'" +
                 ", dataFundacao='" + DateUtils.formatDate(getDataFundacao(), "dd/MM/yyyy") + "'" +
+                ", qntFuncionarios='" + getQtdeFuncionarios() + "'" +
+                ", valorSeguro='" + super.getValorSeguro() + "'" +
+                ", score='" + calculaScore() + "'" +
                 ", listaVeiculos='" + super.getListaVeiculos() + "'" +
                 "}";
     }
@@ -79,5 +81,4 @@ public class ClientePJ extends Cliente {
     public void setQtdeFuncionarios(int qtdeFuncionarios) {
         this.qtdeFuncionarios = qtdeFuncionarios;
     }
-
 }

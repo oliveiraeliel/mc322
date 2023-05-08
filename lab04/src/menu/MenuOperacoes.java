@@ -1,4 +1,4 @@
-package enums.menu;
+package menu;
 
 import java.util.Map;
 import entidades.Seguradora;
@@ -13,6 +13,7 @@ public enum MenuOperacoes {
     GERAR_SINISTRO(4),
     TRANSFERIR_SEGURO(5),
     CALCULAR_RECEITA_SEGURADORA(6),
+    CALCULAR_VALOR_SEGURO(7),
     SAIR(0);
 
     private final int value;
@@ -22,12 +23,14 @@ public enum MenuOperacoes {
     }
 
     public static void menu(Map<String, Seguradora> seguradoras) {
+        System.out.println("-------------- MENU -------------");
         System.out.println("1- Cadastros");
         System.out.println("2- Listar");
         System.out.println("3- Excluir");
         System.out.println("4- Gerar Sinistro");
         System.out.println("5- Transferir Seguro");
         System.out.println("6- Calcular Receita Seguradora");
+        System.out.println("7- Calcular Seguro do Cliente");
         System.out.println("0- Sair");
         int operacao = InputUtils.lerInt();
 
@@ -59,6 +62,9 @@ public enum MenuOperacoes {
             case CALCULAR_RECEITA_SEGURADORA:
                 calcularReceitaSeguradora(seguradoras);
                 break;
+            case CALCULAR_VALOR_SEGURO:
+                calcularValorSeguro(seguradoras);
+                break;
             case SAIR:
                 return false;
         }
@@ -76,7 +82,12 @@ public enum MenuOperacoes {
                 Veiculo veiculo = cliente.getVeiculo(placa);
                 if (veiculo != null) {
                     String endereco = InputUtils.lerString("Endereço: ");
-                    seguradora.gerarSinistro(cliente, veiculo, endereco);
+                    if (seguradora.gerarSinistro(cliente, veiculo, endereco)) {
+                        System.out.println("Sinistro gerado com sucesso.");
+                    } else {
+                        System.out.println("Sinistro não gerado.");
+
+                    }
                 } else {
                     System.out.println("Veículo não encontrado.");
                 }
@@ -130,6 +141,22 @@ public enum MenuOperacoes {
         }
     }
 
+    private static void calcularValorSeguro(Map<String, Seguradora> seguradoras) {
+        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
+        if (seguradoras.containsKey(nomeSeguradora)) {
+            Seguradora seguradora = seguradoras.get(nomeSeguradora);
+            String cadastro = InputUtils.lerCadastro();
+            Cliente cliente = seguradora.getClienteByCadastro(cadastro);
+            if (cliente != null) {
+                System.out.printf("O valor do seu seguro é R$ %.2f\n", seguradora.calcularPrecoSeguroCliente(cliente));
+            } else {
+                System.out.println("Cliente não encontrado.");
+            }
+        } else {
+            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+        }
+    }
+
     public int getValue() {
         return value;
     }
@@ -148,6 +175,8 @@ public enum MenuOperacoes {
                 return TRANSFERIR_SEGURO;
             case 6:
                 return CALCULAR_RECEITA_SEGURADORA;
+            case 7:
+                return CALCULAR_VALOR_SEGURO;
             case 0:
                 return SAIR;
             default:

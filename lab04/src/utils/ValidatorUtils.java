@@ -1,7 +1,7 @@
 package utils;
 
 // classe com os metodos relacionado com a validação do CPF/CNPJ
-public class ValidatorUtils {
+public final class ValidatorUtils {
     public static boolean todosCharsIguais(String string) {
         char c = string.charAt(0);
         for (int i = 1; i < string.length(); i++) {

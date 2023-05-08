@@ -3,10 +3,10 @@ import java.util.Map;
 
 import entidades.*;
 import entidades.Cliente.Cliente;
-import enums.menu.MenuOperacoes;
 import factories.*;
+import menu.MenuOperacoes;
 
-public class Main {
+public class AppMain {
 	public static void main(String[] args) {
 		Map<String, Seguradora> seguradoras = new HashMap<>();
 		Seguradora seguradora = SeguradoraFactory.generateSeguradora("Eliel Seguros");

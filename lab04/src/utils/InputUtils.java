@@ -6,7 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
-public class InputUtils {
+
+// classe utilitaria para leitura
+public final class InputUtils {
     private static Scanner scan = new Scanner(System.in);
 
     public static int lerInt() {

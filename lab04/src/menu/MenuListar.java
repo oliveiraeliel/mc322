@@ -1,4 +1,4 @@
-package enums.menu;
+package menu;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +26,7 @@ public enum MenuListar {
     }
 
     public static void listar(Map<String, Seguradora> seguradoras) {
+        System.out.println("------------- LISTAR ------------");
         System.out.println("1- Listar Clientes PF");
         System.out.println("2- Listar Clientes PJ");
         System.out.println("3- Listar Sinistros");

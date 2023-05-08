@@ -114,6 +114,7 @@ public class Seguradora {
     public boolean cadastrarCliente(Cliente cliente) {
         if (!listaClientes.contains(cliente)) {
             addCliente(cliente);
+            calcularPrecoSeguroCliente(cliente);
             return true;
         }
         return false;

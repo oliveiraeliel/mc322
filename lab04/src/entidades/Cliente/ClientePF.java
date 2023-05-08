@@ -3,7 +3,6 @@ package entidades.Cliente;
 import java.util.*;
 
 import entidades.Veiculo;
-import enums.CalcSeguro;
 import utils.DateUtils;
 import utils.ValidatorUtils;
 
@@ -59,6 +58,8 @@ public class ClientePF extends Cliente {
                 ", classeEconomica='" + getClasseEconomica() + "'" +
                 ", dataLicenca='" + DateUtils.formatDate(getDataLicenca(), "dd/MM/yyyy") + "'" +
                 ", dataNascimento='" + DateUtils.formatDate(getDataLicenca(), "dd/MM/yyyy") + "'" +
+                ", valorSeguro='" + super.getValorSeguro() + "'" +
+                ", score='" + calculaScore() + "'" +
                 ", listaVeiculos='" + super.getListaVeiculos() + "'" +
                 "}";
     }
