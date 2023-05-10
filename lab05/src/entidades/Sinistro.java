@@ -2,51 +2,25 @@ package entidades;
 
 import java.util.Date;
 
-import entidades.Cliente.Cliente;
+import entidades.Cliente.Condutor;
+import entidades.Seguro.Seguro;
 import utils.DateUtils;
 
 public class Sinistro {
-    private final int ID;
+    private final int ID = ++count;
+    private static int count = 0;
     private Date data;
     private String endereco;
-    private static int count = 0;
-    private Cliente cliente;
-    private Veiculo veiculo;
-    private Seguradora seguradora;
+    private Condutor condutor;
+    private Seguro seguro;
 
-    public Sinistro(Date data, String endereco, Cliente cliente, Veiculo veiculo, Seguradora seguradora) {
+    public Sinistro(Date data, String endereco, Seguro seguro, Condutor condutor) {
         setData(data);
         setEndereco(endereco);
-        setCliente(cliente);
-        setVeiculo(veiculo);
-        setSeguradora(seguradora);
-        ID = ++count;
+        setCondutor(condutor);
+        setSeguro(seguro);
     }
 
-    @Override
-    public String toString() {
-        return "{" +
-                " ID='" + getID() + "'" +
-                ", data='" + DateUtils.formatDate(getData(), "dd/MM/yyyy") + "'" +
-                ", endereco='" + getEndereco() + "'" +
-                ", cliente='" + getCliente() + "'" +
-                ", veiculo='" + getVeiculo() + "'" +
-                ", seguradora='" + getSeguradora().getNome() + "'" +
-                "}";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Sinistro)) {
-            return false;
-        }
-        Sinistro sinistro = (Sinistro) o;
-        return ID == sinistro.getID();
-    }
-
-    // getters e setters
     public int getID() {
         return this.ID;
     }
@@ -67,27 +41,42 @@ public class Sinistro {
         this.endereco = endereco.trim();
     }
 
-    public Cliente getCliente() {
-        return this.cliente;
+    public Condutor getCondutor() {
+        return this.condutor;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setCondutor(Condutor condutor) {
+        this.condutor = condutor;
     }
 
-    public Veiculo getVeiculo() {
-        return this.veiculo;
+    public Seguro getSeguro() {
+        return this.seguro;
     }
 
-    public void setVeiculo(Veiculo veiculo) {
-        this.veiculo = veiculo;
+    public void setSeguro(Seguro seguro) {
+        this.seguro = seguro;
     }
 
-    public Seguradora getSeguradora() {
-        return this.seguradora;
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Sinistro)) {
+            return false;
+        }
+        Sinistro sinistro = (Sinistro) o;
+        return ID == sinistro.getID();
     }
 
-    public void setSeguradora(Seguradora seguradora) {
-        this.seguradora = seguradora;
+    @Override
+    public String toString() {
+        return "{" +
+                " ID='" + getID() + "'" +
+                ", data='" + DateUtils.formatDate(getData(), "dd/mm/yyyy") + "'" +
+                ", endereco='" + getEndereco() + "'" +
+                ", condutor='" + getCondutor() + "'" +
+                ", seguro='" + getSeguro() + "'" +
+                "}";
     }
+
 }

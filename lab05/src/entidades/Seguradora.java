@@ -9,8 +9,8 @@ import entidades.Cliente.Base;
 import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePF;
 import entidades.Cliente.ClientePJ;
+import entidades.Cliente.TipoCliente;
 import entidades.Seguro.*;
-import enums.TipoCliente;
 import utils.DateUtils;
 import utils.ValidatorUtils;
 
@@ -58,12 +58,75 @@ public class Seguradora extends Base {
         return false;
     }
 
+    public boolean cancelarSeguro(Seguro seguro) {
+        if (listaSeguros.contains(seguro)) {
+            listaSeguros.remove(seguro);
+            return true;
+        }
+        return false;
+    }
+
     public boolean cadastrarCliente(Cliente cliente) {
         if (!listaClientes.contains(cliente)) {
             listaClientes.add(cliente);
             return true;
         }
         return false;
+    }
+
+    public boolean removerCliente(String cadastro) {
+        Cliente cliente = getClientePorCadastro(cadastro);
+        return removerCliente(cliente);
+    }
+
+    public boolean removerCliente(Cliente cliente) {
+        if (!listaClientes.contains(cliente)) {
+            listaClientes.remove(cliente);
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<Seguro> getSegurosPorCliente(String cadastro) {
+        Cliente cliente = getClientePorCadastro(cadastro);
+        if (cliente != null) {
+            return getSegurosPorCliente(cliente);
+        }
+        return new ArrayList<Seguro>();
+    }
+
+    public ArrayList<Seguro> getSegurosPorCliente(Cliente cliente) {
+        return cliente.getSeguros();
+    }
+
+    public ArrayList<Sinistro> getSinistrosPorCliente(String cadastro) {
+        Cliente cliente = getClientePorCadastro(cadastro);
+        if (cliente != null) {
+            return getSinistrosPorCliente(cliente);
+        }
+        return new ArrayList<Sinistro>();
+    }
+
+    public ArrayList<Sinistro> getSinistrosPorCliente(Cliente cliente) {
+        return cliente.getSinistros();
+    }
+
+    public Cliente getClientePorCadastro(String cadastro) {
+        for (Cliente cliente : listaClientes) {
+            if (cliente.getCadastro().equals(cadastro)) {
+                return cliente;
+            }
+        }
+        return null;
+    }
+
+
+    public Double calcularReceita(){
+        Double receita = 0.0;
+        for (Seguro seguro: listaSeguros){
+            receita += seguro.getValorMensal();
+        }
+        return receita;
     }
 
     public String getCnpj() {

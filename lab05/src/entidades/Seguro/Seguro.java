@@ -5,6 +5,7 @@ import java.util.Date;
 
 import entidades.Seguradora;
 import entidades.Sinistro;
+import entidades.Cliente.Condutor;
 
 public abstract class Seguro {
     private final int ID = ++count;
@@ -25,6 +26,11 @@ public abstract class Seguro {
     public abstract void desautorizarCondutor();
 
     public abstract Double calcularValor();
+
+    public Sinistro gerarSinistro(Date data, String endereco, Condutor condutor){
+        // todo
+        return null;
+    }
 
     public int getID() {
         return this.ID;
