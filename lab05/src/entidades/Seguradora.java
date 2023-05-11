@@ -106,7 +106,7 @@ public class Seguradora extends Base {
         }
         return new ArrayList<Sinistro>();
     }
-
+    
     public ArrayList<Sinistro> getSinistrosPorCliente(Cliente cliente) {
         return cliente.getSinistros();
     }
