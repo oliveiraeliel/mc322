@@ -13,6 +13,16 @@ public abstract class Cliente extends Base {
 
     public abstract String getCadastro();
 
+    public abstract int getQuantidadeVeiculos();
+
+    public int getQuantidadeSinistros() {
+        int n = 0;
+        for (Seguro seguro : listaSeguros) {
+            n += seguro.getListaSinistros().size();
+        }
+        return n;
+    }
+
     public boolean adicionarSeguro(Seguro seguro) {
         if (!listaSeguros.contains(seguro)) {
             listaSeguros.add(seguro);
@@ -31,5 +41,13 @@ public abstract class Cliente extends Base {
 
     public ArrayList<Seguro> getSeguros() {
         return listaSeguros;
+    }
+
+    public ArrayList<Seguro> getListaSeguros() {
+        return this.listaSeguros;
+    }
+
+    public void setListaSeguros(ArrayList<Seguro> listaSeguros) {
+        this.listaSeguros = listaSeguros;
     }
 }

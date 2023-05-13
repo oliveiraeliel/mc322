@@ -25,14 +25,14 @@ public class ClienteFactory {
         Calendar cal = Calendar.getInstance();
         cal.set(2004, 3, 24);
         return new ClientePJ("Joãozinho Caminhões", "97.909.112/0001-00", "12331412312", "asdfead@gmail.com",
-                "Rua Pitágoras", cal.getTime());
+                "Rua Pitágoras", cal.getTime(), 100);
     }
 
-    public static ClientePJ generateClientePJ(String cnpj) {
+    public static ClientePJ generateClientePJ(String cnpj, int quantidadeFunc) {
         Calendar cal = Calendar.getInstance();
         cal.set(2004, 3, 24);
         return new ClientePJ("Joãozinho Caminhões", cnpj, "12331412312", "asdfead@gmail.com",
-                "Rua Pitágoras", cal.getTime());
+                "Rua Pitágoras", cal.getTime(), quantidadeFunc);
     }
 
     public static Cliente lerClientePJ() {
@@ -43,7 +43,8 @@ public class ClienteFactory {
         String email = InputUtils.lerString("Email: ");
         String endereco = InputUtils.lerString("Endereco: ");
         Date dataFundacao = InputUtils.lerData("Data de Fundação (dd/mm/yyyy): ");
-        return new ClientePJ(nome, cnpj, telefone, email, endereco, dataFundacao);
+        int quantidadeFunc = InputUtils.lerInt("Quantidade de Funcionários: ");
+        return new ClientePJ(nome, cnpj, telefone, email, endereco, dataFundacao, quantidadeFunc);
     }
 
     public static Cliente lerClientePF() {

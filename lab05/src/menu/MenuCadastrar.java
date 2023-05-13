@@ -73,7 +73,7 @@ public enum MenuCadastrar {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
 
             if (cliente instanceof ClientePF) {
-                int idade = DateUtils.calcularIdade(((ClientePF) cliente).getDataNascimento());
+                int idade = ((ClientePF) cliente).getIdade();
                 if (idade < 18) {
                     System.out.println("Você precisa ter no minimo 18 anos.");
                     return;

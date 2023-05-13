@@ -11,6 +11,7 @@ import entidades.Cliente.ClientePF;
 import entidades.Cliente.ClientePJ;
 import entidades.Cliente.TipoCliente;
 import entidades.Seguro.*;
+import execeptions.ClienteNaoEncontradoException;
 import utils.DateUtils;
 import utils.ValidatorUtils;
 
@@ -18,11 +19,20 @@ public class Seguradora extends Base {
     private final String cnpj;
     private ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
     private ArrayList<Seguro> listaSeguros = new ArrayList<Seguro>();
+    private Double receita = 0.0;
 
     public Seguradora(String nome, String cnpj, String telefone, String email, String endereco) {
         super(nome, telefone, endereco, email);
         cnpj = ValidatorUtils.formatarCNPJ(cnpj);
         this.cnpj = cnpj;
+    }
+
+    public void adicionarReceita(Double receita){
+        setReceita(getReceita() + receita);
+    }
+
+    public Double calcularReceita(){
+        return getReceita();
     }
 
     public ArrayList<Cliente> listarClientes(TipoCliente tipo) {
@@ -39,7 +49,7 @@ public class Seguradora extends Base {
 
     public boolean gerarSeguro(ClientePF cliente, Veiculo veiculo, Date dataFim) {
         if (listaClientes.contains(cliente)) {
-            Seguro seguro = new SeguroPF(DateUtils.localDate(), dataFim, this, 0.0, veiculo, cliente);
+            Seguro seguro = new SeguroPF(DateUtils.localDate(), dataFim, this, veiculo, cliente);
             listaSeguros.add(seguro);
             cliente.adicionarSeguro(seguro);
             return true;
@@ -50,7 +60,7 @@ public class Seguradora extends Base {
 
     public boolean gerarSeguro(ClientePJ cliente, Frota frota, Date dataFim) {
         if (listaClientes.contains(cliente)) {
-            Seguro seguro = new SeguroPJ(DateUtils.localDate(), dataFim, this, 0.0, frota, cliente);
+            Seguro seguro = new SeguroPJ(DateUtils.localDate(), dataFim, this, frota, cliente);
             listaSeguros.add(seguro);
             cliente.adicionarSeguro(seguro);
             return true;
@@ -75,8 +85,12 @@ public class Seguradora extends Base {
     }
 
     public boolean removerCliente(String cadastro) {
-        Cliente cliente = getClientePorCadastro(cadastro);
-        return removerCliente(cliente);
+        try {
+            Cliente cliente = getClientePorCadastro(cadastro);
+            return removerCliente(cliente);
+        } catch (ClienteNaoEncontradoException e) {
+            return false;
+        }
     }
 
     public boolean removerCliente(Cliente cliente) {
@@ -87,46 +101,32 @@ public class Seguradora extends Base {
         return false;
     }
 
-    public ArrayList<Seguro> getSegurosPorCliente(String cadastro) {
+    public ArrayList<Seguro> getSegurosPorCliente(String cadastro) throws ClienteNaoEncontradoException {
         Cliente cliente = getClientePorCadastro(cadastro);
-        if (cliente != null) {
-            return getSegurosPorCliente(cliente);
-        }
-        return new ArrayList<Seguro>();
+        return getSegurosPorCliente(cliente);
     }
 
     public ArrayList<Seguro> getSegurosPorCliente(Cliente cliente) {
         return cliente.getSeguros();
     }
 
-    public ArrayList<Sinistro> getSinistrosPorCliente(String cadastro) {
+    public ArrayList<Sinistro> getSinistrosPorCliente(String cadastro) throws ClienteNaoEncontradoException {
         Cliente cliente = getClientePorCadastro(cadastro);
-        if (cliente != null) {
-            return getSinistrosPorCliente(cliente);
-        }
-        return new ArrayList<Sinistro>();
+        return getSinistrosPorCliente(cliente);
+
     }
-    
+
     public ArrayList<Sinistro> getSinistrosPorCliente(Cliente cliente) {
         return cliente.getSinistros();
     }
 
-    public Cliente getClientePorCadastro(String cadastro) {
+    public Cliente getClientePorCadastro(String cadastro) throws ClienteNaoEncontradoException {
         for (Cliente cliente : listaClientes) {
             if (cliente.getCadastro().equals(cadastro)) {
                 return cliente;
             }
         }
-        return null;
-    }
-
-
-    public Double calcularReceita(){
-        Double receita = 0.0;
-        for (Seguro seguro: listaSeguros){
-            receita += seguro.getValorMensal();
-        }
-        return receita;
+        throw new ClienteNaoEncontradoException("Nenhum Cliente com o cadastro" + cadastro + "foi encontrado");
     }
 
     public String getCnpj() {
@@ -135,6 +135,22 @@ public class Seguradora extends Base {
 
     public List<Cliente> getListaClientes() {
         return this.listaClientes;
+    }
+
+    public void setListaClientes(ArrayList<Cliente> listaClientes) {
+        this.listaClientes = listaClientes;
+    }
+
+    public ArrayList<Seguro> getListaSeguros() {
+        return this.listaSeguros;
+    }
+
+    public Double getReceita() {
+        return this.receita;
+    }
+
+    public void setReceita(Double receita) {
+        this.receita = receita;
     }
 
     @Override

@@ -16,6 +16,10 @@ public class Condutor extends Base {
         setDataNasc(dataNasc);
     }
 
+    public int getQuantidadeSinistros() {
+        return listaSinistros.size();
+    }
+
     public boolean adicionarSinistro(Sinistro sinistro) {
         if (!listaSinistros.contains(sinistro)) {
             listaSinistros.add(sinistro);

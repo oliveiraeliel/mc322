@@ -3,7 +3,7 @@ package entidades.Cliente;
 import java.util.*;
 
 import entidades.Veiculo;
-import utils.ValidatorUtils;
+import utils.*;
 
 public class ClientePF extends Cliente {
     private final String cpf;
@@ -22,6 +22,12 @@ public class ClientePF extends Cliente {
         setGenero(genero);
     }
 
+
+    @Override
+    public int getQuantidadeVeiculos() {
+        return listaVeiculos.size();
+    }
+
     @Override
     public String getCadastro() {
         return getCpf();
@@ -33,6 +39,10 @@ public class ClientePF extends Cliente {
             return true;
         }
         return false;
+    }
+
+    public int getIdade() {
+        return DateUtils.calcularIdade(getDataNasc());
     }
 
     public String getCpf() {

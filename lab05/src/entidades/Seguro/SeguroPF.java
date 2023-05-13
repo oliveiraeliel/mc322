@@ -4,29 +4,25 @@ import java.util.Date;
 
 import entidades.Seguradora;
 import entidades.Veiculo;
+import entidades.Cliente.CalcSeguro;
 import entidades.Cliente.ClientePF;
 
 public class SeguroPF extends Seguro {
     private Veiculo veiculo;
     private ClientePF cliente;
 
-    public SeguroPF(Date dataInicio, Date dataFim, Seguradora seguradora, Double valorMensal, Veiculo veiculo,
-            ClientePF cliente) {
-        super(dataInicio, dataFim, seguradora, valorMensal);
+    public SeguroPF(Date dataInicio, Date dataFim, Seguradora seguradora, Veiculo veiculo, ClientePF cliente) {
+        super(dataInicio, dataFim, seguradora);
         setVeiculo(veiculo);
         setCliente(cliente);
+        atualizarValorMensal();
     }
 
     @Override
-    public Double calcularValor() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void desautorizarCondutor() {
-        // TODO Auto-generated method stub
-
+    public Double calculaScore() {
+        return (CalcSeguro.VALOR_BASE.getValor() * CalcSeguro.fatorIdade(cliente.getIdade())
+                * (1 + 1 / (cliente.getQuantidadeVeiculos() + 2))
+                * (2 + cliente.getQuantidadeSinistros() / 10) * (5 + getQuantidadeSinistrosCondutores() / 10));
     }
 
     public Veiculo getVeiculo() {

@@ -14,22 +14,53 @@ public abstract class Seguro {
     private Date dataFim;
     private Seguradora seguradora;
     private ArrayList<Sinistro> listaSinistros = new ArrayList<Sinistro>();
-    private Double valorMensal;
+    private ArrayList<Condutor> listaCondutores = new ArrayList<Condutor>();
+    private Double valorMensal = 0.0;
 
-    public Seguro(Date dataInicio, Date dataFim, Seguradora seguradora, Double valorMensal) {
+    public Seguro(Date dataInicio, Date dataFim, Seguradora seguradora) {
         setDataInicio(dataInicio);
         setDataFim(dataFim);
         setSeguradora(seguradora);
-        setValorMensal(valorMensal);
     }
 
-    public abstract void desautorizarCondutor();
+    public abstract Double calculaScore();
 
-    public abstract Double calcularValor();
+    public Double atualizarValorMensal() {
+        Double valorAntigo = getValorMensal();
+        setValorMensal(calculaScore());
+        seguradora.adicionarReceita(getValorMensal() - valorAntigo);
+        return valorMensal;
+    }
 
-    public Sinistro gerarSinistro(Date data, String endereco, Condutor condutor){
-        // todo
-        return null;
+    public int getQuantidadeSinistrosCondutores() {
+        int n = 0;
+        for (Condutor condutor : listaCondutores) {
+            n += condutor.getQuantidadeSinistros();
+        }
+        return n;
+    }
+
+    public boolean desautorizarCondutor(Condutor condutor) {
+        if (listaCondutores.contains(condutor)) {
+            listaCondutores.remove(condutor);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean autorizarCondutor(Condutor condutor) {
+        if (!listaCondutores.contains(condutor)) {
+            listaCondutores.add(condutor);
+            return true;
+        }
+        return false;
+    }
+
+    public Sinistro gerarSinistro(Date data, String endereco, Condutor condutor) {
+        Sinistro sinistro = new Sinistro(data, endereco, this, condutor);
+        condutor.adicionarSinistro(sinistro);
+        atualizarValorMensal();
+        return sinistro;
     }
 
     public int getID() {
