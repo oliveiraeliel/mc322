@@ -2,6 +2,7 @@ package entidades.Seguro;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 
 import entidades.Seguradora;
 import entidades.Sinistro;
@@ -24,6 +25,16 @@ public abstract class Seguro {
     }
 
     public abstract Double calculaScore();
+
+    public void destruirSeguro() {
+        Iterator<Sinistro> iterSinistro = getListaSinistros().iterator();
+        while (iterSinistro.hasNext()) {
+            Sinistro sinistro = iterSinistro.next();
+            sinistro.getCondutor().removerSinistro(sinistro);
+            iterSinistro.remove();
+        }
+        listaCondutores.clear();
+    }
 
     public Double atualizarValorMensal() {
         Double valorAntigo = getValorMensal();

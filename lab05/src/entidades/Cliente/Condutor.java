@@ -28,6 +28,10 @@ public class Condutor extends Base {
         return false;
     }
 
+    public boolean removerSinistro(Sinistro sinistro) {
+        return listaSinistros.remove(sinistro);
+    }
+
     public String getCpf() {
         return this.cpf;
     }

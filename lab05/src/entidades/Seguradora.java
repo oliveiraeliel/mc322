@@ -27,11 +27,11 @@ public class Seguradora extends Base {
         this.cnpj = cnpj;
     }
 
-    public void adicionarReceita(Double receita){
+    public void adicionarReceita(Double receita) {
         setReceita(getReceita() + receita);
     }
 
-    public Double calcularReceita(){
+    public Double calcularReceita() {
         return getReceita();
     }
 
@@ -55,7 +55,6 @@ public class Seguradora extends Base {
             return true;
         }
         return false;
-
     }
 
     public boolean gerarSeguro(ClientePJ cliente, Frota frota, Date dataFim) {
@@ -63,14 +62,6 @@ public class Seguradora extends Base {
             Seguro seguro = new SeguroPJ(DateUtils.localDate(), dataFim, this, frota, cliente);
             listaSeguros.add(seguro);
             cliente.adicionarSeguro(seguro);
-            return true;
-        }
-        return false;
-    }
-
-    public boolean cancelarSeguro(Seguro seguro) {
-        if (listaSeguros.contains(seguro)) {
-            listaSeguros.remove(seguro);
             return true;
         }
         return false;
@@ -94,8 +85,13 @@ public class Seguradora extends Base {
     }
 
     public boolean removerCliente(Cliente cliente) {
-        if (!listaClientes.contains(cliente)) {
-            listaClientes.remove(cliente);
+        return listaClientes.remove(cliente);
+    }
+
+    public boolean cancelarSeguro(Seguro seguro) {
+        if (listaSeguros.contains(seguro)) {
+            seguro.destruirSeguro();
+            listaSeguros.remove(seguro);
             return true;
         }
         return false;

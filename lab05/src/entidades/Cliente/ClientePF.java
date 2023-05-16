@@ -3,6 +3,8 @@ package entidades.Cliente;
 import java.util.*;
 
 import entidades.Veiculo;
+import entidades.Seguro.Seguro;
+import entidades.Seguro.SeguroPF;
 import utils.*;
 
 public class ClientePF extends Cliente {
@@ -31,6 +33,27 @@ public class ClientePF extends Cliente {
     @Override
     public String getCadastro() {
         return getCpf();
+    }
+
+    private void excluirSeguro(Veiculo veiculo){
+        if (listaVeiculos.contains(veiculo)){
+            Iterator<Seguro> segIterator = getListaSeguros().iterator();
+            while(segIterator.hasNext()){
+                SeguroPF seguro = ((SeguroPF)segIterator.next());
+                if (seguro.getVeiculo().equals(veiculo)){
+                    seguro.getSeguradora().cancelarSeguro(seguro);
+                    segIterator.remove(); 
+                }
+            }
+        }
+    }
+
+    public boolean excluirVeiculo(Veiculo veiculo){
+        if(listaVeiculos.contains(veiculo)){
+            excluirSeguro(veiculo);
+            return true;
+        }
+        return false;
     }
 
     public boolean cadastrarVeiculo(Veiculo veiculo) {
