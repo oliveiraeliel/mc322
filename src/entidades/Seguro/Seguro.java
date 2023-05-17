@@ -7,6 +7,7 @@ import java.util.Iterator;
 import entidades.Seguradora;
 import entidades.Sinistro;
 import entidades.Cliente.Condutor;
+import execeptions.CondutorNaoAssociadoException;
 
 public abstract class Seguro {
     private final int ID = ++count;
@@ -67,11 +68,15 @@ public abstract class Seguro {
         return false;
     }
 
-    public Sinistro gerarSinistro(Date data, String endereco, Condutor condutor) {
-        Sinistro sinistro = new Sinistro(data, endereco, this, condutor);
-        condutor.adicionarSinistro(sinistro);
-        atualizarValorMensal();
-        return sinistro;
+    public Sinistro gerarSinistro(Date data, String endereco, Condutor condutor) throws CondutorNaoAssociadoException {
+        if (listaCondutores.contains(condutor)) {
+            Sinistro sinistro = new Sinistro(data, endereco, this, condutor);
+            condutor.adicionarSinistro(sinistro);
+            atualizarValorMensal();
+            return sinistro;
+        }
+        throw new CondutorNaoAssociadoException(
+                "O condutor de CPF " + condutor.getCpf() + " não está associado ao seguro.");
     }
 
     public int getID() {

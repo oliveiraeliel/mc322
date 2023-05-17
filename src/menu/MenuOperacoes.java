@@ -1,9 +1,20 @@
 package menu;
 
+import java.util.Date;
 import java.util.Map;
+
+import javax.print.attribute.IntegerSyntax;
+
 import entidades.Seguradora;
 import entidades.Veiculo;
 import entidades.Cliente.Cliente;
+import entidades.Cliente.Condutor;
+import entidades.Seguro.Seguro;
+import execeptions.CondutorNaoAssociadoException;
+import execeptions.CondutorNaoEncontradoException;
+import execeptions.SeguradoraNaoEncontradaException;
+import execeptions.SeguroNaoEncontradoException;
+import execeptions.ValorNaoEsperadoException;
 import utils.InputUtils;
 
 public enum MenuOperacoes {
@@ -22,7 +33,8 @@ public enum MenuOperacoes {
         this.value = value;
     }
 
-    public static void menu(Map<String, Seguradora> seguradoras) {
+    public static void menu(Map<String, Seguradora> seguradoras, Map<Integer, Seguro> seguros,
+            Map<String, Condutor> condutores) {
         System.out.println("-------------- MENU -------------");
         System.out.println("1- Cadastros");
         System.out.println("2- Listar");
@@ -34,11 +46,13 @@ public enum MenuOperacoes {
         System.out.println("0- Sair");
         int operacao = InputUtils.lerInt();
 
-        MenuOperacoes o = getOperacao(operacao);
-        if (o == null) {
-            menu(seguradoras);
-        } else if (handle(o, seguradoras)) {
-            menu(seguradoras);
+        try {
+            MenuOperacoes o = getOperacao(operacao);
+            if (handle(o, seguradoras)) {
+                menu(seguradoras, seguros, condutores);
+            }
+        } catch (ValorNaoEsperadoException e) {
+            menu(seguradoras, seguros, condutores);
         }
     }
 
@@ -71,31 +85,48 @@ public enum MenuOperacoes {
         return true;
     }
 
-    private static void gerarSinistro(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
-        if (seguradoras.containsKey(nomeSeguradora)) {
-            Seguradora seguradora = seguradoras.get(nomeSeguradora);
-            String placa = InputUtils.lerString("Placa: ");
-            String cadastro = InputUtils.lerCadastro();
-            Cliente cliente = seguradora.getClienteByCadastro(cadastro);
-            if (cliente != null) {
-                Veiculo veiculo = cliente.getVeiculo(placa);
-                if (veiculo != null) {
-                    String endereco = InputUtils.lerString("Endereço: ");
-                    if (seguradora.gerarSinistro(cliente, veiculo, endereco)) {
-                        System.out.println("Sinistro gerado com sucesso.");
-                    } else {
-                        System.out.println("Sinistro não gerado.");
+    public static Condutor getCondutor(Map<String, Condutor> condutores, String cpf)
+            throws CondutorNaoEncontradoException {
+        Condutor condutor = condutores.get(cpf);
+        if (condutor != null) {
+            return condutor;
+        }
+        throw new CondutorNaoEncontradoException("O CPF " + cpf + " não corresponde à nenhum condutor.");
+    }
 
-                    }
-                } else {
-                    System.out.println("Veículo não encontrado.");
-                }
-            } else {
-                System.out.println("Cliente não encontrado.");
-            }
-        } else {
-            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+    public static Seguro getSeguro(Map<Integer, Seguro> seguros, Integer id)
+            throws SeguroNaoEncontradoException {
+        Seguro seguro = seguros.get(id);
+        if (seguro != null) {
+            return seguro;
+        }
+        throw new SeguroNaoEncontradoException("O #id " + id + " não corresponde à nenhum seguro.");
+    }
+
+    public static Seguradora getSeguradora(Map<String, Seguradora> seguradoras, String cnpj) throws SeguradoraNaoEncontradaException{
+        Seguradora seguradora = seguradoras.get(cnpj);
+        if (seguradora != null){
+            return seguradora;
+        }
+        throw new SeguradoraNaoEncontradaException("O CNPJ " + cnpj + " não corresponde à nenhuma seguradora.");
+    }
+
+    private static void gerarSinistro(Map<Integer, Seguro> seguros, Map<String, Condutor> condutores) {
+        try {
+            Integer idSeguro = InputUtils.lerInt("ID do seguro: ");
+            Seguro seguro = getSeguro(seguros, idSeguro);
+            String cpfCondutor = InputUtils.lerCPF("CPF do Condutor: ");
+            Condutor condutor = getCondutor(condutores, cpfCondutor);
+            Date data = InputUtils.lerData("Data do sinistro (dd/mm/yyyy): ");
+            String endereco = InputUtils.lerString("Endereço: ");
+            seguro.gerarSinistro(data, endereco, condutor);
+            System.out.println("Sinistro gerado com sucesso.");
+        } catch (SeguroNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+        } catch(CondutorNaoEncontradoException e){
+            System.out.println(e.getMessage());
+        } catch (CondutorNaoAssociadoException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -161,7 +192,7 @@ public enum MenuOperacoes {
         return value;
     }
 
-    public static MenuOperacoes getOperacao(int operacao) {
+    public static MenuOperacoes getOperacao(int operacao) throws ValorNaoEsperadoException{
         switch (operacao) {
             case 1:
                 return CADASTRAR;
@@ -180,7 +211,7 @@ public enum MenuOperacoes {
             case 0:
                 return SAIR;
             default:
-                return null;
+            throw new ValorNaoEsperadoException("Valor não esperado")
         }
     }
 }

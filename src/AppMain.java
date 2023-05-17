@@ -4,23 +4,16 @@ import java.util.Map;
 
 import entidades.*;
 import entidades.Cliente.*;
+import entidades.Seguro.Seguro;
 import factories.ClienteFactory;
 import factories.SeguradoraFactory;
+import menu.MenuOperacoes;
 
 public class AppMain {
 	public static void main(String[] args) {
-		// Map<String, Seguradora> seguradoras = new HashMap<>();
-		// Seguradora seguradora = SeguradoraFactory.generateSeguradora("Eliel
-		// Seguros");
-
-		// seguradoras.put(seguradora.getNome(), seguradora);
-		// MenuOperacoes.menu(seguradoras);
-		Cliente cliente = ClienteFactory.generateClientePF("1234");
-		Seguradora seguradora = SeguradoraFactory.generateSeguradora();
-		Veiculo veiculo = new Veiculo("null", "null", "null", 2004);
-		seguradora.cadastrarCliente(cliente);
-		seguradora.gerarSeguro((ClientePF)cliente, veiculo, new Date());
-		System.out.println(cliente.getListaSeguros().get(0).getValorMensal());
-		System.out.println(seguradora.calcularReceita());
+		Map<String, Seguradora> seguradoras = new HashMap<>();
+		Map<Integer, Seguro> seguros = new HashMap<>();
+		Map<String, Condutor> condutores = new HashMap<>();
+		MenuOperacoes.menu(seguradoras, seguro, condutores);
 	}
 }

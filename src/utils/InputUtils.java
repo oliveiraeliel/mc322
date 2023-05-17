@@ -37,7 +37,11 @@ public final class InputUtils {
     }
 
     public static String lerCPF() {
-        String cpf = lerString("CPF: ");
+        return lerCPF("CPF: ");
+    }
+
+    public static String lerCPF(String outString) {
+        String cpf = lerString(outString);
         if (!Validacao.validaCPF(cpf)) {
             System.out.println("Insira um CPF válido!");
             return lerCPF();
