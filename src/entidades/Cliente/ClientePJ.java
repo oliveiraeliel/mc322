@@ -25,6 +25,15 @@ public class ClientePJ extends Cliente {
     }
 
     @Override
+    public ArrayList<Veiculo> listarVeiculos() {
+        ArrayList<Veiculo> veiculos = new ArrayList<>();
+        for (Frota frota : listaFrota) {
+            veiculos.addAll(frota.getListaVeiculos());
+        }
+        return veiculos;
+    }
+
+    @Override
     public int getQuantidadeVeiculos() {
         int n = 0;
         for (Frota frota : listaFrota) {
@@ -83,7 +92,7 @@ public class ClientePJ extends Cliente {
     }
 
     public boolean removeFrota(Frota frota) {
-        if (listaFrota.remove(frota)){
+        if (listaFrota.remove(frota)) {
             frota.destruirFrota();
             return true;
         }
@@ -97,12 +106,8 @@ public class ClientePJ extends Cliente {
         return false;
     }
 
-    public boolean getVeiculosPorFrota(Frota frota) {
-        if (!frota.getListaVeiculos().isEmpty()) {
-            System.out.println(frota.getListaVeiculos());
-            return true;
-        }
-        return false;
+    public ArrayList<Veiculo> getVeiculosPorFrota(Frota frota) {
+        return frota.getListaVeiculos();
     }
 
     public String getCnpj() {

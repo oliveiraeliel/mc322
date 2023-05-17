@@ -23,6 +23,11 @@ public class ClientePF extends Cliente {
     }
 
     @Override
+    public ArrayList<Veiculo> listarVeiculos() {
+        return getListaVeiculos();
+    }
+
+    @Override
     public int getQuantidadeVeiculos() {
         return listaVeiculos.size();
     }

@@ -33,8 +33,7 @@ public enum MenuOperacoes {
         this.value = value;
     }
 
-    public static void menu(Map<String, Seguradora> seguradoras, Map<Integer, Seguro> seguros,
-            Map<String, Condutor> condutores) {
+    public static void menu() {
         System.out.println("-------------- MENU -------------");
         System.out.println("1- Cadastros");
         System.out.println("2- Listar");
@@ -48,38 +47,36 @@ public enum MenuOperacoes {
 
         try {
             MenuOperacoes o = getOperacao(operacao);
-            if (handle(o, seguradoras)) {
-                menu(seguradoras, seguros, condutores);
+            if (handle(o)) {
+                menu();
             }
         } catch (ValorNaoEsperadoException e) {
-            menu(seguradoras, seguros, condutores);
+            menu();
         }
     }
 
-    private static boolean handle(MenuOperacoes operacao, Map<String, Seguradora> seguradoras,
-            Map<Integer, Seguro> seguros,
-            Map<String, Condutor> condutores) {
+    private static boolean handle(MenuOperacoes operacao) {
         switch (operacao) {
             case CADASTRAR:
-                MenuCadastrar.cadastrar(seguradoras);
+                MenuCadastrar.cadastrar();
                 break;
             case LISTAR:
-                MenuListar.listar(seguradoras, seguros, condutores);
+                MenuListar.listar();
                 break;
             case EXCLUIR:
-                MenuExcluir.excluir(seguradoras);
+                MenuExcluir.excluir();
                 break;
             case GERAR_SINISTRO:
-                gerarSinistro(seguros, condutores);
+                gerarSinistro();
                 break;
             case TRANSFERIR_SEGURO:
-                transferirSeguro(seguradoras);
+                transferirSeguro();
                 break;
             case CALCULAR_RECEITA_SEGURADORA:
-                calcularReceitaSeguradora(seguradoras);
+                calcularReceitaSeguradora();
                 break;
             case CALCULAR_VALOR_SEGURO:
-                calcularValorSeguro(seguradoras);
+                calcularValorSeguro();
                 break;
             case SAIR:
                 return false;
@@ -87,12 +84,12 @@ public enum MenuOperacoes {
         return true;
     }
 
-    private static void gerarSinistro(Map<Integer, Seguro> seguros, Map<String, Condutor> condutores) {
+    private static void gerarSinistro() {
         try {
             Integer idSeguro = InputUtils.lerInt("ID do seguro: ");
-            Seguro seguro = getSeguro(seguros, idSeguro);
+            Seguro seguro = BancoDados.getSeguro(idSeguro);
             String cpfCondutor = InputUtils.lerCPF("CPF do Condutor: ");
-            Condutor condutor = getCondutor(condutores, cpfCondutor);
+            Condutor condutor = BancoDados.getCondutor(cpfCondutor);
             Date data = InputUtils.lerData("Data do sinistro (dd/mm/yyyy): ");
             String endereco = InputUtils.lerString("Endereço: ");
             seguro.gerarSinistro(data, endereco, condutor);
@@ -137,14 +134,14 @@ public enum MenuOperacoes {
         System.out.printf("Seguro do cliente %s foi transferido para o cliente %s.\n", de.getNome(), para.getNome());
     }
 
-    private static void calcularReceitaSeguradora(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
-        if (seguradoras.containsKey(nomeSeguradora)) {
-            Seguradora seguradora = seguradoras.get(nomeSeguradora);
-            Double receita = seguradora.calcularReceita();
-            System.out.printf("A receita da seguradora %s é de R$ %.2f\n", nomeSeguradora, receita);
-        } else {
-            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+    private static void calcularReceitaSeguradora() {
+        try {
+            String cnpj = InputUtils.lerCNPJ("CNPJ da Seguradora: ");
+            Seguradora seguradora = BancoDados.getSeguradora(cnpj);
+            System.out.println(
+                    "A receita da seguradora '" + seguradora.getNome() + "' é de R$ " + seguradora.getReceita());
+        } catch (SeguradoraNaoEncontradaException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -168,7 +165,7 @@ public enum MenuOperacoes {
         return value;
     }
 
-    public static MenuOperacoes getOperacao(int operacao) throws ValorNaoEsperadoException{
+    public static MenuOperacoes getOperacao(int operacao) throws ValorNaoEsperadoException {
         switch (operacao) {
             case 1:
                 return CADASTRAR;
@@ -187,7 +184,7 @@ public enum MenuOperacoes {
             case 0:
                 return SAIR;
             default:
-            throw new ValorNaoEsperadoException("Valor não esperado")
+                throw new ValorNaoEsperadoException("Valor não esperado");
         }
     }
 }

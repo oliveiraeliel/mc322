@@ -103,7 +103,11 @@ public final class InputUtils {
     }
 
     public static String lerCNPJ() {
-        String cnpj = lerString("CNPJ: ");
+        return lerCNPJ("CNPJ: ");
+    }
+
+    public static String lerCNPJ(String outString) {
+        String cnpj = lerString(outString);
         if (!Validacao.validaCNPJ(cnpj)) {
             System.out.println("Insira um CNPJ válido!");
             return lerCNPJ();

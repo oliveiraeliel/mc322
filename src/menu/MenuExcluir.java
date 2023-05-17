@@ -17,7 +17,7 @@ public enum MenuExcluir {
         this.value = value;
     }
 
-    public static void excluir(Map<String, Seguradora> seguradoras) {
+    public static void excluir() {
         System.out.println("------------- EXCLUIR ------------");
         System.out.println("1- Excluir Cliente");
         System.out.println("2- Excluir Veículo");
@@ -27,13 +27,13 @@ public enum MenuExcluir {
 
         MenuExcluir o = getOperacao(operacao);
         if (o == null) {
-            excluir(seguradoras);
-        } else if (handle(o, seguradoras)) {
-            excluir(seguradoras);
+            excluir();
+        } else if (handle(o)) {
+            excluir();
         }
     }
 
-    private static boolean handle(MenuExcluir operacao, Map<String, Seguradora> seguradoras) {
+    private static boolean handle() {
         switch (operacao) {
             case EXCLUIR_CLIENTE:
                 excluirCliente(seguradoras);

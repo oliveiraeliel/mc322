@@ -2,6 +2,7 @@ package entidades.Cliente;
 
 import java.util.ArrayList;
 import entidades.Sinistro;
+import entidades.Veiculo;
 import entidades.Seguro.Seguro;
 
 public abstract class Cliente extends Base {
@@ -14,6 +15,8 @@ public abstract class Cliente extends Base {
     public abstract String getCadastro();
 
     public abstract int getQuantidadeVeiculos();
+
+    public abstract ArrayList<Veiculo> listarVeiculos();
 
     public int getQuantidadeSinistros() {
         int n = 0;

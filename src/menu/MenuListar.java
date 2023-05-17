@@ -3,10 +3,16 @@ package menu;
 import java.util.List;
 import java.util.Map;
 
+import entidades.Frota;
 import entidades.Seguradora;
 import entidades.Sinistro;
 import entidades.Veiculo;
 import entidades.Cliente.Cliente;
+import entidades.Cliente.ClientePJ;
+import entidades.Cliente.TipoCliente;
+import execeptions.ClienteNaoEncontradoException;
+import execeptions.FrotaNaoEncontradaException;
+import execeptions.SeguradoraNaoEncontradaException;
 import utils.InputUtils;
 
 public enum MenuListar {
@@ -25,7 +31,7 @@ public enum MenuListar {
         this.value = value;
     }
 
-    public static void listar(Map<String, Seguradora> seguradoras) {
+    public static void listar() {
         System.out.println("------------- LISTAR ------------");
         System.out.println("1- Listar Clientes PF");
         System.out.println("2- Listar Clientes PJ");
@@ -39,34 +45,34 @@ public enum MenuListar {
 
         MenuListar o = getOperacao(operacao);
         if (o == null) {
-            listar(seguradoras);
-        } else if (handle(o, seguradoras)) {
-            listar(seguradoras);
+            listar();
+        } else if (handle(o)) {
+            listar();
         }
     }
 
-    private static boolean handle(MenuListar operacao, Map<String, Seguradora> seguradoras) {
+    private static boolean handle(MenuListar operacao) {
         switch (operacao) {
             case LISTAR_CLIENTE_PF:
-                listarClientes("PF", seguradoras);
+                listarClientes(TipoCliente.PF);
                 break;
             case LISTAR_CLIENTE_PJ:
-                listarClientes("PJ", seguradoras);
+                listarClientes(TipoCliente.PJ);
                 break;
             case LISTAR_SINISTROS_CLIENTE:
-                listarSinistrosCliente(seguradoras);
+                listarSinistrosCliente();
                 break;
             case LISTAR_SINISTROS:
-                listarSinistros(seguradoras);
+                listarSinistros();
                 break;
             case LISTAR_VEICULO_CLIENTE:
-                listarVeiculosCliente(seguradoras);
+                listarVeiculosCliente();
                 break;
             case LISTAR_VEICULO_SEGURADORA:
-                listarVeiculoSeguradora(seguradoras);
+                listarVeiculoSeguradora();
                 break;
             case LISTAR_SEGURADORAS:
-                listarSeguradoras(seguradoras);
+                listarSeguradoras();
                 break;
             case VOLTAR:
                 return false;
@@ -74,22 +80,17 @@ public enum MenuListar {
         return true;
     }
 
-    private static void listarClientes(String tipo, Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
-        if (seguradoras.containsKey(nomeSeguradora)) {
-            Seguradora seguradora = seguradoras.get(nomeSeguradora);
-            List<Cliente> clientes = seguradora.listarClientes(tipo);
-            if (clientes.isEmpty()) {
-                System.out.println("Nenhum cliente encontrado.");
-            } else {
-                System.out.println(clientes);
-            }
-        } else {
-            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+    private static void listarClientes(TipoCliente tipo) {
+        try {
+            String cnpj = InputUtils.lerCNPJ("CNPJ da seguradora: ");
+            Seguradora seguradora = BancoDados.getSeguradora(cnpj);
+            System.out.println(seguradora.listarClientes(tipo));
+        } catch (SeguradoraNaoEncontradaException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    private static void listarSinistros(Map<String, Seguradora> seguradoras) {
+    private static void listarSinistros() {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
@@ -104,54 +105,61 @@ public enum MenuListar {
         }
     }
 
-    private static void listarSinistrosCliente(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
-        if (seguradoras.containsKey(nomeSeguradora)) {
-            Seguradora seguradora = seguradoras.get(nomeSeguradora);
-            String cadastro = InputUtils.lerCadastro();
-            if (!seguradora.visualizarSinistro(cadastro)) {
-                System.out.printf("Nenhum sinistro encontrado relacionado com o cadastro %s\n", cadastro);
-            }
-        } else {
-            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+    private static void listarSinistrosCliente() {
+        try {
+            String cadastro = InputUtils.lerCadastro("Cadastro do cliente (CPF/CNPJ): ");
+            Cliente cliente = BancoDados.getCliente(cadastro);
+            System.out.println(cliente.getSinistros());
+        } catch (ClienteNaoEncontradoException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    private static void listarVeiculosCliente(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
-        if (seguradoras.containsKey(nomeSeguradora)) {
-            Seguradora seguradora = seguradoras.get(nomeSeguradora);
-            String cadastro = InputUtils.lerCadastro();
-            List<Veiculo> veiculos = seguradora.listarVeiculosCliente(cadastro);
-            if (veiculos == null) {
-                System.out.printf("Nenhum cliente com o cadastro %s foi encontrado na seguradora %s\n", cadastro,
-                        nomeSeguradora);
-            } else if (!veiculos.isEmpty()) {
-                System.out.println(veiculos);
-            } else {
-                System.out.println("Nenhum veículo encontrado");
-            }
-        } else {
-            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+    private static void listarVeiculosCliente() {
+        try {
+            String cadastro = InputUtils.lerCadastro("Cadastro do cliente (CPF/CNPJ): ");
+            Cliente cliente = BancoDados.getCliente(cadastro);
+            System.out.println(cliente.listarVeiculos());
+        } catch (ClienteNaoEncontradoException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    private static void listarVeiculoSeguradora(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
-        if (seguradoras.containsKey(nomeSeguradora)) {
-            Seguradora seguradora = seguradoras.get(nomeSeguradora);
-            List<Veiculo> veiculos = seguradora.listarVeiculos();
-            if (!veiculos.isEmpty()) {
-                System.out.println(veiculos);
-            } else {
-                System.out.printf("Nenhum veículo relacionado com a seguradora %s encontrado\n", nomeSeguradora);
-            }
-        } else {
-            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+    private static void listarFrotasCliente() {
+        try {
+            String cnpj = InputUtils.lerCNPJ();
+            ClientePJ cliente = (ClientePJ) BancoDados.getCliente(cnpj);
+            System.out.println(cliente.getListaFrota());
+        } catch (ClienteNaoEncontradoException e) {
+            System.out.println(e.getMessage());
         }
     }
 
-    private static void listarSeguradoras(Map<String, Seguradora> seguradoras) {
+    private static void listarVeiculosFrota() {
+        try {
+            String cnpj = InputUtils.lerCNPJ();
+            ClientePJ cliente = (ClientePJ) BancoDados.getCliente(cnpj);
+            String code = InputUtils.lerString("Insira o código da frota: ");
+            Frota frota = cliente.buscarFrota(code);
+            System.out.println(frota.getListaVeiculos());
+        } catch (ClienteNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+        } catch (FrotaNaoEncontradaException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void listarVeiculoSeguradora() {
+        try {
+            String cnpj = InputUtils.lerCNPJ("CNPJ da seguradora: ");
+            Seguradora seguradora = BancoDados.getSeguradora(cnpj);
+            System.out.println(seguradora.);
+        } catch (SeguradoraNaoEncontradaException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private static void listarSeguradoras() {
         if (!seguradoras.isEmpty()) {
             System.out.println(seguradoras.keySet());
         } else {

@@ -16,6 +16,9 @@ public class Frota {
 
     public boolean addVeiculo(Veiculo veiculo) {
         if (!listaVeiculos.contains(veiculo)) {
+            if (seguro != null) {
+                seguro.atualizarValorMensal();
+            }
             listaVeiculos.add(veiculo);
             return true;
         }

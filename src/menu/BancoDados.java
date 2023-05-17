@@ -4,8 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import entidades.Seguradora;
+import entidades.Cliente.Cliente;
 import entidades.Cliente.Condutor;
 import entidades.Seguro.Seguro;
+import execeptions.ClienteNaoEncontradoException;
 import execeptions.CondutorNaoEncontradoException;
 import execeptions.SeguradoraNaoEncontradaException;
 import execeptions.SeguroNaoEncontradoException;
@@ -15,6 +17,7 @@ public class BancoDados {
     private static Map<Integer, Seguro> seguros = new HashMap<>();
     private static Map<String, Condutor> condutores = new HashMap<>();
     private static Map<String, Seguradora> seguradoras = new HashMap<>();
+    private static Map<String, Cliente> clientes = new HashMap<>();
 
     public static boolean seguradoraExiste(String cnpj) {
         return seguradoras.containsKey(cnpj);
@@ -40,31 +43,47 @@ public class BancoDados {
         return seguros.containsKey(seguro.getID());
     }
 
-    public static boolean adicionarSeguro(Integer id, Seguro seguro) {
-        if (!seguros.containsKey(id)) {
-            seguros.put(id, seguro);
+    public static boolean adicionarSeguro(Seguro seguro) {
+        if (!seguros.containsKey(seguro.getID())) {
+            seguros.put(seguro.getID(), seguro);
             return true;
         }
         return false;
     }
 
-    public static boolean adicinarCondutor(String cpf, Condutor condutor) {
-        if (!condutores.containsKey(cpf)) {
-            condutores.put(cpf, condutor);
+    public static boolean adicionarCondutor(Condutor condutor) {
+        if (!condutores.containsKey(condutor.getCpf())) {
+            condutores.put(condutor.getCpf(), condutor);
             return true;
         }
         return false;
     }
 
-    public static boolean adicionarSeguradora(String cnpj, Seguradora seguradora) {
-        if (!seguradoras.containsKey(cnpj)) {
-            seguradoras.put(cnpj, seguradora);
+    public static boolean adicionarSeguradora(Seguradora seguradora) {
+        if (!seguradoras.containsKey(seguradora.getCnpj())) {
+            seguradoras.put(seguradora.getCnpj(), seguradora);
             return true;
         }
         return false;
     }
 
-    public static Condutor getCondutor(Map<String, Condutor> condutores, String cpf)
+    public static boolean adicionarClientePF(Cliente cliente) {
+        if (!clientes.containsKey(cliente.getCadastro())) {
+            clientes.put(cliente.getCadastro(), cliente);
+            return true;
+        }
+        return false;
+    }
+
+    public static Cliente getCliente(String cadastro) throws ClienteNaoEncontradoException {
+        Cliente cliente = clientes.get(cadastro);
+        if (cliente != null) {
+            return cliente;
+        }
+        throw new ClienteNaoEncontradoException("Cliente com o cadastro " + cadastro + " não foi encontrado.");
+    }
+
+    public static Condutor getCondutor(String cpf)
             throws CondutorNaoEncontradoException {
         Condutor condutor = condutores.get(cpf);
         if (condutor != null) {
@@ -73,7 +92,7 @@ public class BancoDados {
         throw new CondutorNaoEncontradoException("O CPF " + cpf + " não corresponde à nenhum condutor.");
     }
 
-    public static Seguro getSeguro(Map<Integer, Seguro> seguros, Integer id)
+    public static Seguro getSeguro(Integer id)
             throws SeguroNaoEncontradoException {
         Seguro seguro = seguros.get(id);
         if (seguro != null) {
@@ -82,7 +101,7 @@ public class BancoDados {
         throw new SeguroNaoEncontradoException("O #id " + id + " não corresponde à nenhum seguro.");
     }
 
-    public static Seguradora getSeguradora(Map<String, Seguradora> seguradoras, String cnpj)
+    public static Seguradora getSeguradora(String cnpj)
             throws SeguradoraNaoEncontradaException {
         Seguradora seguradora = seguradoras.get(cnpj);
         if (seguradora != null) {
@@ -91,7 +110,7 @@ public class BancoDados {
         throw new SeguradoraNaoEncontradaException("O CNPJ " + cnpj + " não corresponde à nenhuma seguradora.");
     }
 
-    public static boolean excluirSeguro(Integer id){
+    public static boolean excluirSeguro(Integer id) {
         return seguros.remove(id, seguros.get(id));
     }
 }
