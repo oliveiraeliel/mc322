@@ -5,6 +5,10 @@ import java.util.Map;
 import entidades.Seguradora;
 import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePF;
+import entidades.Cliente.Condutor;
+import entidades.Cliente.TipoCliente;
+import entidades.Seguro.Seguro;
+import execeptions.ValorNaoEsperadoException;
 import factories.ClienteFactory;
 import factories.SeguradoraFactory;
 import factories.VeiculoFactory;
@@ -28,7 +32,9 @@ public enum MenuCadastrar {
         return value;
     }
 
-    public static void cadastrar(Map<String, Seguradora> seguradoras) {
+    public static void cadastrar(Map<String, Seguradora> seguradoras,
+            Map<Integer, Seguro> seguros,
+            Map<String, Condutor> condutores) {
         System.out.println("------------ CADASTRAR -----------");
         System.out.println("1- Cadastrar Cliente PF");
         System.out.println("2- Cadastrar Cliente PJ");
@@ -37,21 +43,25 @@ public enum MenuCadastrar {
         System.out.println("5- Voltar");
         int operacao = InputUtils.lerInt();
 
-        MenuCadastrar o = getOperacao(operacao);
-        if (o == null) {
-            cadastrar(seguradoras);
-        } else if (handle(o, seguradoras)) {
-            cadastrar(seguradoras);
+        try {
+            MenuCadastrar o = getOperacao(operacao);
+            if (handle(o, seguradoras)) {
+                cadastrar(seguradoras, seguros, condutores);
+            }
+        } catch (ValorNaoEsperadoException e) {
+            cadastrar(seguradoras, seguros, condutores);
         }
     }
+
+}
 
     private static boolean handle(MenuCadastrar operacao, Map<String, Seguradora> seguradorasMap) {
         switch (operacao) {
             case CADASTRAR_CLIENTE_PF:
-                cadastrarCliente("PF", seguradorasMap);
+                cadastrarCliente(TipoCliente.PF, seguradorasMap);
                 break;
             case CADASTRAR_CLIENTE_PJ:
-                cadastrarCliente("PJ", seguradorasMap);
+                cadastrarCliente(TipoCliente.PJ, seguradorasMap);
                 break;
             case CADASTRAR_VEICULO:
                 cadastrarVeiculo(seguradorasMap);
@@ -65,32 +75,9 @@ public enum MenuCadastrar {
         return true;
     }
 
-    private static void cadastrarCliente(String tipo, Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
-        if (seguradoras.containsKey(nomeSeguradora)) {
-            Cliente cliente = (tipo.equals("PF") ? ClienteFactory.lerClientePF()
-                    : ClienteFactory.lerClientePJ());
-            Seguradora seguradora = seguradoras.get(nomeSeguradora);
-
-            if (cliente instanceof ClientePF) {
-                int idade = ((ClientePF) cliente).getIdade();
-                if (idade < 18) {
-                    System.out.println("Você precisa ter no minimo 18 anos.");
-                    return;
-                } else if (idade > 90) {
-                    System.out.println("Você precisa ter no máximo 90 anos.");
-                    return;
-                }
-            }
-            if (seguradora.cadastrarCliente(cliente)) {
-                System.out.printf("Cliente %s cadastrado na seguradora %s com sucesso!\n", cliente.getNome(),
-                        seguradora.getNome());
-                System.out.printf("O valor do seu seguro é de R$ %.2f\n", cliente.getValorSeguro());
-            } else {
-                System.out.println("Cliente já cadastrado!");
-            }
-        } else {
-            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+    private static void cadastrarCliente(TipoCliente tipo, Map<String, Seguradora> seguradoras) {
+        try{
+            
         }
     }
 
@@ -126,7 +113,7 @@ public enum MenuCadastrar {
         }
     }
 
-    public static MenuCadastrar getOperacao(int operacao) {
+    public static MenuCadastrar getOperacao(int operacao) throws ValorNaoEsperadoException {
         switch (operacao) {
             case 1:
                 return CADASTRAR_CLIENTE_PF;
@@ -139,7 +126,7 @@ public enum MenuCadastrar {
             case 5:
                 return VOLTAR;
             default:
-                return null;
+                throw new ValorNaoEsperadoException();
         }
     }
 }

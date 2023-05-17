@@ -56,19 +56,21 @@ public enum MenuOperacoes {
         }
     }
 
-    private static boolean handle(MenuOperacoes operacao, Map<String, Seguradora> seguradoras) {
+    private static boolean handle(MenuOperacoes operacao, Map<String, Seguradora> seguradoras,
+            Map<Integer, Seguro> seguros,
+            Map<String, Condutor> condutores) {
         switch (operacao) {
             case CADASTRAR:
                 MenuCadastrar.cadastrar(seguradoras);
                 break;
             case LISTAR:
-                MenuListar.listar(seguradoras);
+                MenuListar.listar(seguradoras, seguros, condutores);
                 break;
             case EXCLUIR:
                 MenuExcluir.excluir(seguradoras);
                 break;
             case GERAR_SINISTRO:
-                gerarSinistro(seguradoras);
+                gerarSinistro(seguros, condutores);
                 break;
             case TRANSFERIR_SEGURO:
                 transferirSeguro(seguradoras);
@@ -85,32 +87,6 @@ public enum MenuOperacoes {
         return true;
     }
 
-    public static Condutor getCondutor(Map<String, Condutor> condutores, String cpf)
-            throws CondutorNaoEncontradoException {
-        Condutor condutor = condutores.get(cpf);
-        if (condutor != null) {
-            return condutor;
-        }
-        throw new CondutorNaoEncontradoException("O CPF " + cpf + " não corresponde à nenhum condutor.");
-    }
-
-    public static Seguro getSeguro(Map<Integer, Seguro> seguros, Integer id)
-            throws SeguroNaoEncontradoException {
-        Seguro seguro = seguros.get(id);
-        if (seguro != null) {
-            return seguro;
-        }
-        throw new SeguroNaoEncontradoException("O #id " + id + " não corresponde à nenhum seguro.");
-    }
-
-    public static Seguradora getSeguradora(Map<String, Seguradora> seguradoras, String cnpj) throws SeguradoraNaoEncontradaException{
-        Seguradora seguradora = seguradoras.get(cnpj);
-        if (seguradora != null){
-            return seguradora;
-        }
-        throw new SeguradoraNaoEncontradaException("O CNPJ " + cnpj + " não corresponde à nenhuma seguradora.");
-    }
-
     private static void gerarSinistro(Map<Integer, Seguro> seguros, Map<String, Condutor> condutores) {
         try {
             Integer idSeguro = InputUtils.lerInt("ID do seguro: ");
@@ -123,7 +99,7 @@ public enum MenuOperacoes {
             System.out.println("Sinistro gerado com sucesso.");
         } catch (SeguroNaoEncontradoException e) {
             System.out.println(e.getMessage());
-        } catch(CondutorNaoEncontradoException e){
+        } catch (CondutorNaoEncontradoException e) {
             System.out.println(e.getMessage());
         } catch (CondutorNaoAssociadoException e) {
             System.out.println(e.getMessage());
