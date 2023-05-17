@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.Objects;
 
 import entidades.Frota;
+import entidades.Veiculo;
+import execeptions.FrotaNaoEncontradaException;
 import utils.*;
 
 public class ClientePJ extends Cliente {
@@ -40,6 +42,57 @@ public class ClientePJ extends Cliente {
         if (!listaFrota.contains(frota)) {
             listaFrota.add(frota);
             return true;
+        }
+        return false;
+    }
+
+    public Frota buscarFrota(String code) throws FrotaNaoEncontradaException {
+        for (Frota frota : listaFrota) {
+            if (frota.getCode().equals(code)) {
+                return frota;
+            }
+        }
+        throw new FrotaNaoEncontradaException("O código " + code + " não corresponde à nenhuma frota");
+    }
+
+    public boolean atualizarFrota(ArrayList<Veiculo> veiculos, String code) {
+        try {
+            Frota frota = buscarFrota(code);
+            frota.setListaVeiculos(veiculos);
+            return true;
+        } catch (FrotaNaoEncontradaException e) {
+            return false;
+        }
+    }
+
+    public boolean atualizarFrota(ArrayList<Veiculo> veiculos, Frota frota) {
+        if (listaFrota.contains(frota)) {
+            frota.setListaVeiculos(veiculos);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeFrota(String code) {
+        try {
+            Frota frota = buscarFrota(code);
+            return removeFrota(frota);
+        } catch (FrotaNaoEncontradaException e) {
+            return false;
+        }
+    }
+
+    public boolean removeFrota(Frota frota) {
+        if (listaFrota.remove(frota)){
+            
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeVeiculo(Frota frota, Veiculo veiculo) {
+        if (listaFrota.contains(frota)) {
+            return frota.removeVeiculo(veiculo);
         }
         return false;
     }
