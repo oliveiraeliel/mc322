@@ -1,6 +1,7 @@
 package entidades.Cliente;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -47,6 +48,16 @@ public class ClientePJ extends Cliente {
         return getCnpj();
     }
 
+    public int anosPosFundacao() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(getDataFundacao());
+        int yyyy = cal.get(Calendar.YEAR);
+
+        cal.setTime(DateUtils.localDate());
+        int yHoje = cal.get(Calendar.YEAR);
+        return yHoje - yyyy;
+    }
+
     public boolean cadastrarFrota(Frota frota) {
         if (!listaFrota.contains(frota)) {
             listaFrota.add(frota);
@@ -80,6 +91,11 @@ public class ClientePJ extends Cliente {
             return true;
         }
         return false;
+    }
+
+    public boolean atualizarFrota(Frota frota) {
+        frota.setListaVeiculos(new ArrayList<Veiculo>());
+        return true;
     }
 
     public boolean removeFrota(String code) {

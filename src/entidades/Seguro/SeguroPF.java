@@ -19,10 +19,16 @@ public class SeguroPF extends Seguro {
     }
 
     @Override
-    public Double calculaScore() {
+    public Double calculaValor() {
         return (CalcSeguro.VALOR_BASE.getValor() * CalcSeguro.fatorIdade(cliente.getIdade())
                 * (1 + 1 / (cliente.getQuantidadeVeiculos() + 2))
-                * (2 + cliente.getQuantidadeSinistros() / 10) * (5 + getQuantidadeSinistrosCondutores() / 10));
+                * (2 + getQuantidadeSinistrosCliente(getCliente()) / 10)
+                * (5 + getQuantidadeSinistrosCondutores() / 10));
+    }
+
+    @Override
+    public ClientePF getCliente() {
+        return this.cliente;
     }
 
     public Veiculo getVeiculo() {
@@ -31,10 +37,6 @@ public class SeguroPF extends Seguro {
 
     public void setVeiculo(Veiculo veiculo) {
         this.veiculo = veiculo;
-    }
-
-    public ClientePF getCliente() {
-        return this.cliente;
     }
 
     public void setCliente(ClientePF cliente) {

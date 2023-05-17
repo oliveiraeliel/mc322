@@ -19,7 +19,9 @@ public class Veiculo {
     }
 
     public void destruirVeiculo() {
-        seguro.getSeguradora().cancelarSeguro(seguro);
+        if (seguro != null) {
+            seguro.getSeguradora().cancelarSeguro(seguro);
+        }
     }
 
     @Override

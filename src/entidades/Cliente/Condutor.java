@@ -3,6 +3,7 @@ package entidades.Cliente;
 import java.util.ArrayList;
 import java.util.Date;
 
+import entidades.Seguradora;
 import entidades.Sinistro;
 
 public class Condutor extends Base {
@@ -16,8 +17,14 @@ public class Condutor extends Base {
         setDataNasc(dataNasc);
     }
 
-    public int getQuantidadeSinistros() {
-        return listaSinistros.size();
+    public int getQuantidadeSinistros(Seguradora seguradora) {
+        int quantidade = 0;
+        for (Sinistro sinistro : listaSinistros) {
+            if (sinistro.getSeguro().getSeguradora().equals(seguradora)) {
+                quantidade++;
+            }
+        }
+        return quantidade;
     }
 
     public boolean adicionarSinistro(Sinistro sinistro) {

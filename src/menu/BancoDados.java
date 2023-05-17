@@ -7,10 +7,7 @@ import entidades.Seguradora;
 import entidades.Cliente.Cliente;
 import entidades.Cliente.Condutor;
 import entidades.Seguro.Seguro;
-import execeptions.ClienteNaoEncontradoException;
-import execeptions.CondutorNaoEncontradoException;
-import execeptions.SeguradoraNaoEncontradaException;
-import execeptions.SeguroNaoEncontradoException;
+import execeptions.*;
 
 // não, isso não é um banco de dados
 public class BancoDados {
@@ -43,7 +40,7 @@ public class BancoDados {
         return seguros.containsKey(seguro.getID());
     }
 
-    public static boolean adicionarSeguro(Seguro seguro) {
+    public static boolean save(Seguro seguro) {
         if (!seguros.containsKey(seguro.getID())) {
             seguros.put(seguro.getID(), seguro);
             return true;
@@ -51,7 +48,7 @@ public class BancoDados {
         return false;
     }
 
-    public static boolean adicionarCondutor(Condutor condutor) {
+    public static boolean save(Condutor condutor) {
         if (!condutores.containsKey(condutor.getCpf())) {
             condutores.put(condutor.getCpf(), condutor);
             return true;
@@ -59,7 +56,7 @@ public class BancoDados {
         return false;
     }
 
-    public static boolean adicionarSeguradora(Seguradora seguradora) {
+    public static boolean save(Seguradora seguradora) {
         if (!seguradoras.containsKey(seguradora.getCnpj())) {
             seguradoras.put(seguradora.getCnpj(), seguradora);
             return true;
@@ -67,7 +64,7 @@ public class BancoDados {
         return false;
     }
 
-    public static boolean adicionarClientePF(Cliente cliente) {
+    public static boolean save(Cliente cliente) {
         if (!clientes.containsKey(cliente.getCadastro())) {
             clientes.put(cliente.getCadastro(), cliente);
             return true;

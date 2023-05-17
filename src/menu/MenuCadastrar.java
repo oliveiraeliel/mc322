@@ -82,6 +82,7 @@ public enum MenuCadastrar {
             Seguradora seguradora = BancoDados.getSeguradora(cnpj);
             Cliente cliente = tipo == TipoCliente.PF ? ClienteFactory.lerClientePF() : ClienteFactory.lerClientePJ();
             if (seguradora.cadastrarCliente(cliente)) {
+                BancoDados.save(cliente);
                 System.out.println("Cliente cadastrado com sucesso.");
             } else {
                 System.out.println("O cliente já está cadastrado.");
@@ -135,7 +136,7 @@ public enum MenuCadastrar {
     private static void cadastrarSeguradora() {
         Seguradora seguradora = SeguradoraFactory.lerSeguradora();
         if (!BancoDados.seguradoraExiste(seguradora)) {
-            BancoDados.adicionarSeguradora(seguradora);
+            BancoDados.save(seguradora);
             System.out.println("A seguradora foi cadastrada com sucesso.");
         } else {
             System.out.println("A seguradora já está cadastrada.");

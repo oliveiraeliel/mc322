@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import entidades.Seguradora;
 import entidades.Sinistro;
+import entidades.Cliente.Cliente;
 import entidades.Cliente.Condutor;
 import execeptions.CondutorNaoAssociadoException;
 
@@ -25,7 +26,9 @@ public abstract class Seguro {
         setSeguradora(seguradora);
     }
 
-    public abstract Double calculaScore();
+    public abstract Cliente getCliente();
+
+    public abstract Double calculaValor();
 
     public void destruirSeguro() {
         Iterator<Sinistro> iterSinistro = getListaSinistros().iterator();
@@ -39,17 +42,21 @@ public abstract class Seguro {
 
     public Double atualizarValorMensal() {
         Double valorAntigo = getValorMensal();
-        setValorMensal(calculaScore());
+        setValorMensal(calculaValor());
         seguradora.adicionarReceita(getValorMensal() - valorAntigo);
         return valorMensal;
     }
 
-    public int getQuantidadeSinistrosCondutores() {
+    protected int getQuantidadeSinistrosCondutores() {
         int n = 0;
         for (Condutor condutor : listaCondutores) {
-            n += condutor.getQuantidadeSinistros();
+            n += condutor.getQuantidadeSinistros(getSeguradora());
         }
         return n;
+    }
+
+    protected int getQuantidadeSinistrosCliente(Cliente cliente){
+        return getSeguradora().getSinistrosPorCliente(cliente).size();
     }
 
     public boolean desautorizarCondutor(Condutor condutor) {

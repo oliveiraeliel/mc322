@@ -5,11 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import entidades.Cliente.Base;
-import entidades.Cliente.Cliente;
-import entidades.Cliente.ClientePF;
-import entidades.Cliente.ClientePJ;
-import entidades.Cliente.TipoCliente;
+import entidades.Cliente.*;
 import entidades.Seguro.*;
 import execeptions.ClienteNaoEncontradoException;
 import utils.DateUtils;
@@ -51,7 +47,6 @@ public class Seguradora extends Base {
         if (listaClientes.contains(cliente)) {
             Seguro seguro = new SeguroPF(DateUtils.localDate(), dataFim, this, veiculo, cliente);
             listaSeguros.add(seguro);
-            cliente.adicionarSeguro(seguro);
             return true;
         }
         return false;
@@ -61,7 +56,6 @@ public class Seguradora extends Base {
         if (listaClientes.contains(cliente)) {
             Seguro seguro = new SeguroPJ(DateUtils.localDate(), dataFim, this, frota, cliente);
             listaSeguros.add(seguro);
-            cliente.adicionarSeguro(seguro);
             return true;
         }
         return false;
@@ -85,7 +79,13 @@ public class Seguradora extends Base {
     }
 
     public boolean removerCliente(Cliente cliente) {
-        return listaClientes.remove(cliente);
+        if (listaClientes.remove(cliente)) {
+            for (Seguro seguro : listaSeguros)
+                if (seguro.getCliente().equals(cliente))
+                    cancelarSeguro(seguro);
+            return true;
+        }
+        return false;
     }
 
     public boolean cancelarSeguro(Seguro seguro) {
@@ -104,7 +104,13 @@ public class Seguradora extends Base {
     }
 
     public ArrayList<Seguro> getSegurosPorCliente(Cliente cliente) {
-        return cliente.getSeguros();
+        ArrayList<Seguro> seguros = new ArrayList<Seguro>();
+        for (Seguro seguro : listaSeguros) {
+            if (seguro.getCliente().equals(cliente)) {
+                seguros.add(seguro);
+            }
+        }
+        return seguros;
     }
 
     public ArrayList<Sinistro> getSinistrosPorCliente(String cadastro) throws ClienteNaoEncontradoException {
@@ -114,7 +120,13 @@ public class Seguradora extends Base {
     }
 
     public ArrayList<Sinistro> getSinistrosPorCliente(Cliente cliente) {
-        return cliente.getSinistros();
+        ArrayList<Sinistro> sinistros = new ArrayList<Sinistro>();
+        for (Seguro seguro : listaSeguros) {
+            if (seguro.getCliente().equals(cliente)) {
+                sinistros.addAll(seguro.getListaSinistros());
+            }
+        }
+        return sinistros;
     }
 
     public Cliente getClientePorCadastro(String cadastro) throws ClienteNaoEncontradoException {

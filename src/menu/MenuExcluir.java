@@ -33,16 +33,16 @@ public enum MenuExcluir {
         }
     }
 
-    private static boolean handle() {
+    private static boolean handle(MenuExcluir operacao) {
         switch (operacao) {
             case EXCLUIR_CLIENTE:
-                excluirCliente(seguradoras);
+                excluirCliente();
                 break;
             case EXCLUIR_SINISTRO:
-                excluirSinistro(seguradoras);
+                excluirSinistro();
                 break;
             case EXCLUIR_VEICULO:
-                excluirVeiculo(seguradoras);
+                excluirVeiculo();
                 break;
             case VOLTAR:
                 return false;
@@ -50,7 +50,7 @@ public enum MenuExcluir {
         return true;
     }
 
-    private static void excluirCliente(Map<String, Seguradora> seguradoras) {
+    private static void excluirCliente() {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
@@ -65,7 +65,7 @@ public enum MenuExcluir {
         }
     }
 
-    private static void excluirSinistro(Map<String, Seguradora> seguradoras) {
+    private static void excluirSinistro() {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);
@@ -80,7 +80,7 @@ public enum MenuExcluir {
         }
     }
 
-    private static void excluirVeiculo(Map<String, Seguradora> seguradoras) {
+    private static void excluirVeiculo() {
         String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
         if (seguradoras.containsKey(nomeSeguradora)) {
             Seguradora seguradora = seguradoras.get(nomeSeguradora);

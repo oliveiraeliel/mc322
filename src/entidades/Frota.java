@@ -26,7 +26,13 @@ public class Frota {
     }
 
     public boolean removeVeiculo(Veiculo veiculo) {
-        return listaVeiculos.remove(veiculo);
+        if (listaVeiculos.remove(veiculo)) {
+            if (seguro != null) {
+                seguro.atualizarValorMensal();
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -51,6 +57,9 @@ public class Frota {
 
     public void setListaVeiculos(ArrayList<Veiculo> listaVeiculos) {
         this.listaVeiculos = listaVeiculos;
+        if (seguro != null){
+            seguro.atualizarValorMensal();
+        }
     }
 
     public Seguro getSeguro() {

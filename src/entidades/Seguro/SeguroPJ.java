@@ -21,11 +21,17 @@ public class SeguroPJ extends Seguro {
     }
 
     @Override
-    public Double calculaScore() {
+    public Double calculaValor() {
         return (CalcSeguro.VALOR_BASE.getValor() * (10 + cliente.getQuantidadeFunc() / 10)
                 * (1 + 1 / (cliente.getQuantidadeVeiculos() + 2))
-                // * (1 + 1/(data + 2))
-                * (2 + cliente.getQuantidadeSinistros() / 10) * (5 + getQuantidadeSinistrosCondutores() / 10));
+                * (1 + 1/(cliente.anosPosFundacao() + 2))
+                * (2 + getQuantidadeSinistrosCliente(getCliente()) / 10)
+                * (5 + getQuantidadeSinistrosCondutores() / 10));
+    }
+
+    @Override
+    public ClientePJ getCliente() {
+        return this.cliente;
     }
 
     public Frota getFrota() {
@@ -36,9 +42,7 @@ public class SeguroPJ extends Seguro {
         this.frota = frota;
     }
 
-    public ClientePJ getCliente() {
-        return this.cliente;
-    }
+
 
     public void setCliente(ClientePJ cliente) {
         this.cliente = cliente;
