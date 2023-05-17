@@ -2,18 +2,24 @@ package entidades;
 
 import java.util.Objects;
 
+import entidades.Seguro.Seguro;
 
 public class Veiculo {
     private String placa;
     private String marca;
     private String modelo;
     private int anoFabricacao;
+    private Seguro seguro;
 
     public Veiculo(String placa, String marca, String modelo, int anoFabricacao) {
         setPlaca(placa);
         setMarca(marca);
         setModelo(modelo);
         setAnoFabricacao(anoFabricacao);
+    }
+
+    public void destruirVeiculo() {
+        seguro.getSeguradora().cancelarSeguro(seguro);
     }
 
     @Override
@@ -36,7 +42,6 @@ public class Veiculo {
         Veiculo veiculo = (Veiculo) o;
         return Objects.equals(placa, veiculo.getPlaca());
     }
-
 
     public String getPlaca() {
         return this.placa;
@@ -69,4 +74,13 @@ public class Veiculo {
     public void setAnoFabricacao(int anoFabricacao) {
         this.anoFabricacao = anoFabricacao;
     }
+
+    public Seguro getSeguro() {
+        return this.seguro;
+    }
+
+    public void setSeguro(Seguro seguro) {
+        this.seguro = seguro;
+    }
+
 }

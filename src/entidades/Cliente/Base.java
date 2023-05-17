@@ -18,7 +18,7 @@ public abstract class Base {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = nome.trim();
     }
 
     public String getTelefone() {
@@ -26,7 +26,7 @@ public abstract class Base {
     }
 
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        this.telefone = telefone.trim();
     }
 
     public String getEndereco() {
@@ -34,7 +34,7 @@ public abstract class Base {
     }
 
     public void setEndereco(String endereco) {
-        this.endereco = endereco;
+        this.endereco = endereco.trim();
     }
 
     public String getEmail() {
@@ -42,6 +42,6 @@ public abstract class Base {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.trim();
     }
 }

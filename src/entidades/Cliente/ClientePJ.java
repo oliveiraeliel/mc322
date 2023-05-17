@@ -84,7 +84,7 @@ public class ClientePJ extends Cliente {
 
     public boolean removeFrota(Frota frota) {
         if (listaFrota.remove(frota)){
-            
+            frota.destruirFrota();
             return true;
         }
         return false;

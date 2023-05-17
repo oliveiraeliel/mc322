@@ -89,9 +89,10 @@ public class Seguradora extends Base {
     }
 
     public boolean cancelarSeguro(Seguro seguro) {
-        if (listaSeguros.contains(seguro)) {
+        if (listaSeguros.remove(seguro)) {
+            Double valorSeguro = seguro.getValorMensal();
             seguro.destruirSeguro();
-            listaSeguros.remove(seguro);
+            setReceita(getReceita() - valorSeguro);
             return true;
         }
         return false;

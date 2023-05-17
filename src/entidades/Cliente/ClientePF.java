@@ -3,8 +3,6 @@ package entidades.Cliente;
 import java.util.*;
 
 import entidades.Veiculo;
-import entidades.Seguro.Seguro;
-import entidades.Seguro.SeguroPF;
 import utils.*;
 
 public class ClientePF extends Cliente {
@@ -24,7 +22,6 @@ public class ClientePF extends Cliente {
         setGenero(genero);
     }
 
-
     @Override
     public int getQuantidadeVeiculos() {
         return listaVeiculos.size();
@@ -35,22 +32,9 @@ public class ClientePF extends Cliente {
         return getCpf();
     }
 
-    private void excluirSeguro(Veiculo veiculo){
-        if (listaVeiculos.contains(veiculo)){
-            Iterator<Seguro> segIterator = getListaSeguros().iterator();
-            while(segIterator.hasNext()){
-                SeguroPF seguro = ((SeguroPF)segIterator.next());
-                if (seguro.getVeiculo().equals(veiculo)){
-                    seguro.getSeguradora().cancelarSeguro(seguro);
-                    segIterator.remove(); 
-                }
-            }
-        }
-    }
-
-    public boolean excluirVeiculo(Veiculo veiculo){
-        if(listaVeiculos.contains(veiculo)){
-            excluirSeguro(veiculo);
+    public boolean removeVeiculo(Veiculo veiculo) {
+        if (listaVeiculos.remove(veiculo)) {
+            veiculo.destruirVeiculo();
             return true;
         }
         return false;
