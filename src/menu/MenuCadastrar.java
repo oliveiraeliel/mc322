@@ -6,11 +6,16 @@ import entidades.Veiculo;
 import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePF;
 import entidades.Cliente.ClientePJ;
+import entidades.Cliente.Condutor;
 import entidades.Cliente.TipoCliente;
+import entidades.Seguro.Seguro;
 import execeptions.ClienteNaoEncontradoException;
+import execeptions.CondutorNaoEncontradoException;
 import execeptions.SeguradoraNaoEncontradaException;
+import execeptions.SeguroNaoEncontradoException;
 import execeptions.ValorNaoEsperadoException;
 import factories.ClienteFactory;
+import factories.CondutorFactory;
 import factories.SeguradoraFactory;
 import factories.VeiculoFactory;
 import utils.InputUtils;
@@ -21,7 +26,9 @@ public enum MenuCadastrar {
     CADASTRAR_VEICULO(3),
     CADASTRAR_FROTA(4),
     CADASTRAR_SEGURADORA(5),
-    VOLTAR(6);
+    CADASTRAR_CONDUTOR(6),
+    CADASTRAR_SEGURO(7),
+    VOLTAR(0);
 
     private final int value;
 
@@ -69,6 +76,12 @@ public enum MenuCadastrar {
                 break;
             case CADASTRAR_FROTA:
                 cadastrarFrota();
+                break;
+            case CADASTRAR_CONDUTOR:
+                cadastrarCondutor();
+                break;
+            case CADASTRAR_SEGURO:
+                cadastrarSeguro();
                 break;
             case VOLTAR:
                 return false;
@@ -140,6 +153,27 @@ public enum MenuCadastrar {
             System.out.println("A seguradora foi cadastrada com sucesso.");
         } else {
             System.out.println("A seguradora já está cadastrada.");
+        }
+    }
+
+    private static void cadastrarCondutor() {
+        try {
+            Condutor condutor = CondutorFactory.lerCondutor();
+            int id = InputUtils.lerInt("Insira o ID do seguro que você gostaria de cadastrar o condutor: ");
+            Seguro seguro = BancoDados.getSeguro(id);
+            if (BancoDados.save(condutor)) {
+                System.out.println("Condutor " + condutor.getNome() + " cadastrado no seguro #" + seguro.getID());
+            } else {
+                if (seguro.autorizarCondutor(condutor)) {
+                    System.out.println("Condutor " + condutor.getNome() + " cadastrado no seguro #" + seguro.getID());
+                } else {
+                    condutor = BancoDados.getCondutor(condutor.getCpf());
+                    System.out.println("O condutor " + condutor.getNome() + " já está cadastrado.");
+                }
+            }
+        } catch (SeguroNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+        } catch (CondutorNaoEncontradoException e) {
         }
     }
 

@@ -80,9 +80,11 @@ public class Seguradora extends Base {
 
     public boolean removerCliente(Cliente cliente) {
         if (listaClientes.remove(cliente)) {
-            for (Seguro seguro : listaSeguros)
-                if (seguro.getCliente().equals(cliente))
+            listaSeguros.forEach(seguro -> {
+                if (seguro.getCliente().equals(cliente)) {
                     cancelarSeguro(seguro);
+                }
+            });
             return true;
         }
         return false;
@@ -116,7 +118,6 @@ public class Seguradora extends Base {
     public ArrayList<Sinistro> getSinistrosPorCliente(String cadastro) throws ClienteNaoEncontradoException {
         Cliente cliente = getClientePorCadastro(cadastro);
         return getSinistrosPorCliente(cliente);
-
     }
 
     public ArrayList<Sinistro> getSinistrosPorCliente(Cliente cliente) {

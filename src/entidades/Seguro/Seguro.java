@@ -55,16 +55,12 @@ public abstract class Seguro {
         return n;
     }
 
-    protected int getQuantidadeSinistrosCliente(Cliente cliente){
+    protected int getQuantidadeSinistrosCliente(Cliente cliente) {
         return getSeguradora().getSinistrosPorCliente(cliente).size();
     }
 
     public boolean desautorizarCondutor(Condutor condutor) {
-        if (listaCondutores.contains(condutor)) {
-            listaCondutores.remove(condutor);
-            return true;
-        }
-        return false;
+        return listaCondutores.remove(condutor);
     }
 
     public boolean autorizarCondutor(Condutor condutor) {
