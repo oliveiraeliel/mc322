@@ -66,6 +66,7 @@ public class ClientePJ extends Cliente {
         return false;
     }
 
+
     public Frota buscarFrota(String code) throws FrotaNaoEncontradaException {
         for (Frota frota : listaFrota) {
             if (frota.getCode().equals(code)) {

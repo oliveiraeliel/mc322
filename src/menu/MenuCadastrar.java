@@ -1,5 +1,8 @@
 package menu;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 import entidades.Frota;
 import entidades.Seguradora;
 import entidades.Veiculo;
@@ -9,15 +12,8 @@ import entidades.Cliente.ClientePJ;
 import entidades.Cliente.Condutor;
 import entidades.Cliente.TipoCliente;
 import entidades.Seguro.Seguro;
-import execeptions.ClienteNaoEncontradoException;
-import execeptions.CondutorNaoEncontradoException;
-import execeptions.SeguradoraNaoEncontradaException;
-import execeptions.SeguroNaoEncontradoException;
-import execeptions.ValorNaoEsperadoException;
-import factories.ClienteFactory;
-import factories.CondutorFactory;
-import factories.SeguradoraFactory;
-import factories.VeiculoFactory;
+import execeptions.*;
+import factories.*;
 import utils.InputUtils;
 
 public enum MenuCadastrar {
@@ -140,6 +136,7 @@ public enum MenuCadastrar {
     private static void adicionarVeiculoFrota(Frota frota) {
         Veiculo veiculo = VeiculoFactory.lerVeiculo();
         if (frota.addVeiculo(veiculo)) {
+            frota.atualizarSeguro();
             System.out.println("Veículo adicionado à frota.");
         } else {
             System.out.println("O veículo já está na frota.");
@@ -174,6 +171,40 @@ public enum MenuCadastrar {
         } catch (SeguroNaoEncontradoException e) {
             System.out.println(e.getMessage());
         } catch (CondutorNaoEncontradoException e) {
+        }
+    }
+
+    private static void cadastrarSeguro() {
+        try {
+            Cliente cliente;
+            Seguradora seguradora;
+            String cadastro = InputUtils.lerCadastro("Insira o cadastro do cliente: ");
+            cliente = BancoDados.getCliente(cadastro);
+            String cnpjSeguradora = InputUtils.lerCNPJ("Insira o cnpj da seguradora: ");
+            seguradora = BancoDados.getSeguradora(cnpjSeguradora);
+            if (!seguradora.clienteCadastrado(cliente)) {
+                System.out.println("O cliente " + cliente.getNome() + " não está cadastrado nessa seguradora!");
+                return;
+            }
+            Date dataFim = InputUtils.lerData("Data do termino do seguro: ");
+            if (cliente instanceof ClientePF) {
+                String placa = InputUtils.lerString("Insira a placa do carro: ");
+                Veiculo veiculo = ((ClientePF) cliente).buscarVeiculo(placa);
+                seguradora.gerarSeguro((ClientePF) cliente, veiculo, dataFim);
+            } else {
+                String codigo = InputUtils.lerString("Insira o código da frota: ");
+                Frota veiculo = ((ClientePJ) cliente).buscarFrota(codigo);
+                seguradora.gerarSeguro((ClientePJ) cliente, veiculo, dataFim);
+            }
+            System.out.println("Seguro gerado com sucesso!");
+        } catch (ClienteNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+        } catch (VeiculoNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+        } catch (FrotaNaoEncontradaException e) {
+            System.out.println(e.getMessage());
+        } catch (SeguradoraNaoEncontradaException e) {
+            System.out.println(e.getMessage());
         }
     }
 

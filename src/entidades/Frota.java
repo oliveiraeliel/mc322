@@ -25,22 +25,18 @@ public class Frota {
         return false;
     }
 
+    public void atualizarSeguro(){
+        if (seguro !=null){
+            seguro.atualizarValorMensal();
+        }
+    }
+
     public boolean removeVeiculo(Veiculo veiculo) {
         if (listaVeiculos.remove(veiculo)) {
-            if (seguro != null) {
-                seguro.atualizarValorMensal();
-            }
+            atualizarSeguro();
             return true;
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-                " code='" + getCode() + "'" +
-                ", listaVeiculos='" + getListaVeiculos() + "'" +
-                "}";
     }
 
     public String getCode() {
@@ -57,7 +53,7 @@ public class Frota {
 
     public void setListaVeiculos(ArrayList<Veiculo> listaVeiculos) {
         this.listaVeiculos = listaVeiculos;
-        if (seguro != null){
+        if (seguro != null) {
             seguro.atualizarValorMensal();
         }
     }
@@ -68,5 +64,13 @@ public class Frota {
 
     public void setSeguro(Seguro seguro) {
         this.seguro = seguro;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                " code='" + getCode() + "'" +
+                ", listaVeiculos='" + getListaVeiculos() + "'" +
+                "}";
     }
 }

@@ -44,7 +44,7 @@ public class Seguradora extends Base {
     }
 
     public boolean gerarSeguro(ClientePF cliente, Veiculo veiculo, Date dataFim) {
-        if (listaClientes.contains(cliente)) {
+        if (listaClientes.contains(cliente) && cliente.getListaVeiculos().contains(veiculo)) {
             Seguro seguro = new SeguroPF(DateUtils.localDate(), dataFim, this, veiculo, cliente);
             listaSeguros.add(seguro);
             return true;
@@ -53,7 +53,7 @@ public class Seguradora extends Base {
     }
 
     public boolean gerarSeguro(ClientePJ cliente, Frota frota, Date dataFim) {
-        if (listaClientes.contains(cliente)) {
+        if (listaClientes.contains(cliente) && cliente.getListaFrota().contains(frota)) {
             Seguro seguro = new SeguroPJ(DateUtils.localDate(), dataFim, this, frota, cliente);
             listaSeguros.add(seguro);
             return true;
@@ -67,6 +67,10 @@ public class Seguradora extends Base {
             return true;
         }
         return false;
+    }
+
+    public boolean clienteCadastrado(Cliente cliente){
+        return listaClientes.contains(cliente);
     }
 
     public boolean removerCliente(String cadastro) {

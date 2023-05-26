@@ -1,20 +1,22 @@
 package menu;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
-import javax.print.attribute.IntegerSyntax;
-
+import entidades.Frota;
 import entidades.Seguradora;
 import entidades.Veiculo;
-import entidades.Cliente.Cliente;
+import entidades.Cliente.ClientePJ;
 import entidades.Cliente.Condutor;
 import entidades.Seguro.Seguro;
+import execeptions.ClienteNaoEncontradoException;
 import execeptions.CondutorNaoAssociadoException;
 import execeptions.CondutorNaoEncontradoException;
+import execeptions.FrotaNaoEncontradaException;
 import execeptions.SeguradoraNaoEncontradaException;
 import execeptions.SeguroNaoEncontradoException;
 import execeptions.ValorNaoEsperadoException;
+import factories.VeiculoFactory;
 import utils.InputUtils;
 
 public enum MenuOperacoes {
@@ -22,9 +24,9 @@ public enum MenuOperacoes {
     LISTAR(2),
     EXCLUIR(3),
     GERAR_SINISTRO(4),
-    TRANSFERIR_SEGURO(5),
     CALCULAR_RECEITA_SEGURADORA(6),
     CALCULAR_VALOR_SEGURO(7),
+    ATUALIZAR_FROTA(8),
     SAIR(0);
 
     private final int value;
@@ -69,14 +71,14 @@ public enum MenuOperacoes {
             case GERAR_SINISTRO:
                 gerarSinistro();
                 break;
-            case TRANSFERIR_SEGURO:
-                transferirSeguro();
-                break;
             case CALCULAR_RECEITA_SEGURADORA:
                 calcularReceitaSeguradora();
                 break;
             case CALCULAR_VALOR_SEGURO:
                 calcularValorSeguro();
+                break;
+            case ATUALIZAR_FROTA:
+                atualizarFrota();
                 break;
             case SAIR:
                 return false;
@@ -103,35 +105,32 @@ public enum MenuOperacoes {
         }
     }
 
-    private static void transferirSeguro(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora1, nomeSeguradora2, cadastroDe, cadastroPara;
-        Cliente de, para;
-        nomeSeguradora1 = InputUtils.lerNome("Nome da seguradora: ");
-        if (seguradoras.containsKey(nomeSeguradora1)) {
-            Seguradora seguradora = seguradoras.get(nomeSeguradora1);
-            cadastroDe = InputUtils.lerCadastro("Cadastro do cliente que irá transferir: ");
-            de = seguradora.getClienteByCadastro(cadastroDe);
-            if (de == null) {
-                return;
+    private static void atualizarFrota() {
+        try {
+            ClientePJ cliente;
+            String code;
+            Frota frota;
+            String cnpj = InputUtils.lerCNPJ();
+            cliente = (ClientePJ) BancoDados.getCliente(cnpj);
+            code = InputUtils.lerString("Insira o código da frota");
+            frota = cliente.buscarFrota(code);
+            int tamFrota = InputUtils.lerInt("Novo tamanho da frota: ");
+            ArrayList<Veiculo> veiculos = new ArrayList<Veiculo>();
+            for (int i = 0; i < tamFrota; i++) {
+                Veiculo veiculo = VeiculoFactory.lerVeiculo();
+                if (veiculos.contains(veiculo)) {
+                    System.out.println("Esse veículo já foi adicionado!");
+                } else {
+                    veiculos.add(veiculo);
+                }
             }
-        } else {
-            System.out.printf("A seguradora %s não existe\n", nomeSeguradora1);
-            return;
+            cliente.atualizarFrota(veiculos, frota);
+            System.out.println("Frota " + frota.getCode() + " atualizada.");
+        } catch (ClienteNaoEncontradoException e) {
+            System.out.println(e.getMessage());
+        } catch (FrotaNaoEncontradaException e) {
+            System.out.println(e.getMessage());
         }
-        nomeSeguradora2 = InputUtils.lerNome("Nome da seguradora: ");
-        if (seguradoras.containsKey(nomeSeguradora2)) {
-            Seguradora seguradora = seguradoras.get(nomeSeguradora2);
-            cadastroPara = InputUtils.lerCadastro("Cadastro do cliente que irá receber: ");
-            para = seguradora.getClienteByCadastro(cadastroPara);
-            if (para == null) {
-                return;
-            }
-        } else {
-            System.out.printf("A seguradora %s não existe\n", nomeSeguradora1);
-            return;
-        }
-        de.transferirSeguro(para);
-        System.out.printf("Seguro do cliente %s foi transferido para o cliente %s.\n", de.getNome(), para.getNome());
     }
 
     private static void calcularReceitaSeguradora() {
@@ -145,19 +144,13 @@ public enum MenuOperacoes {
         }
     }
 
-    private static void calcularValorSeguro(Map<String, Seguradora> seguradoras) {
-        String nomeSeguradora = InputUtils.lerNome("Nome da seguradora: ");
-        if (seguradoras.containsKey(nomeSeguradora)) {
-            Seguradora seguradora = seguradoras.get(nomeSeguradora);
-            String cadastro = InputUtils.lerCadastro();
-            Cliente cliente = seguradora.getClienteByCadastro(cadastro);
-            if (cliente != null) {
-                System.out.printf("O valor do seu seguro é R$ %.2f\n", seguradora.calcularPrecoSeguroCliente(cliente));
-            } else {
-                System.out.println("Cliente não encontrado.");
-            }
-        } else {
-            System.out.printf("A seguradora %s não existe\n", nomeSeguradora);
+    private static void calcularValorSeguro() {
+        try{
+            int id = InputUtils.lerInt("Insira o id do seguro: ");
+            Seguro seguro = BancoDados.getSeguro(id);
+            System.out.printf("O valor mensal do seguro #%d é R$ %.2f\n", id, seguro.getValorMensal());
+        }catch(SeguroNaoEncontradoException e){
+            System.out.println(e.getMessage());
         }
     }
 
@@ -175,8 +168,6 @@ public enum MenuOperacoes {
                 return EXCLUIR;
             case 4:
                 return GERAR_SINISTRO;
-            case 5:
-                return TRANSFERIR_SEGURO;
             case 6:
                 return CALCULAR_RECEITA_SEGURADORA;
             case 7:

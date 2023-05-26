@@ -3,6 +3,7 @@ package entidades.Cliente;
 import java.util.*;
 
 import entidades.Veiculo;
+import execeptions.VeiculoNaoEncontradoException;
 import utils.*;
 
 public class ClientePF extends Cliente {
@@ -43,6 +44,14 @@ public class ClientePF extends Cliente {
             return true;
         }
         return false;
+    }
+
+    public Veiculo buscarVeiculo(String placa) throws VeiculoNaoEncontradoException {
+        Veiculo veiculo = listaVeiculos.stream().filter(v -> v.getPlaca().equals(placa)).findFirst().orElse(null);
+        if (veiculo != null) {
+            return veiculo;
+        }
+        throw new VeiculoNaoEncontradoException("A placa " + placa + " não corresponde à nenhum veículo na lista.");
     }
 
     public boolean cadastrarVeiculo(Veiculo veiculo) {
