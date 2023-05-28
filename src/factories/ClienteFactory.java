@@ -3,6 +3,8 @@ package factories;
 import java.util.Calendar;
 import java.util.Date;
 import entidades.Cliente.*;
+import execeptions.ClienteNaoEncontradoException;
+import menu.BancoDados;
 import utils.InputUtils;
 
 // classe utilizada para a criação de objetos do tipo cliente
@@ -37,27 +39,35 @@ public class ClienteFactory {
 
     public static Cliente lerClientePJ() {
         System.out.println("------------- Cliente PJ --------------");
-        String nome = InputUtils.lerNome("Nome: ");
         String cnpj = InputUtils.lerCNPJ();
-        String telefone = InputUtils.lerString("Telefone: ");
-        String email = InputUtils.lerString("Email: ");
-        String endereco = InputUtils.lerString("Endereco: ");
-        Date dataFundacao = InputUtils.lerData("Data de Fundação (dd/mm/yyyy): ");
-        int quantidadeFunc = InputUtils.lerInt("Quantidade de Funcionários: ");
-        return new ClientePJ(nome, cnpj, telefone, email, endereco, dataFundacao, quantidadeFunc);
+        try {
+            return BancoDados.getCliente(cnpj);
+        } catch (ClienteNaoEncontradoException e) {
+            String nome = InputUtils.lerNome("Nome: ");
+            String telefone = InputUtils.lerString("Telefone: ");
+            String email = InputUtils.lerString("Email: ");
+            String endereco = InputUtils.lerString("Endereco: ");
+            Date dataFundacao = InputUtils.lerData("Data de Fundação (dd/mm/yyyy): ");
+            int quantidadeFunc = InputUtils.lerInt("Quantidade de Funcionários: ");
+            return new ClientePJ(nome, cnpj, telefone, email, endereco, dataFundacao, quantidadeFunc);
+        }
     }
 
     public static Cliente lerClientePF() {
         System.out.println("------------- Cliente PF --------------");
-        String nome = InputUtils.lerNome("Nome: ");
         String cpf = InputUtils.lerCPF();
-        String telefone = InputUtils.lerString("Telefone: ");
-        String email = InputUtils.lerString("Email: ");
-        String endereco = InputUtils.lerString("Endereco: ");
-        Date dataLicenca = InputUtils.lerData("Data da Licenca (dd/mm/yyyy): ");
-        Date dataNascimento = InputUtils.lerData("Data de Nascimento (dd/mm/yyyy): ");
-        String educacao = InputUtils.lerString("Educação: ");
-        String genero = InputUtils.lerString("Genêro: ");
-        return new ClientePF(nome, cpf, telefone, email, endereco, dataLicenca, educacao, genero, dataNascimento);
+        try {
+            return BancoDados.getCliente(cpf);
+        } catch (ClienteNaoEncontradoException e) {
+            String nome = InputUtils.lerNome("Nome: ");
+            String telefone = InputUtils.lerString("Telefone: ");
+            String email = InputUtils.lerString("Email: ");
+            String endereco = InputUtils.lerString("Endereco: ");
+            Date dataLicenca = InputUtils.lerData("Data da Licenca (dd/mm/yyyy): ");
+            Date dataNascimento = InputUtils.lerData("Data de Nascimento (dd/mm/yyyy): ");
+            String educacao = InputUtils.lerString("Educação: ");
+            String genero = InputUtils.lerString("Genêro: ");
+            return new ClientePF(nome, cpf, telefone, email, endereco, dataLicenca, educacao, genero, dataNascimento);
+        }
     }
 }

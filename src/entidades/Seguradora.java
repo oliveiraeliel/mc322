@@ -43,6 +43,34 @@ public class Seguradora extends Base {
         return listaClientes;
     }
 
+    public ArrayList<Sinistro> listarSinistros() {
+        ArrayList<Sinistro> sinistros = new ArrayList<>();
+        listaSeguros.forEach(seguro -> sinistros.addAll(seguro.getListaSinistros()));
+        return sinistros;
+    }
+
+    public ArrayList<Veiculo> listarVeiculos() {
+        ArrayList<Veiculo> veiculos = new ArrayList<>();
+        listaSeguros.forEach(seguro -> {
+            if (seguro instanceof SeguroPF) {
+                Veiculo veiculo = ((SeguroPF) seguro).getVeiculo();
+                veiculos.add(veiculo);
+            }
+        });
+        return veiculos;
+    }
+
+    public ArrayList<Frota> listarFrotas() {
+        ArrayList<Frota> frotas = new ArrayList<>();
+        listaSeguros.forEach(seguro -> {
+            if (seguro instanceof SeguroPJ) {
+                Frota frota = ((SeguroPJ) seguro).getFrota();
+                frotas.add(frota);
+            }
+        });
+        return frotas;
+    }
+
     public boolean gerarSeguro(ClientePF cliente, Veiculo veiculo, Date dataFim) {
         if (listaClientes.contains(cliente) && cliente.getListaVeiculos().contains(veiculo)) {
             Seguro seguro = new SeguroPF(DateUtils.localDate(), dataFim, this, veiculo, cliente);
@@ -69,7 +97,7 @@ public class Seguradora extends Base {
         return false;
     }
 
-    public boolean clienteCadastrado(Cliente cliente){
+    public boolean clienteCadastrado(Cliente cliente) {
         return listaClientes.contains(cliente);
     }
 

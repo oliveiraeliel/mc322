@@ -1,9 +1,8 @@
 package menu;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import entidades.Frota;
 import entidades.Seguradora;
 import entidades.Cliente.Cliente;
 import entidades.Cliente.Condutor;
@@ -16,6 +15,10 @@ public class BancoDados {
     private static Map<String, Condutor> condutores = new HashMap<>();
     private static Map<String, Seguradora> seguradoras = new HashMap<>();
     private static Map<String, Cliente> clientes = new HashMap<>();
+
+    public static ArrayList<Seguradora> listarSeguradoras(){
+        return new ArrayList<Seguradora>(seguradoras.values());
+    }
     
     public static boolean seguradoraExiste(String cnpj) {
         return seguradoras.containsKey(cnpj);
