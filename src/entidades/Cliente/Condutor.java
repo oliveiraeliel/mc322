@@ -58,4 +58,24 @@ public class Condutor extends Base {
     public void setListaSinistros(ArrayList<Sinistro> listaSinistros) {
         this.listaSinistros = listaSinistros;
     }
+
+    @Override
+    public String toString() {
+        return "{" + super.toString() +
+                ", cpf='" + getCpf() + "'" +
+                ", dataNasc='" + getDataNasc() + "'" +
+                ", listaSinistros='" + getListaSinistros() + "'" +
+                "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Condutor)) {
+            return false;
+        }
+        Condutor condutor = (Condutor) o;
+        return condutor.getCpf().equals(cpf);
+    }
 }

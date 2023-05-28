@@ -1,7 +1,5 @@
 package entidades;
 
-import java.util.Objects;
-
 import entidades.Seguro.Seguro;
 
 public class Veiculo {
@@ -22,27 +20,6 @@ public class Veiculo {
         if (seguro != null) {
             seguro.getSeguradora().cancelarSeguro(seguro);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-                " placa='" + getPlaca() + "'" +
-                ", marca='" + getMarca() + "'" +
-                ", modelo='" + getModelo() + "'" +
-                ", anoFabricacao='" + getAnoFabricacao() + "'" +
-                "}";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Veiculo)) {
-            return false;
-        }
-        Veiculo veiculo = (Veiculo) o;
-        return Objects.equals(placa, veiculo.getPlaca());
     }
 
     public String getPlaca() {
@@ -85,4 +62,24 @@ public class Veiculo {
         this.seguro = seguro;
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+                " placa='" + getPlaca() + "'" +
+                ", marca='" + getMarca() + "'" +
+                ", modelo='" + getModelo() + "'" +
+                ", anoFabricacao='" + getAnoFabricacao() + "'" +
+                "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Veiculo)) {
+            return false;
+        }
+        Veiculo veiculo = (Veiculo) o;
+        return veiculo.getPlaca().equals(placa);
+    }
 }

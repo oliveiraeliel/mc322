@@ -3,7 +3,6 @@ package entidades.Cliente;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Objects;
 
 import entidades.Frota;
 import entidades.Veiculo;
@@ -65,7 +64,6 @@ public class ClientePJ extends Cliente {
         }
         return false;
     }
-
 
     public Frota buscarFrota(String code) throws FrotaNaoEncontradaException {
         for (Frota frota : listaFrota) {
@@ -152,6 +150,16 @@ public class ClientePJ extends Cliente {
     }
 
     @Override
+    public String toString() {
+        return "{" + super.toString() +
+                ", cnpj='" + getCnpj() + "'" +
+                ", dataFundacao='" + getDataFundacao() + "'" +
+                ", listaFrota='" + getListaFrota() + "'" +
+                ", quantidadeFunc='" + getQuantidadeFunc() + "'" +
+                "}";
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == this)
             return true;
@@ -159,6 +167,6 @@ public class ClientePJ extends Cliente {
             return false;
         }
         ClientePJ clientePJ = (ClientePJ) o;
-        return Objects.equals(cnpj, clientePJ.cnpj);
+        return clientePJ.getCnpj().equals(cnpj);
     }
 }

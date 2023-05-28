@@ -13,4 +13,10 @@ public abstract class Cliente extends Base {
     public abstract int getQuantidadeVeiculos();
 
     public abstract ArrayList<Veiculo> listarVeiculos();
+
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

@@ -47,7 +47,7 @@ public class SeguroPF extends Seguro {
     public String toString() {
         return "{" +
                 super.toString() +
-                " veiculo='" + getVeiculo() + "'" +
+                ", veiculo='" + getVeiculo() + "'" +
                 ", cliente='" + getCliente() + "'" +
                 "}";
     }

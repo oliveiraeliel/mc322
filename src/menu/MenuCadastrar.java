@@ -36,8 +36,6 @@ public enum MenuCadastrar {
         System.out.println("3- Cadastrar Veículo");
         System.out.println("4- Cadastrar Frota");
         System.out.println("5- Cadastrar Seguradora");
-        System.out.println("6- Cadastrar Seguro");
-        System.out.println("7- Cadastrar Condutor");
         System.out.println("0- Voltar");
         int operacao = InputUtils.lerInt();
 
@@ -76,7 +74,7 @@ public enum MenuCadastrar {
 
     private static void cadastrarCliente(TipoCliente tipo) {
         try {
-            String cnpj = InputUtils.lerCNPJ("Insira o cnpf da seguradora: ");
+            String cnpj = InputUtils.lerCNPJ("Insira o CNPJ da seguradora: ");
             Seguradora seguradora = BancoDados.getSeguradora(cnpj);
             Cliente cliente = tipo == TipoCliente.PF ? ClienteFactory.lerClientePF() : ClienteFactory.lerClientePJ();
             if (seguradora.cadastrarCliente(cliente)) {
@@ -92,7 +90,7 @@ public enum MenuCadastrar {
 
     private static void cadastrarVeiculo() {
         try {
-            String cpf = InputUtils.lerCPF("Insira o cpf do cliente");
+            String cpf = InputUtils.lerCPF("Insira o cpf do cliente: ");
             ClientePF cliente = (ClientePF) BancoDados.getCliente(cpf);
             Veiculo veiculo = VeiculoFactory.lerVeiculo();
             if (cliente.cadastrarVeiculo(veiculo)) {
@@ -156,7 +154,7 @@ public enum MenuCadastrar {
                 return CADASTRAR_FROTA;
             case 5:
                 return CADASTRAR_SEGURADORA;
-            case 6:
+            case 0:
                 return VOLTAR;
             default:
                 throw new ValorNaoEsperadoException();

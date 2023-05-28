@@ -47,10 +47,10 @@ public class ClientePF extends Cliente {
     }
 
     public boolean removeVeiculo(String placa) {
-        try{
+        try {
             Veiculo veiculo = buscarVeiculo(placa);
             return removeVeiculo(veiculo);
-        }catch(VeiculoNaoEncontradoException e){
+        } catch (VeiculoNaoEncontradoException e) {
             return false;
         }
     }
@@ -109,8 +109,8 @@ public class ClientePF extends Cliente {
 
     @Override
     public String toString() {
-        return "{" +
-                " cpf='" + getCpf() + "'" +
+        return "{" + super.toString() +
+                ", cpf='" + getCpf() + "'" +
                 ", genero='" + getGenero() + "'" +
                 ", educacao='" + getEducacao() + "'" +
                 ", dataNasc='" + getDataNasc() + "'" +
@@ -126,6 +126,6 @@ public class ClientePF extends Cliente {
             return false;
         }
         ClientePF clientePF = (ClientePF) o;
-        return Objects.equals(cpf, clientePF.getCpf());
+        return clientePF.getCpf().equals(cpf);
     }
 }

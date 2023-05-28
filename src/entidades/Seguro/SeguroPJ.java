@@ -68,7 +68,7 @@ public class SeguroPJ extends Seguro {
     public String toString() {
         return "{" +
                 super.toString() +
-                " frota='" + getFrota() + "'" +
+                ", frota='" + getFrota() + "'" +
                 ", cliente='" + getCliente() + "'" +
                 "}";
     }

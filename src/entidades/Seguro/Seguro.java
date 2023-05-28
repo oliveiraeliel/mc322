@@ -80,12 +80,13 @@ public abstract class Seguro {
             atualizarValorMensal();
             return sinistro;
         }
-        throw new CondutorNaoAssociadoException("O condutor de CPF " + condutor.getCpf() + " não está associado ao seguro.");
+        throw new CondutorNaoAssociadoException(
+                "O condutor de CPF " + condutor.getCpf() + " não está associado ao seguro.");
     }
 
-    public boolean removeSinistro(int id){
+    public boolean removeSinistro(int id) {
         Sinistro sinistro = buscarSinistro(id);
-        if (listaSinistros.remove(sinistro)){
+        if (listaSinistros.remove(sinistro)) {
             sinistro.apagarSinistro();
             atualizarValorMensal();
             return true;
@@ -181,4 +182,14 @@ public abstract class Seguro {
                 ", valorMensal='" + getValorMensal() + "'";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Seguro)) {
+            return false;
+        }
+        Seguro seguro = (Seguro) o;
+        return ID == seguro.ID;
+    }
 }

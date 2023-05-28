@@ -250,7 +250,7 @@ public enum MenuOperacoes {
             case 4:
                 return GERAR_SINISTRO;
             case 5:
-                return GERAR_SINISTRO;
+                return GERAR_SEGURO;
             case 6:
                 return CALCULAR_RECEITA_SEGURADORA;
             case 7:

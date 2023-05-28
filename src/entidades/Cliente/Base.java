@@ -44,4 +44,13 @@ public abstract class Base {
     public void setEmail(String email) {
         this.email = email.trim();
     }
+
+    @Override
+    public String toString() {
+        return " nome='" + getNome() + "'" +
+                ", telefone='" + getTelefone() + "'" +
+                ", endereco='" + getEndereco() + "'" +
+                ", email='" + getEmail() + "'";
+    }
+
 }

@@ -3,7 +3,6 @@ package entidades;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import entidades.Cliente.*;
 import entidades.Seguro.*;
@@ -203,13 +202,13 @@ public class Seguradora extends Base {
             return false;
         }
         Seguradora seguradora = (Seguradora) o;
-        return Objects.equals(cnpj, seguradora.cnpj);
+        return seguradora.getCnpj().equals(cnpj);
     }
 
     @Override
     public String toString() {
-        return "{" +
-                " cnpj='" + getCnpj() + "'" +
+        return "{" + super.toString() +
+                ", cnpj='" + getCnpj() + "'" +
                 ", listaClientes='" + getListaClientes() + "'" +
                 "}";
     }

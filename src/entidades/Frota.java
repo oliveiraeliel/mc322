@@ -6,7 +6,7 @@ import java.util.UUID;
 import entidades.Seguro.Seguro;
 
 public class Frota {
-    private String code = UUID.randomUUID().toString();
+    private final String code = UUID.randomUUID().toString();
     private ArrayList<Veiculo> listaVeiculos = new ArrayList<Veiculo>();
     private Seguro seguro;
 
@@ -25,8 +25,8 @@ public class Frota {
         return false;
     }
 
-    public void atualizarSeguro(){
-        if (seguro !=null){
+    public void atualizarSeguro() {
+        if (seguro != null) {
             seguro.atualizarValorMensal();
         }
     }
@@ -41,10 +41,6 @@ public class Frota {
 
     public String getCode() {
         return this.code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public ArrayList<Veiculo> getListaVeiculos() {
@@ -72,5 +68,16 @@ public class Frota {
                 " code='" + getCode() + "'" +
                 ", listaVeiculos='" + getListaVeiculos() + "'" +
                 "}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Frota)) {
+            return false;
+        }
+        Frota frota = (Frota) o;
+        return frota.getCode().equals(code);
     }
 }
