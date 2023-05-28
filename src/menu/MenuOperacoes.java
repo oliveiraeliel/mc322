@@ -3,14 +3,14 @@ package menu;
 import java.util.ArrayList;
 import java.util.Date;
 
-import entidades.Frota;
-import entidades.Seguradora;
-import entidades.Veiculo;
 import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePF;
 import entidades.Cliente.ClientePJ;
-import entidades.Cliente.Condutor;
+import entidades.Condutor.Condutor;
+import entidades.Frota.Frota;
+import entidades.Seguradora.Seguradora;
 import entidades.Seguro.Seguro;
+import entidades.Veiculo.Veiculo;
 import execeptions.*;
 import factories.*;
 import utils.InputUtils;
@@ -124,6 +124,7 @@ public enum MenuOperacoes {
             cliente = BancoDados.getCliente(cadastro);
             String cnpjSeguradora = InputUtils.lerCNPJ("Insira o cnpj da seguradora: ");
             seguradora = BancoDados.getSeguradora(cnpjSeguradora);
+            Seguro seguro;
             if (!seguradora.clienteCadastrado(cliente)) {
                 System.out.println("O cliente " + cliente.getNome() + " não está cadastrado nessa seguradora!");
                 return;
@@ -132,12 +133,13 @@ public enum MenuOperacoes {
             if (cliente instanceof ClientePF) {
                 String placa = InputUtils.lerString("Insira a placa do carro: ");
                 Veiculo veiculo = ((ClientePF) cliente).buscarVeiculo(placa);
-                seguradora.gerarSeguro((ClientePF) cliente, veiculo, dataFim);
+                seguro = seguradora.gerarSeguro((ClientePF) cliente, veiculo, dataFim);
             } else {
                 String codigo = InputUtils.lerString("Insira o código da frota: ");
                 Frota veiculo = ((ClientePJ) cliente).buscarFrota(codigo);
-                seguradora.gerarSeguro((ClientePJ) cliente, veiculo, dataFim);
+                seguro = seguradora.gerarSeguro((ClientePJ) cliente, veiculo, dataFim);
             }
+            BancoDados.save(seguro);
             System.out.println("Seguro gerado com sucesso!");
         } catch (ClienteNaoEncontradoException e) {
             System.out.println(e.getMessage());
@@ -146,6 +148,12 @@ public enum MenuOperacoes {
         } catch (FrotaNaoEncontradaException e) {
             System.out.println(e.getMessage());
         } catch (SeguradoraNaoEncontradaException e) {
+            System.out.println(e.getMessage());
+        }catch(ClienteNaoAssociadoException e){
+            System.out.println(e.getMessage());
+        }catch(VeiculoNaoAssociadoException e){
+            System.out.println(e.getMessage());
+        }catch(FrotaNaoAssociadaException e){
             System.out.println(e.getMessage());
         }
     }

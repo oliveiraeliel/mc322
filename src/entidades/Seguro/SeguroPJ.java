@@ -2,10 +2,11 @@ package entidades.Seguro;
 
 import java.util.Date;
 
-import entidades.Frota;
-import entidades.Seguradora;
 import entidades.Cliente.CalcSeguro;
 import entidades.Cliente.ClientePJ;
+import entidades.Frota.Frota;
+import entidades.Seguradora.Seguradora;
+
 import java.util.Objects;
 
 public class SeguroPJ extends Seguro {
@@ -17,16 +18,19 @@ public class SeguroPJ extends Seguro {
         super(dataInicio, dataFim, seguradora);
         setFrota(frota);
         setCliente(cliente);
-        atualizarValorMensal();
+        calculaValor();
     }
 
     @Override
     public Double calculaValor() {
-        return (CalcSeguro.VALOR_BASE.getValor() * (10 + cliente.getQuantidadeFunc() / 10)
-                * (1 + 1 / (cliente.getQuantidadeVeiculos() + 2))
-                * (1 + 1/(cliente.anosPosFundacao() + 2))
-                * (2 + getQuantidadeSinistrosCliente(getCliente()) / 10)
-                * (5 + getQuantidadeSinistrosCondutores() / 10));
+        Double valor = (CalcSeguro.VALOR_BASE.getValor() * (10 + cliente.getQuantidadeFunc() / 10)
+                * (1 + 1 / (double) (cliente.getQuantidadeVeiculos() + 2))
+                * (1 + 1 / (double) (cliente.anosPosFundacao() + 2))
+                * (2 + (double) getQuantidadeSinistrosCliente(getCliente()) / 10)
+                * (5 + (double) getQuantidadeSinistrosCondutores() / 10));
+        setValorMensal(valor);
+        getSeguradora().calcularReceita();
+        return valor;
     }
 
     @Override
@@ -41,8 +45,6 @@ public class SeguroPJ extends Seguro {
     public void setFrota(Frota frota) {
         this.frota = frota;
     }
-
-
 
     public void setCliente(ClientePJ cliente) {
         this.cliente = cliente;

@@ -2,11 +2,11 @@ package menu;
 
 import java.util.ArrayList;
 
-import entidades.Seguradora;
-import entidades.Sinistro;
 import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePJ;
 import entidades.Cliente.TipoCliente;
+import entidades.Seguradora.Seguradora;
+import entidades.Sinistro.Sinistro;
 import execeptions.*;
 import utils.InputUtils;
 

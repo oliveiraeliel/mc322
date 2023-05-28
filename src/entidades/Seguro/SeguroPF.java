@@ -2,10 +2,10 @@ package entidades.Seguro;
 
 import java.util.Date;
 
-import entidades.Seguradora;
-import entidades.Veiculo;
 import entidades.Cliente.CalcSeguro;
 import entidades.Cliente.ClientePF;
+import entidades.Seguradora.Seguradora;
+import entidades.Veiculo.Veiculo;
 
 public class SeguroPF extends Seguro {
     private Veiculo veiculo;
@@ -15,15 +15,18 @@ public class SeguroPF extends Seguro {
         super(dataInicio, dataFim, seguradora);
         setVeiculo(veiculo);
         setCliente(cliente);
-        atualizarValorMensal();
+        calculaValor();
     }
 
     @Override
     public Double calculaValor() {
-        return (CalcSeguro.VALOR_BASE.getValor() * CalcSeguro.fatorIdade(cliente.getIdade())
-                * (1 + 1 / (cliente.getQuantidadeVeiculos() + 2))
-                * (2 + getQuantidadeSinistrosCliente(getCliente()) / 10)
-                * (5 + getQuantidadeSinistrosCondutores() / 10));
+        Double valor = (CalcSeguro.VALOR_BASE.getValor() * CalcSeguro.fatorIdade(cliente.getIdade())
+                * (1 + (1 / (cliente.getQuantidadeVeiculos() + 2)))
+                * (2 + (double) getQuantidadeSinistrosCliente(getCliente()) / 10)
+                * (5 + (double) getQuantidadeSinistrosCondutores() / 10));
+        setValorMensal(valor);
+        getSeguradora().calcularReceita();
+        return valor;
     }
 
     @Override

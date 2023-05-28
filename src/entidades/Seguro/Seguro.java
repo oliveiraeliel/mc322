@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
-import entidades.Seguradora;
-import entidades.Sinistro;
 import entidades.Cliente.Cliente;
-import entidades.Cliente.Condutor;
+import entidades.Condutor.Condutor;
+import entidades.Seguradora.Seguradora;
+import entidades.Sinistro.Sinistro;
 import execeptions.CondutorNaoAssociadoException;
+import utils.DateUtils;
 
 public abstract class Seguro {
     private final int ID = ++count;
@@ -38,21 +39,17 @@ public abstract class Seguro {
             iterSinistro.remove();
         }
         listaCondutores.clear();
-        atualizarValorMensal();
         setSeguradora(null);
-    }
-
-    public Double atualizarValorMensal() {
-        Double valorAntigo = getValorMensal();
-        setValorMensal(calculaValor());
-        seguradora.adicionarReceita(getValorMensal() - valorAntigo);
-        return valorMensal;
     }
 
     protected int getQuantidadeSinistrosCondutores() {
         int n = 0;
         for (Condutor condutor : listaCondutores) {
-            n += condutor.getQuantidadeSinistros(getSeguradora());
+            for (Sinistro sinistro : condutor.getListaSinistros()) {
+                if (sinistro.getSeguro().getSeguradora().equals(getSeguradora())) {
+                    n++;
+                }
+            }
         }
         return n;
     }
@@ -62,7 +59,11 @@ public abstract class Seguro {
     }
 
     public boolean desautorizarCondutor(Condutor condutor) {
-        return listaCondutores.remove(condutor);
+        if (listaCondutores.remove(condutor)) {
+            calculaValor();
+            return true;
+        }
+        return false;
     }
 
     public boolean autorizarCondutor(Condutor condutor) {
@@ -77,7 +78,8 @@ public abstract class Seguro {
         if (listaCondutores.contains(condutor)) {
             Sinistro sinistro = new Sinistro(data, endereco, this, condutor);
             condutor.adicionarSinistro(sinistro);
-            atualizarValorMensal();
+            listaSinistros.add(sinistro);
+            calculaValor();
             return sinistro;
         }
         throw new CondutorNaoAssociadoException(
@@ -88,7 +90,7 @@ public abstract class Seguro {
         Sinistro sinistro = buscarSinistro(id);
         if (listaSinistros.remove(sinistro)) {
             sinistro.apagarSinistro();
-            atualizarValorMensal();
+            calculaValor();
             return true;
         }
         return false;
@@ -175,9 +177,10 @@ public abstract class Seguro {
     @Override
     public String toString() {
         return " ID='" + getID() + "'" +
-                ", dataInicio='" + getDataInicio() + "'" +
-                ", dataFim='" + getDataFim() + "'" +
-                ", seguradora='" + getSeguradora() + "'" +
+                ", dataInicio='" + DateUtils.formatDate(getDataInicio(), "dd/MM/yyyy") + "'" +
+                ", dataFim='" + DateUtils.formatDate(getDataFim(), "dd/MM/yyyy") + "'" +
+                ", seguradora='" + getSeguradora().getNome() + "'" +
+                ", cnpjSeguradora='" + getSeguradora().getCnpj() + "'" +
                 ", listaSinistros='" + getListaSinistros() + "'" +
                 ", valorMensal='" + getValorMensal() + "'";
     }

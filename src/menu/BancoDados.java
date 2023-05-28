@@ -3,9 +3,10 @@ package menu;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import entidades.Seguradora;
+
 import entidades.Cliente.Cliente;
-import entidades.Cliente.Condutor;
+import entidades.Condutor.Condutor;
+import entidades.Seguradora.Seguradora;
 import entidades.Seguro.Seguro;
 import execeptions.*;
 

@@ -1,4 +1,4 @@
-package entidades;
+package entidades.Veiculo;
 
 import entidades.Seguro.Seguro;
 
@@ -16,9 +16,10 @@ public class Veiculo {
         setAnoFabricacao(anoFabricacao);
     }
 
-    public void destruirVeiculo() {
-        if (seguro != null) {
+    public void desassociarSeguro() {
+        try {
             seguro.getSeguradora().cancelarSeguro(seguro);
+        } catch (NullPointerException e) {
         }
     }
 

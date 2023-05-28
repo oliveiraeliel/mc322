@@ -2,7 +2,7 @@ package entidades.Cliente;
 
 import java.util.*;
 
-import entidades.Veiculo;
+import entidades.Veiculo.Veiculo;
 import execeptions.VeiculoNaoEncontradoException;
 import utils.*;
 
@@ -13,7 +13,7 @@ public class ClientePF extends Cliente {
     private Date dataNasc;
     private ArrayList<Veiculo> listaVeiculos = new ArrayList<Veiculo>();
 
-    public ClientePF(String nome, String cpf, String telefone, String email, String endereco, Date dataLicenca,
+    public ClientePF(String nome, String cpf, String telefone, String email, String endereco,
             String educacao, String genero, Date dataNascimento) {
         super(nome, telefone, endereco, email);
         cpf = ValidatorUtils.formatarCPF(cpf);
@@ -40,7 +40,7 @@ public class ClientePF extends Cliente {
 
     public boolean removeVeiculo(Veiculo veiculo) {
         if (listaVeiculos.remove(veiculo)) {
-            veiculo.destruirVeiculo();
+            veiculo.desassociarSeguro();
             return true;
         }
         return false;
@@ -113,8 +113,7 @@ public class ClientePF extends Cliente {
                 ", cpf='" + getCpf() + "'" +
                 ", genero='" + getGenero() + "'" +
                 ", educacao='" + getEducacao() + "'" +
-                ", dataNasc='" + getDataNasc() + "'" +
-                ", listaVeiculos='" + getListaVeiculos() + "'" +
+                ", dataNasc='" + DateUtils.formatDate(getDataNasc(), "dd/MM/yyyy") + "'" +
                 "}";
     }
 

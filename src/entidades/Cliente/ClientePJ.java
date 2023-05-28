@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import entidades.Frota;
-import entidades.Veiculo;
+import entidades.Frota.Frota;
+import entidades.Veiculo.Veiculo;
 import execeptions.FrotaNaoEncontradaException;
 import utils.*;
 
@@ -108,7 +108,7 @@ public class ClientePJ extends Cliente {
 
     public boolean removeFrota(Frota frota) {
         if (listaFrota.remove(frota)) {
-            frota.destruirFrota();
+            frota.desassociarSeguro();
             return true;
         }
         return false;
@@ -153,8 +153,7 @@ public class ClientePJ extends Cliente {
     public String toString() {
         return "{" + super.toString() +
                 ", cnpj='" + getCnpj() + "'" +
-                ", dataFundacao='" + getDataFundacao() + "'" +
-                ", listaFrota='" + getListaFrota() + "'" +
+                ", dataFundacao='" + DateUtils.formatDate(getDataFundacao(), "dd/MM/yyyy") + "'" +
                 ", quantidadeFunc='" + getQuantidadeFunc() + "'" +
                 "}";
     }

@@ -1,6 +1,6 @@
 package factories;
 
-import entidades.Seguradora;
+import entidades.Seguradora.Seguradora;
 import utils.InputUtils;
 
 // classe utilizada para a criação de objetos do tipo seguradora

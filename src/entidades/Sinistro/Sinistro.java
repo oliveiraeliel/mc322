@@ -1,8 +1,8 @@
-package entidades;
+package entidades.Sinistro;
 
 import java.util.Date;
 
-import entidades.Cliente.Condutor;
+import entidades.Condutor.Condutor;
 import entidades.Seguro.Seguro;
 import utils.DateUtils;
 
@@ -78,8 +78,8 @@ public class Sinistro {
                 " ID='" + getID() + "'" +
                 ", data='" + DateUtils.formatDate(getData(), "dd/mm/yyyy") + "'" +
                 ", endereco='" + getEndereco() + "'" +
-                ", condutor='" + getCondutor() + "'" +
-                ", seguro='" + getSeguro() + "'" +
+                ", condutor='" + getCondutor().getNome() + "'" +
+                ", clienteSeguro='" + getSeguro().getCliente().getNome() + "'" +
                 "}";
     }
 }

@@ -1,12 +1,19 @@
-package entidades;
+package entidades.Seguradora;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import entidades.Cliente.*;
+import entidades.Frota.Frota;
 import entidades.Seguro.*;
+import entidades.Sinistro.Sinistro;
+import entidades.Veiculo.Veiculo;
+import execeptions.ClienteNaoAssociadoException;
 import execeptions.ClienteNaoEncontradoException;
+import execeptions.FrotaNaoAssociadaException;
+import execeptions.VeiculoNaoAssociadoException;
 import utils.DateUtils;
 import utils.ValidatorUtils;
 
@@ -22,12 +29,13 @@ public class Seguradora extends Base {
         this.cnpj = cnpj;
     }
 
-    public void adicionarReceita(Double receita) {
-        setReceita(getReceita() + receita);
-    }
-
     public Double calcularReceita() {
-        return getReceita();
+        Double receita = 0.0;
+        for (Seguro seguro : listaSeguros) {
+            receita += seguro.getValorMensal();
+        }
+        setReceita(receita);
+        return receita;
     }
 
     public ArrayList<Cliente> listarClientes(TipoCliente tipo) {
@@ -70,22 +78,37 @@ public class Seguradora extends Base {
         return frotas;
     }
 
-    public boolean gerarSeguro(ClientePF cliente, Veiculo veiculo, Date dataFim) {
+    public Seguro gerarSeguro(ClientePF cliente, Veiculo veiculo, Date dataFim)
+            throws ClienteNaoAssociadoException, VeiculoNaoAssociadoException {
         if (listaClientes.contains(cliente) && cliente.getListaVeiculos().contains(veiculo)) {
             Seguro seguro = new SeguroPF(DateUtils.localDate(), dataFim, this, veiculo, cliente);
             listaSeguros.add(seguro);
-            return true;
+            veiculo.desassociarSeguro();
+            veiculo.setSeguro(seguro);
+            return seguro;
         }
-        return false;
+
+        if (!listaClientes.contains(cliente)) {
+            throw new ClienteNaoAssociadoException(
+                    "O cliente '" + cliente.getNome() + "' não está cadastrado na seguradora '" + getNome() + "'");
+        }
+        throw new VeiculoNaoAssociadoException("Veículo não associado ao cliente " + cliente.getNome());
     }
 
-    public boolean gerarSeguro(ClientePJ cliente, Frota frota, Date dataFim) {
+    public Seguro gerarSeguro(ClientePJ cliente, Frota frota, Date dataFim)
+            throws ClienteNaoAssociadoException, FrotaNaoAssociadaException {
         if (listaClientes.contains(cliente) && cliente.getListaFrota().contains(frota)) {
             Seguro seguro = new SeguroPJ(DateUtils.localDate(), dataFim, this, frota, cliente);
             listaSeguros.add(seguro);
-            return true;
+            frota.desassociarSeguro();
+            frota.setSeguro(seguro);
+            return seguro;
         }
-        return false;
+        if (!listaClientes.contains(cliente)) {
+            throw new ClienteNaoAssociadoException(
+                    "O cliente '" + cliente.getNome() + "' não está cadastrado na seguradora '" + getNome() + "'");
+        }
+        throw new FrotaNaoAssociadaException("Frota não associado ao cliente " + cliente.getNome());
     }
 
     public boolean cadastrarCliente(Cliente cliente) {
@@ -111,11 +134,15 @@ public class Seguradora extends Base {
 
     public boolean removerCliente(Cliente cliente) {
         if (listaClientes.remove(cliente)) {
-            listaSeguros.forEach(seguro -> {
+            Iterator<Seguro> iter = listaSeguros.iterator();
+            while (iter.hasNext()) {
+                Seguro seguro = iter.next();
                 if (seguro.getCliente().equals(cliente)) {
-                    cancelarSeguro(seguro);
+                    seguro.destruirSeguro();
+                    iter.remove();
                 }
-            });
+            }
+            calcularReceita();
             return true;
         }
         return false;
@@ -210,6 +237,7 @@ public class Seguradora extends Base {
         return "{" + super.toString() +
                 ", cnpj='" + getCnpj() + "'" +
                 ", listaClientes='" + getListaClientes() + "'" +
+                ", listaSeguros='" + getListaSeguros() + "'" +
                 "}";
     }
 

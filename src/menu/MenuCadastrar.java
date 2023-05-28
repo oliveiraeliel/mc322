@@ -1,12 +1,12 @@
 package menu;
 
-import entidades.Frota;
-import entidades.Seguradora;
-import entidades.Veiculo;
 import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePF;
 import entidades.Cliente.ClientePJ;
 import entidades.Cliente.TipoCliente;
+import entidades.Frota.Frota;
+import entidades.Seguradora.Seguradora;
+import entidades.Veiculo.Veiculo;
 import execeptions.*;
 import factories.*;
 import utils.InputUtils;

@@ -1,6 +1,6 @@
 package factories;
 
-import entidades.Veiculo;
+import entidades.Veiculo.Veiculo;
 import utils.InputUtils;
 
 // classe utilizada para a criação de objetos do tipo cliente

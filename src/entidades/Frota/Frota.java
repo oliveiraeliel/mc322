@@ -1,23 +1,27 @@
-package entidades;
+package entidades.Frota;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 import entidades.Seguro.Seguro;
+import entidades.Veiculo.Veiculo;
 
 public class Frota {
     private final String code = UUID.randomUUID().toString();
     private ArrayList<Veiculo> listaVeiculos = new ArrayList<Veiculo>();
     private Seguro seguro;
 
-    public void destruirFrota() {
-        seguro.getSeguradora().cancelarSeguro(seguro);
+    public void desassociarSeguro() {
+        try {
+            seguro.getSeguradora().cancelarSeguro(seguro);
+        } catch (NullPointerException e) {
+        }
     }
 
     public boolean addVeiculo(Veiculo veiculo) {
         if (!listaVeiculos.contains(veiculo)) {
             if (seguro != null) {
-                seguro.atualizarValorMensal();
+                seguro.calculaValor();
             }
             listaVeiculos.add(veiculo);
             return true;
@@ -27,7 +31,7 @@ public class Frota {
 
     public void atualizarSeguro() {
         if (seguro != null) {
-            seguro.atualizarValorMensal();
+            seguro.calculaValor();
         }
     }
 
@@ -50,7 +54,7 @@ public class Frota {
     public void setListaVeiculos(ArrayList<Veiculo> listaVeiculos) {
         this.listaVeiculos = listaVeiculos;
         if (seguro != null) {
-            seguro.atualizarValorMensal();
+            seguro.calculaValor();
         }
     }
 

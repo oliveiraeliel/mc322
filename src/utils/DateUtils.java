@@ -15,6 +15,12 @@ public final class DateUtils {
         return new SimpleDateFormat(pattern).format(date);
     }
 
+    public static Date novaData(int dia, int mes, int ano) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(ano, mes, dia);
+        return cal.getTime();
+    }
+
     public static int calcularIdade(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);

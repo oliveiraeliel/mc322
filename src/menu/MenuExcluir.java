@@ -1,8 +1,8 @@
 package menu;
 
-import entidades.Seguradora;
 import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePF;
+import entidades.Seguradora.Seguradora;
 import entidades.Seguro.Seguro;
 import execeptions.*;
 import utils.InputUtils;
@@ -26,7 +26,9 @@ public enum MenuExcluir {
         System.out.println("1- Excluir Cliente");
         System.out.println("2- Excluir Veículo");
         System.out.println("3- Excluir Sinistro");
-        System.out.println("4- Voltar");
+        System.out.println("4- Excluir Seguro");
+        System.out.println("5- Excluir Seguradora");
+        System.out.println("0- Voltar");
         int operacao = InputUtils.lerInt();
 
         MenuExcluir o = getOperacao(operacao);
@@ -68,8 +70,8 @@ public enum MenuExcluir {
             Cliente cliente = BancoDados.getCliente(cadastro);
             Double receita = seguradora.getReceita();
             if (seguradora.removerCliente(cliente)) {
-                System.out.println("Cliente exluido da seguradora '" + seguradora.getNome() + "'");
-                System.out.printf("A receita da seguradora '%s' era de R$ %.2f, agora é de R$ %.2f",
+                System.out.println("Cliente excluido da seguradora '" + seguradora.getNome() + "'");
+                System.out.printf("A receita da seguradora '%s' era de R$ %.2f, agora é de R$ %.2f\n",
                         seguradora.getNome(), receita, seguradora.getReceita());
             } else {
                 System.out.println("O cliente '" + cliente.getNome() + "' não está cadastrado na seguradora '"

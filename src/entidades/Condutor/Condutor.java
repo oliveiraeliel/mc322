@@ -1,10 +1,13 @@
-package entidades.Cliente;
+package entidades.Condutor;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import entidades.Seguradora;
-import entidades.Sinistro;
+import entidades.Cliente.Base;
+import entidades.Seguradora.Seguradora;
+import entidades.Sinistro.Sinistro;
+import utils.DateUtils;
+import utils.ValidatorUtils;
 
 public class Condutor extends Base {
     private final String cpf;
@@ -13,7 +16,7 @@ public class Condutor extends Base {
 
     public Condutor(String nome, String cpf, String telefone, String endereco, String email, Date dataNasc) {
         super(nome, telefone, endereco, email);
-        this.cpf = cpf;
+        this.cpf = ValidatorUtils.formatarCPF(cpf);
         setDataNasc(dataNasc);
     }
 
@@ -63,7 +66,7 @@ public class Condutor extends Base {
     public String toString() {
         return "{" + super.toString() +
                 ", cpf='" + getCpf() + "'" +
-                ", dataNasc='" + getDataNasc() + "'" +
+                ", dataNasc='" + DateUtils.formatDate(getDataNasc(), "dd/MM/yyyy") + "'" +
                 ", listaSinistros='" + getListaSinistros() + "'" +
                 "}";
     }

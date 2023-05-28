@@ -1,7 +1,8 @@
 package entidades.Cliente;
 
 import java.util.ArrayList;
-import entidades.Veiculo;
+
+import entidades.Veiculo.Veiculo;
 
 public abstract class Cliente extends Base {
     public Cliente(String nome, String telefone, String endereco, String email) {
