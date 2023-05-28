@@ -38,6 +38,8 @@ public abstract class Seguro {
             iterSinistro.remove();
         }
         listaCondutores.clear();
+        atualizarValorMensal();
+        setSeguradora(null);
     }
 
     public Double atualizarValorMensal() {
@@ -78,8 +80,26 @@ public abstract class Seguro {
             atualizarValorMensal();
             return sinistro;
         }
-        throw new CondutorNaoAssociadoException(
-                "O condutor de CPF " + condutor.getCpf() + " não está associado ao seguro.");
+        throw new CondutorNaoAssociadoException("O condutor de CPF " + condutor.getCpf() + " não está associado ao seguro.");
+    }
+
+    public boolean removeSinistro(int id){
+        Sinistro sinistro = buscarSinistro(id);
+        if (listaSinistros.remove(sinistro)){
+            sinistro.apagarSinistro();
+            atualizarValorMensal();
+            return true;
+        }
+        return false;
+    }
+
+    public Sinistro buscarSinistro(int id) {
+        for (Sinistro sinistro : listaSinistros) {
+            if (sinistro.getID() == id) {
+                return sinistro;
+            }
+        }
+        return null;
     }
 
     public int getID() {

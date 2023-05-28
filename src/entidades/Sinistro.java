@@ -21,6 +21,10 @@ public class Sinistro {
         setSeguro(seguro);
     }
 
+    public void apagarSinistro(){
+        condutor.removerSinistro(this);
+    }
+
     public int getID() {
         return this.ID;
     }

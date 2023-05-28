@@ -46,6 +46,15 @@ public class ClientePF extends Cliente {
         return false;
     }
 
+    public boolean removeVeiculo(String placa) {
+        try{
+            Veiculo veiculo = buscarVeiculo(placa);
+            return removeVeiculo(veiculo);
+        }catch(VeiculoNaoEncontradoException e){
+            return false;
+        }
+    }
+
     public Veiculo buscarVeiculo(String placa) throws VeiculoNaoEncontradoException {
         Veiculo veiculo = listaVeiculos.stream().filter(v -> v.getPlaca().equals(placa)).findFirst().orElse(null);
         if (veiculo != null) {

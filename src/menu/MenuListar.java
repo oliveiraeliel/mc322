@@ -8,7 +8,6 @@ import entidades.Cliente.Cliente;
 import entidades.Cliente.ClientePJ;
 import entidades.Cliente.TipoCliente;
 import execeptions.*;
-import execeptions.SeguradoraNaoEncontradaException;
 import utils.InputUtils;
 
 public enum MenuListar {
@@ -18,10 +17,10 @@ public enum MenuListar {
     LISTAR_SINISTROS_CLIENTE(4),
     LISTAR_VEICULO_CLIENTE(5),
     LISTAR_FROTAS_CLIENTE(6),
-    LISTAR_FROTAS_SEGURADORA(6),
-    LISTAR_VEICULO_SEGURADORA(7),
-    LISTAR_SEGURADORAS(8),
-    VOLTAR(8);
+    LISTAR_FROTAS_SEGURADORA(7),
+    LISTAR_VEICULO_SEGURADORA(8),
+    LISTAR_SEGURADORAS(9),
+    VOLTAR(0);
 
     private final int value;
 
@@ -36,17 +35,22 @@ public enum MenuListar {
         System.out.println("3- Listar Sinistros");
         System.out.println("4- Listar Sinistros do Cliente");
         System.out.println("5- Listar Veículos do Cliente");
-        System.out.println("6- Listar Veículos Seguradora");
-        System.out.println("7- Listar Seguradoras");
-        System.out.println("8- Voltar");
+        System.out.println("6- Listar Frotas do Cliente");
+        System.out.println("7- Listar Frotas da Seguradora");
+        System.out.println("8- Listar Veículos Seguradora");
+        System.out.println("9- Listar Seguradoras");
+        System.out.println("0- Voltar");
         int operacao = InputUtils.lerInt();
 
-        MenuListar o = getOperacao(operacao);
-        if (o == null) {
-            listar();
-        } else if (handle(o)) {
+        try {
+            MenuListar o = getOperacao(operacao);
+            if (handle(o)) {
+                listar();
+            }
+        } catch (ValorNaoEsperadoException e) {
             listar();
         }
+
     }
 
     private static boolean handle(MenuListar operacao) {
@@ -106,7 +110,7 @@ public enum MenuListar {
             }
         } catch (SeguradoraNaoEncontradaException e) {
             System.out.println(e.getMessage());
-        } 
+        }
     }
 
     private static void listarSinistrosCliente() {
@@ -181,7 +185,7 @@ public enum MenuListar {
         return value;
     }
 
-    public static MenuListar getOperacao(int operacao) {
+    public static MenuListar getOperacao(int operacao) throws ValorNaoEsperadoException {
         switch (operacao) {
             case 1:
                 return LISTAR_CLIENTE_PF;
@@ -194,13 +198,17 @@ public enum MenuListar {
             case 5:
                 return LISTAR_VEICULO_CLIENTE;
             case 6:
-                return LISTAR_VEICULO_SEGURADORA;
+                return LISTAR_FROTAS_CLIENTE;
             case 7:
-                return LISTAR_SEGURADORAS;
+                return LISTAR_FROTAS_SEGURADORA;
             case 8:
+                return LISTAR_VEICULO_SEGURADORA;
+            case 9:
+                return LISTAR_SEGURADORAS;
+            case 0:
                 return VOLTAR;
             default:
-                return null;
+                throw new ValorNaoEsperadoException();
         }
     }
 }

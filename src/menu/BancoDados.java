@@ -16,10 +16,30 @@ public class BancoDados {
     private static Map<String, Seguradora> seguradoras = new HashMap<>();
     private static Map<String, Cliente> clientes = new HashMap<>();
 
-    public static ArrayList<Seguradora> listarSeguradoras(){
+    public static boolean excluirSeguradora(Seguradora seguradora) {
+        if (seguradoras.remove(seguradora.getCnpj(), seguradora)) {
+            seguradora.getListaSeguros().forEach(seguro -> excluirSeguro(seguro));
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean excluirSeguro(Seguro seguro) {
+        if (seguros.remove(seguro.getID(), seguro)) {
+            seguro.destruirSeguro();
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean excluirSeguro(Integer id) {
+        return seguros.remove(id, seguros.get(id));
+    }
+
+    public static ArrayList<Seguradora> listarSeguradoras() {
         return new ArrayList<Seguradora>(seguradoras.values());
     }
-    
+
     public static boolean seguradoraExiste(String cnpj) {
         return seguradoras.containsKey(cnpj);
     }
@@ -109,9 +129,5 @@ public class BancoDados {
             return seguradora;
         }
         throw new SeguradoraNaoEncontradaException("O CNPJ " + cnpj + " não corresponde à nenhuma seguradora.");
-    }
-
-    public static boolean excluirSeguro(Integer id) {
-        return seguros.remove(id, seguros.get(id));
     }
 }
