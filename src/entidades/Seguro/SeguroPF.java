@@ -24,8 +24,9 @@ public class SeguroPF extends Seguro {
                 * (1 + (1 / (cliente.getQuantidadeVeiculos() + 2)))
                 * (2 + (double) getQuantidadeSinistrosCliente(getCliente()) / 10)
                 * (5 + (double) getQuantidadeSinistrosCondutores() / 10));
+        Double valorAntigo = getValorMensal();
         setValorMensal(valor);
-        getSeguradora().calcularReceita();
+        getSeguradora().somarReceita(valor - valorAntigo);
         return valor;
     }
 

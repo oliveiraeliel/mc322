@@ -28,8 +28,9 @@ public class SeguroPJ extends Seguro {
                 * (1 + 1 / (double) (cliente.anosPosFundacao() + 2))
                 * (2 + (double) getQuantidadeSinistrosCliente(getCliente()) / 10)
                 * (5 + (double) getQuantidadeSinistrosCondutores() / 10));
+        Double valorAntigo = getValorMensal();
         setValorMensal(valor);
-        getSeguradora().calcularReceita();
+        getSeguradora().somarReceita(valor - valorAntigo);
         return valor;
     }
 

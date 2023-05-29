@@ -3,7 +3,7 @@ package entidades.Condutor;
 import java.util.ArrayList;
 import java.util.Date;
 
-import entidades.Cliente.Base;
+import entidades.Base;
 import entidades.Seguradora.Seguradora;
 import entidades.Sinistro.Sinistro;
 import utils.DateUtils;

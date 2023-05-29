@@ -39,8 +39,10 @@ public class AppMain {
 		frota.addVeiculo(veiculo5);
 		frota.addVeiculo(veiculo6);
 		// seguradora
-		Seguradora seguradora1 = SeguradoraFactory.generateSeguradora("Eliel Seguradoras", "98.275.829/0001-00");
-		Seguradora seguradora2 = SeguradoraFactory.generateSeguradora("Seguradora do Eliel", "92.634.218/0001-16");
+		Seguradora seguradora1 = SeguradoraFactory.generateSeguradora("Eliel Seguradoras",
+				"98.275.829/0001-00");
+		Seguradora seguradora2 = SeguradoraFactory.generateSeguradora("Seguradora do Eliel",
+				"92.634.218/0001-16");
 		seguradora1.cadastrarCliente(clientePJ);
 		seguradora1.cadastrarCliente(clientePF);
 		seguradora2.cadastrarCliente(clientePJ);

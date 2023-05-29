@@ -20,9 +20,7 @@ public class Frota {
 
     public boolean addVeiculo(Veiculo veiculo) {
         if (!listaVeiculos.contains(veiculo)) {
-            if (seguro != null) {
-                seguro.calculaValor();
-            }
+            atualizarSeguro();
             listaVeiculos.add(veiculo);
             return true;
         }
@@ -30,8 +28,9 @@ public class Frota {
     }
 
     public void atualizarSeguro() {
-        if (seguro != null) {
+        try {
             seguro.calculaValor();
+        } catch (Exception e) {
         }
     }
 
@@ -53,9 +52,7 @@ public class Frota {
 
     public void setListaVeiculos(ArrayList<Veiculo> listaVeiculos) {
         this.listaVeiculos = listaVeiculos;
-        if (seguro != null) {
-            seguro.calculaValor();
-        }
+        atualizarSeguro();
     }
 
     public Seguro getSeguro() {

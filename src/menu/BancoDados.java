@@ -26,11 +26,15 @@ public class BancoDados {
     }
 
     public static boolean excluirSeguro(Seguro seguro) {
-        if (seguros.remove(seguro.getID(), seguro)) {
-            seguro.destruirSeguro();
-            return true;
+        try {
+            if (seguros.remove(seguro.getID(), seguro)) {
+                seguro.apagarSeguro();
+                return true;
+            }
+            return false;
+        } catch (NullPointerException e) {
+            return false;
         }
-        return false;
     }
 
     public static boolean excluirSeguro(Integer id) {

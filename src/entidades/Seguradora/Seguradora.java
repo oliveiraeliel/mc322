@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import entidades.Base;
 import entidades.Cliente.*;
 import entidades.Frota.Frota;
 import entidades.Seguro.*;
@@ -30,12 +31,13 @@ public class Seguradora extends Base {
     }
 
     public Double calcularReceita() {
-        Double receita = 0.0;
-        for (Seguro seguro : listaSeguros) {
-            receita += seguro.getValorMensal();
-        }
-        setReceita(receita);
-        return receita;
+        return getReceita();
+    }
+
+    public Double somarReceita(Double valor){
+        Double rec = getReceita() + valor;
+        setReceita(rec);
+        return rec;
     }
 
     public ArrayList<Cliente> listarClientes(TipoCliente tipo) {
@@ -138,7 +140,7 @@ public class Seguradora extends Base {
             while (iter.hasNext()) {
                 Seguro seguro = iter.next();
                 if (seguro.getCliente().equals(cliente)) {
-                    seguro.destruirSeguro();
+                    seguro.apagarSeguro();
                     iter.remove();
                 }
             }
@@ -150,9 +152,7 @@ public class Seguradora extends Base {
 
     public boolean cancelarSeguro(Seguro seguro) {
         if (listaSeguros.remove(seguro)) {
-            Double valorSeguro = seguro.getValorMensal();
-            seguro.destruirSeguro();
-            setReceita(getReceita() - valorSeguro);
+            seguro.apagarSeguro();
             return true;
         }
         return false;

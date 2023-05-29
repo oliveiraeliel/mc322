@@ -87,6 +87,9 @@ public class ClientePJ extends Cliente {
     public boolean atualizarFrota(ArrayList<Veiculo> veiculos, Frota frota) {
         if (listaFrota.contains(frota)) {
             frota.setListaVeiculos(veiculos);
+            if (frota.getSeguro() != null){
+                frota.atualizarSeguro();
+            }
             return true;
         }
         return false;

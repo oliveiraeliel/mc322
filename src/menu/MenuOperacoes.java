@@ -105,8 +105,15 @@ public enum MenuOperacoes {
             Condutor condutor = BancoDados.getCondutor(cpfCondutor);
             Date data = InputUtils.lerData("Data do sinistro (dd/mm/yyyy): ");
             String endereco = InputUtils.lerString("Endereço: ");
+            Double receita = seguro.getSeguradora().getReceita();
+            Double valorMensal = seguro.getValorMensal();
             seguro.gerarSinistro(data, endereco, condutor);
             System.out.println("Sinistro gerado com sucesso.");
+            System.out.printf("A receita da seguradora '%s' foi atualizada de R$ %.2f, para R$ %.2f\n",
+                    seguro.getSeguradora().getNome(), receita,
+                    seguro.getSeguradora().getReceita());
+            System.out.printf("Valor do seguro atualizado de R$ %.2f, para R$ %.2f\n", valorMensal,
+                    seguro.getValorMensal());
         } catch (SeguroNaoEncontradoException e) {
             System.out.println(e.getMessage());
         } catch (CondutorNaoEncontradoException e) {
@@ -125,6 +132,7 @@ public enum MenuOperacoes {
             String cnpjSeguradora = InputUtils.lerCNPJ("Insira o cnpj da seguradora: ");
             seguradora = BancoDados.getSeguradora(cnpjSeguradora);
             Seguro seguro;
+            Double receita = seguradora.getReceita();
             if (!seguradora.clienteCadastrado(cliente)) {
                 System.out.println("O cliente " + cliente.getNome() + " não está cadastrado nessa seguradora!");
                 return;
@@ -141,6 +149,10 @@ public enum MenuOperacoes {
             }
             BancoDados.save(seguro);
             System.out.println("Seguro gerado com sucesso!");
+            System.out.printf("O valor mensal será R$ %.2f\n", seguro.getValorMensal());
+            System.out.printf("A receita da seguradora '%s' foi atualizada de R$ %.2f, para R$ %.2f\n",
+                    seguro.getSeguradora().getNome(), receita,
+                    seguro.getSeguradora().getReceita());
         } catch (ClienteNaoEncontradoException e) {
             System.out.println(e.getMessage());
         } catch (VeiculoNaoEncontradoException e) {
@@ -149,11 +161,11 @@ public enum MenuOperacoes {
             System.out.println(e.getMessage());
         } catch (SeguradoraNaoEncontradaException e) {
             System.out.println(e.getMessage());
-        }catch(ClienteNaoAssociadoException e){
+        } catch (ClienteNaoAssociadoException e) {
             System.out.println(e.getMessage());
-        }catch(VeiculoNaoAssociadoException e){
+        } catch (VeiculoNaoAssociadoException e) {
             System.out.println(e.getMessage());
-        }catch(FrotaNaoAssociadaException e){
+        } catch (FrotaNaoAssociadaException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -164,9 +176,16 @@ public enum MenuOperacoes {
             int id = InputUtils.lerInt("Insira o ID do seguro que você gostaria de cadastrar o condutor: ");
             Seguro seguro = BancoDados.getSeguro(id);
             BancoDados.save(condutor);
+            Double receita = seguro.getSeguradora().getReceita();
+            Double valorMensal = seguro.getValorMensal();
             if (seguro.autorizarCondutor(condutor)) {
                 System.out
                         .println("O condutor '" + condutor.getNome() + "' foi cadastrado no seguro #" + seguro.getID());
+                System.out.printf("A receita da seguradora '%s' foi atualizada de R$ %.2f, para R$ %.2f\n",
+                        seguro.getSeguradora().getNome(), receita,
+                        seguro.getSeguradora().getReceita());
+                System.out.printf("Valor do seguro atualizado de R$ %.2f, para R$ %.2f\n", valorMensal,
+                        seguro.getValorMensal());
             } else {
                 System.out.println(
                         "O condutor '" + condutor.getNome() + "' já está cadastrado no seguro #" + seguro.getID());
@@ -182,8 +201,15 @@ public enum MenuOperacoes {
             Condutor condutor = BancoDados.getCondutor(cpf);
             int id = InputUtils.lerInt("Insira o id do seguro: ");
             Seguro seguro = BancoDados.getSeguro(id);
+            Double valorMensal = seguro.getValorMensal();
+            Double receita = seguro.getSeguradora().getReceita();
             if (seguro.desautorizarCondutor(condutor)) {
                 System.out.println("Condutor '" + condutor.getNome() + "' desautorizado do seguro #" + seguro.getID());
+                System.out.printf("A receita da seguradora '%s' foi atualizada de R$ %.2f, para R$ %.2f\n",
+                        seguro.getSeguradora().getNome(), receita,
+                        seguro.getSeguradora().getReceita());
+                System.out.printf("Valor do seguro atualizado de R$ %.2f, para R$ %.2f\n", valorMensal,
+                        seguro.getValorMensal());
             } else {
                 System.out.println("O condutor '" + condutor.getNome() + "' não tem está autorizado.");
             }

@@ -1,4 +1,4 @@
-package entidades.Cliente;
+package entidades;
 
 public abstract class Base {
     private String nome;

@@ -31,7 +31,7 @@ public abstract class Seguro {
 
     public abstract Double calculaValor();
 
-    public void destruirSeguro() {
+    public void apagarSeguro() {
         Iterator<Sinistro> iterSinistro = getListaSinistros().iterator();
         while (iterSinistro.hasNext()) {
             Sinistro sinistro = iterSinistro.next();
@@ -39,6 +39,7 @@ public abstract class Seguro {
             iterSinistro.remove();
         }
         listaCondutores.clear();
+        seguradora.somarReceita(-getValorMensal());
         setSeguradora(null);
     }
 
@@ -69,6 +70,7 @@ public abstract class Seguro {
     public boolean autorizarCondutor(Condutor condutor) {
         if (!listaCondutores.contains(condutor)) {
             listaCondutores.add(condutor);
+            calculaValor();
             return true;
         }
         return false;

@@ -19,7 +19,7 @@ public class Veiculo {
     public void desassociarSeguro() {
         try {
             seguro.getSeguradora().cancelarSeguro(seguro);
-        } catch (NullPointerException e) {
+        } catch (Exception e) {
         }
     }
 
