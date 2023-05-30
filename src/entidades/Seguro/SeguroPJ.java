@@ -23,7 +23,7 @@ public class SeguroPJ extends Seguro {
 
     @Override
     public Double calculaValor() {
-        Double valor = (CalcSeguro.VALOR_BASE.getValor() * (10 + cliente.getQuantidadeFunc() / 10)
+        Double valor = (CalcSeguro.VALOR_BASE.getValor() * (10 + (double) cliente.getQuantidadeFunc() / 10)
                 * (1 + 1 / (double) (cliente.getQuantidadeVeiculos() + 2))
                 * (1 + 1 / (double) (cliente.anosPosFundacao() + 2))
                 * (2 + (double) getQuantidadeSinistrosCliente(getCliente()) / 10)

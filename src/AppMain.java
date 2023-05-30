@@ -6,7 +6,6 @@ import entidades.Frota.Frota;
 import entidades.Seguradora.Seguradora;
 import entidades.Seguro.Seguro;
 import entidades.Veiculo.Veiculo;
-import execeptions.*;
 import factories.ClienteFactory;
 import factories.CondutorFactory;
 import factories.SeguradoraFactory;
@@ -95,10 +94,6 @@ public class AppMain {
 			BancoDados.save(condutor2);
 			BancoDados.save(condutor3);
 			MenuOperacoes.menu();
-		} catch (ClienteNaoAssociadoException e) {
-		} catch (VeiculoNaoAssociadoException e) {
-		} catch (FrotaNaoAssociadaException e) {
-		} catch (CondutorNaoAssociadoException e) {
-		}
+		} catch (Exception e){}
 	}
 }

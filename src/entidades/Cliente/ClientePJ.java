@@ -78,6 +78,7 @@ public class ClientePJ extends Cliente {
         try {
             Frota frota = buscarFrota(code);
             frota.setListaVeiculos(veiculos);
+            frota.atualizarSeguro();
             return true;
         } catch (FrotaNaoEncontradaException e) {
             return false;
@@ -87,9 +88,7 @@ public class ClientePJ extends Cliente {
     public boolean atualizarFrota(ArrayList<Veiculo> veiculos, Frota frota) {
         if (listaFrota.contains(frota)) {
             frota.setListaVeiculos(veiculos);
-            if (frota.getSeguro() != null){
-                frota.atualizarSeguro();
-            }
+            frota.atualizarSeguro();
             return true;
         }
         return false;

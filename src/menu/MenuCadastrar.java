@@ -105,7 +105,7 @@ public enum MenuCadastrar {
 
     private static void cadastrarFrota() {
         try {
-            String cnpj = InputUtils.lerCNPJ();
+            String cnpj = InputUtils.lerCNPJ("Insira o cnpj do cliente: ");
             ClientePJ cliente = (ClientePJ) BancoDados.getCliente(cnpj);
             Integer tamFrota = InputUtils.lerInt("Tamanho da frota: ");
             Frota frota = new Frota();

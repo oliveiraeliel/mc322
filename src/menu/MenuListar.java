@@ -144,7 +144,7 @@ public enum MenuListar {
 
     private static void listarFrotasCliente() {
         try {
-            String cnpj = InputUtils.lerCNPJ();
+            String cnpj = InputUtils.lerCNPJ("Insira o cnpj do cliente: ");
             ClientePJ cliente = (ClientePJ) BancoDados.getCliente(cnpj);
             System.out.println(cliente.getListaFrota());
         } catch (ClienteNaoEncontradoException e) {

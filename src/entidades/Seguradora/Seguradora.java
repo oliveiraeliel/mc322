@@ -34,7 +34,7 @@ public class Seguradora extends Base {
         return getReceita();
     }
 
-    public Double somarReceita(Double valor){
+    public Double somarReceita(Double valor) {
         Double rec = getReceita() + valor;
         setReceita(rec);
         return rec;
@@ -236,8 +236,6 @@ public class Seguradora extends Base {
     public String toString() {
         return "{" + super.toString() +
                 ", cnpj='" + getCnpj() + "'" +
-                ", listaClientes='" + getListaClientes() + "'" +
-                ", listaSeguros='" + getListaSeguros() + "'" +
                 "}";
     }
 

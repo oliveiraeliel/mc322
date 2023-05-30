@@ -225,9 +225,9 @@ public enum MenuOperacoes {
             ClientePJ cliente;
             String code;
             Frota frota;
-            String cnpj = InputUtils.lerCNPJ();
+            String cnpj = InputUtils.lerCNPJ("Insira o cnpj do cliente: ");
             cliente = (ClientePJ) BancoDados.getCliente(cnpj);
-            code = InputUtils.lerString("Insira o código da frota");
+            code = InputUtils.lerString("Insira o código da frota: ");
             frota = cliente.buscarFrota(code);
             int tamFrota = InputUtils.lerInt("Novo tamanho da frota: ");
             ArrayList<Veiculo> veiculos = new ArrayList<Veiculo>();
